@@ -1,0 +1,75 @@
+defmodule <%= @module_name %> do
+  use TypedEctoSchema
+  import Ecto.Changeset
+
+  @field_names "<%= @field_names %>" |> String.split()
+
+  @primary_key {:pg_id, :id, autogenerate: true}
+  typed_schema "<%= @table_name %>" do
+    <%= for f <- @descriptions do%> 
+      <%= if f.name == :recordno do %>
+        field <%= inspect(f.name) %>, <%= inspect(f.type) %>  
+      <% else %>
+        field <%= inspect(f.name) %>, <%= inspect(f.type) %>, primary_key: true
+      <% end %>
+    <% end %>
+    timestamps(
+      inserted_at: :pg_inserted_at,
+      updated_at: :pg_updated_at,
+      inserted_at_source: :pg_inserted_at,
+      updated_at_source: :pg_updated_at
+    )
+  end
+
+  def description do
+    Sage.Objects.get_by_name_and_endpoint(<%= @endpoint_id %>, "<%= @object_name %>")
+  end
+
+  def from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
+    |> apply_action!(:received)
+  end
+
+  def field_list(:atoms) do
+    @field_names
+    |> Enum.map(fn d -> 
+      d 
+      |> String.downcase()
+      |> String.to_atom()
+    end)
+  end
+  
+  def field_list(:strings) do
+    @field_names
+  end
+
+  defimpl Sage.Object.Queryable, for: __MODULE__  do
+    def struct_from_api(t, params) do
+      <%= @module_name %>.from_api(t, params)
+    end
+
+    def description(_t) do
+      <%= @module_name %>.description 
+    end 
+
+    def field_list(_t, :atoms) do
+      <%= @module_name %>.field_list(:atoms)
+    end
+
+    def field_list(_t, :strings) do
+      <%= @module_name %>.field_list(:strings)
+    end
+
+    def field_list(_t), do: <%= @module_name %>.field_list(:strings)
+
+    def table_name(_t), do: "<%= @table_name %>"
+
+    def valid_select?(t, list) do
+      MapSet.subset?(
+         MapSet.new(list),
+         MapSet.new(Sage.Object.Queryable.field_list(t))
+       )
+    end
+  end
+end

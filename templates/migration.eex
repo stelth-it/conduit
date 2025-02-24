@@ -1,0 +1,23 @@
+  def up do
+    create table("<%= @table_name %>", primary_key: false) do
+    add :pg_id, :serial, primary_key: true, auto_increment: true
+    <%= for f <- @descriptions do%> 
+      add <%= inspect(f.name) %>, <%= inspect(f.type) %>  
+    <% end %>
+
+    timestamps(
+      inserted_at: :pg_inserted_at,
+      updated_at: :pg_updated_at
+    )
+    end
+
+    <%= if :RECORDNO in Enum.flat_map(@descriptions, & &1.name) do%> 
+    create(
+      unique_index("<%= table_name %>", [:RECORDNO])
+    ) 
+    <% end %>
+  end
+
+  def down do
+    drop table("<%= @table_name %>")
+  end
