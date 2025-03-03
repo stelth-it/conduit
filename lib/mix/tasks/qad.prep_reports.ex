@@ -21,8 +21,8 @@ defmodule Mix.Tasks.Qad.PrepReports do
           |> Enum.reverse()
           |> Enum.drop(12)
           |> Enum.reverse()
-          ## use the ascii unit seperator character.  Very unlikely they use this in their export.
-          |> Enum.map(&replace_space_delimiters(&1, <<0x1F>>))
+          ## comma is fine, all strings are wrapped in quotes anyway
+          |> Enum.map(&replace_space_delimiters(&1, ","))
 
         File.write!("#{file}.prepped", new_content)
       end)
