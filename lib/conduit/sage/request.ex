@@ -276,11 +276,18 @@ defmodule Conduit.Sage.Request do
 
   def add_order_by(%__MODULE__{functions: funcs} = r, field_name, order, select_func)
       when is_binary(field_name) and (order == :desc or order == :asc) do
-    updated_funcs =
+    {updated_funcs, _} =
       Enum.map_reduce(funcs, true, fn
         func, true ->
           if select_func.(func) do
-            {Q.add_order_by(func, field_name, order), false}
+            {
+              update_in(
+                func,
+                [Access.key(:value), Access.find(&(&1.name == "query"))],
+                &Q.add_order_by(&1, field_name, order)
+              ),
+              false
+            }
           else
             {true, func}
           end
@@ -336,11 +343,18 @@ defmodule Conduit.Sage.Request do
         function_select
       )
       when is_binary(target_field) and is_function(function_select) do
-    updated_funcs =
+    {updated_funcs, _} =
       Enum.map_reduce(funcs, true, fn
         func, true ->
           if function_select.(func) do
-            {Q.add_date_filter(func, start_date, end_date, target_field), false}
+            {
+              update_in(
+                func,
+                [Access.key(:value), Access.find(&(&1.name == "query"))],
+                &Q.add_date_filter(&1, start_date, end_date, target_field)
+              ),
+              false
+            }
           else
             {func, true}
           end
@@ -353,7 +367,7 @@ defmodule Conduit.Sage.Request do
   end
 
   def function(%X{} = body) do
-    X.tag(name: "function", attr: [controlid: UUID.uuid4()], value: body)
+    X.tag(name: "function", attr: [controlid: UUID.uuid4()], value: [body])
   end
 
   def to_xml(%__MODULE__{
