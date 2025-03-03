@@ -1,6 +1,7 @@
 defmodule Conduit.Sage.Object.Date do
   use Ecto.Type
 
+  @type t :: NaiveDateTime.t()
   def type, do: :naive_datetime
 
   def cast(%NaiveDateTime{} = date), do: {:ok, date}
