@@ -183,24 +183,12 @@ defmodule Conduit.Sage do
   def query_object(%SR{} = r, object, opts) when is_map(object) do
     opts = NimbleOptions.validate!(opts, @query_object_opts)
 
-    response_prep_func =
-      case opts[:returning] do
-        :struct ->
-          &Resp.structs_from_query_response!/2
-
-        :map ->
-          &Resp.maps_from_query_response/2
-
-        :changeset ->
-          &Resp.changesets_from_query_response/2
-      end
-
     raise_if_not_queryable(object)
 
     case submit_query(r, object, opts) do
       {:ok, body} ->
         {:ok,
-         Enum.map(List.wrap(body), &response_prep_func.(&1, object))
+         Enum.map(List.wrap(body), &response_prep_func(opts[:returning]).(&1, object))
          |> List.flatten()}
 
       e ->
@@ -223,28 +211,8 @@ defmodule Conduit.Sage do
         ) ::
           {:ok, String.t()} | {:error, Exception.t()}
   def submit_query(%SR{} = r, object, opts) when is_binary(object) or is_struct(object) do
-    opts = NimbleOptions.validate!(opts, @submit_query_opts)
-
-    # Validate date options consistency
-    case {opts[:start_date], opts[:end_date]} do
-      {nil, nil} ->
-        :ok
-
-      {nil, %Date{}} ->
-        raise ArgumentError,
-          message: "Both start_date and end_date must be provided when using date filtering"
-
-      {%Date{}, nil} ->
-        raise ArgumentError,
-          message: "Both start_date and end_date must be provided when using date filtering"
-
-      {%Date{} = start_date, %Date{} = end_date} ->
-        if Date.compare(end_date, start_date) == :lt do
-          raise ArgumentError,
-            message:
-              "end_date (#{Date.to_string(end_date)}) must be equal to or after start_date (#{Date.to_string(start_date)})"
-        end
-    end
+    opts =
+      NimbleOptions.validate!(opts, @submit_query_opts) |> update_date_opts!()
 
     if opts[:fetch_all] do
       query_all_object(r, object, opts)
@@ -291,23 +259,30 @@ defmodule Conduit.Sage do
           opts :: Keyword.t()
         ) :: Enum.t()
   def query_all_object(r, object, opts \\ []) do
-    opts = NimbleOptions.validate!(opts, @query_all_object_opts)
-
-    response_prep_func =
-      case opts[:returning] do
-        :struct ->
-          &Resp.structs_from_query_response!/2
-
-        :map ->
-          &Resp.maps_from_query_response/2
-
-        :changeset ->
-          &Resp.changesets_from_query_response/2
-      end
+    opts = NimbleOptions.validate!(opts, @query_all_object_opts) |> update_date_opts!()
 
     SR.query_object_stream(r, object, opts[:select], opts[:page_size], opts[:offset])
     |> Stream.map(fn request ->
       request
+      |> then(fn request ->
+        if order_opts = opts[:order_by] do
+          SR.add_order_by(request, order_opts[:field_name], order_opts[:order])
+        else
+          request
+        end
+      end)
+      |> then(fn request ->
+        if opts[:start_date] do
+          SR.add_date_filter(
+            request,
+            opts[:start_date],
+            opts[:end_date],
+            opts[:created_field_name]
+          )
+        else
+          request
+        end
+      end)
       |> Runner.submit_sync(extract_runner_options(opts))
       |> Resp.check_response()
       |> log_result(request, opts[:logging])
@@ -325,7 +300,7 @@ defmodule Conduit.Sage do
     end)
     |> Stream.map(fn
       {:ok, response} ->
-        {:ok, response_prep_func.(response, object)}
+        {:ok, response_prep_func(opts[:returning]).(response, object)}
 
       {:error, e} ->
         {:error, e}
@@ -399,6 +374,42 @@ defmodule Conduit.Sage do
         e
     end
   end
+
+  # updates date options on opts keyword list, will raise if invalid date opts are provided
+  @spec update_date_opts!(Keyword.t()) :: Keyword.t()
+  defp update_date_opts!(opts) do
+    date_action =
+      case {opts[:start_date], opts[:end_date]} do
+        {nil, nil} ->
+          :ok
+
+        {%Date{}, nil} ->
+          :add_end_date
+
+        {nil, %Date{}} ->
+          raise ArgumentError,
+            message: "Both start_date and end_date must be provided when using date filtering"
+
+        {%Date{} = start_date, %Date{} = end_date} ->
+          if Date.compare(end_date, start_date) == :lt do
+            raise ArgumentError,
+              message:
+                "end_date (#{Date.to_string(end_date)}) must be equal to or after start_date (#{Date.to_string(start_date)})"
+          end
+      end
+
+    if date_action == :add_end_date do
+      Keyword.put_new(opts, :end_date, Date.utc_today())
+    else
+      opts
+    end
+  end
+
+  # returns function used to process responses.
+  @spec response_prep_func(:struct | :map | :changeset) :: (term(), term() -> term())
+  defp response_prep_func(:struct), do: &Resp.structs_from_query_response!/2
+  defp response_prep_func(:map), do: &Resp.maps_from_query_response/2
+  defp response_prep_func(:changeset), do: &Resp.changesets_from_query_response/2
 
   # logs result of function call.
   @spec log_result({:ok, term()} | {:error, term()}, SR.t(), function() | nil) ::
