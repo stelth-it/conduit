@@ -124,7 +124,7 @@ if Code.ensure_loaded?(Igniter) do
 
         acc
         |> Igniter.copy_template(
-          "templates/object.eex",
+          "templates/sage/object.eex",
           Igniter.Project.Module.proper_location(igniter, schema_module_name),
           [
             module_name: schema_module_name,
@@ -149,7 +149,7 @@ if Code.ensure_loaded?(Igniter) do
               Conduit.Repo,
               "Add#{String.capitalize(object.name)}",
               body:
-                EEx.eval_file("templates/migration.eex",
+                EEx.eval_file("templates/sage/migration.eex",
                   assigns: [
                     descriptions: migration_descripitons,
                     table_name: table_name
