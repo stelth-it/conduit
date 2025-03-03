@@ -116,6 +116,37 @@ defmodule Conduit.Sage.Endpoints do
     |> List.last()
   end
 
+  @get_all_object_records_opts NimbleOptions.new!(
+                                 start_date: [
+                                   type: {:struct, Date},
+                                   doc: "the earliest created date to return"
+                                 ],
+                                 end_date: [
+                                   type: {:struct, Date},
+                                   doc: "the latest date to return"
+                                 ],
+                                 created_field_name: [
+                                   type: :string,
+                                   doc:
+                                     "the field in the object that determines when the object was created",
+                                   default: "WHENCREATED"
+                                 ],
+                                 order_by: [
+                                   type: :non_empty_keyword_list,
+                                   keys: [
+                                     field_name: [
+                                       type: :string,
+                                       required: true
+                                     ],
+                                     order: [
+                                       type: {:in, [:asc, :desc]},
+                                       default: :desc
+                                     ]
+                                   ],
+                                   doc:
+                                     "the field that will be used to order results, by default results are not orderd"
+                                 ]
+                               )
   @doc """
   Given an endpoint and a module with a valid schema this funciton 
   will retrieve all records from the API for the sage object 
@@ -124,20 +155,32 @@ defmodule Conduit.Sage.Endpoints do
   This function only produces the side effect of populating the 
   database with object entries.
   """
-  @spec get_all_object_records(endpoint :: Endpoint.t(), sage_object :: module()) ::
+  # TODO: add logic for renewing our token!
+  @spec get_all_object_records(
+          endpoint :: Endpoint.t(),
+          sage_object :: module(),
+          opts :: Keyword.t()
+        ) ::
           :ok
-  def get_all_object_records(%Endpoint{} = endpoint, module) do
+  def get_all_object_records(%Endpoint{} = endpoint, module, opts \\ []) do
+    opts = NimbleOptions.validate!(opts, @get_all_object_records_opts)
     {:ok, request} = SR.new(endpoint) |> Conduit.Sage.get_api_token(retries: 3)
     sage_object = struct(module, [])
     chunk_size = chunk_size(sage_object)
 
-    Conduit.Sage.query_all_object(request, sage_object,
-      retries: 3,
-      logging: make_logging_function(endpoint, :both),
-      select: :all,
-      page_size: 2000,
-      returning: :changeset
-    )
+    query_opts =
+      Keyword.merge(
+        [
+          retries: 3,
+          logging: make_logging_function(endpoint, :both),
+          select: :all,
+          page_size: 2000,
+          returning: :changeset
+        ],
+        opts
+      )
+
+    Conduit.Sage.query_all_object(request, sage_object, query_opts)
     |> Stream.flat_map(fn
       {:ok, structs} ->
         structs
@@ -194,6 +237,35 @@ defmodule Conduit.Sage.Endpoints do
                                              default: false,
                                              doc:
                                                "if true will skip fetching tables that already have records. Useful if a previous fetch partially fails"
+                                           ],
+                                           start_date: [
+                                             type: {:struct, Date},
+                                             doc: "the earliest created date to return"
+                                           ],
+                                           end_date: [
+                                             type: {:struct, Date},
+                                             doc: "the latest date to return"
+                                           ],
+                                           created_field_name: [
+                                             type: :string,
+                                             doc:
+                                               "the field in the object that determines when the object was created",
+                                             default: "WHENCREATED"
+                                           ],
+                                           order_by: [
+                                             type: :non_empty_keyword_list,
+                                             keys: [
+                                               field_name: [
+                                                 type: :string,
+                                                 required: true
+                                               ],
+                                               order: [
+                                                 type: {:in, [:asc, :desc]},
+                                                 default: :desc
+                                               ]
+                                             ],
+                                             doc:
+                                               "the field that will be used to order results, by default results are not orderd"
                                            ]
                                          )
   @spec get_all_records_by_object_prefix(endpoint :: Endpoint.t(), prefix :: String.t()) :: :ok
