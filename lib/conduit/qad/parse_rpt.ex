@@ -2,7 +2,7 @@ defmodule Conduit.QAD.ParseRpt do
   alias Conduit.QAD.{QadField, QadTable, FieldDetail}
 
   @moduledoc """
-  Module for parsingn the qad.rpt report to extract 
+  Module for parsing the qad.rpt report to extract 
   information on tables and fields
   """
 
@@ -62,6 +62,11 @@ defmodule Conduit.QAD.ParseRpt do
     end)
   end
 
+  @doc """
+  Field details are spread acorss multiple lines making them hard to match.
+  This fucntion will chunk the first two lines of descripiton entries together 
+  so they can be matched as one line.
+  """
   def chunk_descripitons(stream) do
     stream
     |> Stream.chunk_while(
@@ -71,6 +76,7 @@ defmodule Conduit.QAD.ParseRpt do
           {:cont, Enum.reverse([e | acc]), {false, []}}
 
         e, {false, []} ->
+          # All field detail entries begin iwth '** Field Name'
           if e =~ ~r/\*\* Field Name:/ do
             {:cont, {true, [e]}}
           else
