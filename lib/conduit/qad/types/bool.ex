@@ -10,6 +10,8 @@ defmodule Conduit.QAD.Types.Bool do
   """
   use Ecto.Type
 
+  @type t :: boolean()
+
   @impl true
   def type, do: :string
 
@@ -22,6 +24,8 @@ defmodule Conduit.QAD.Types.Bool do
     case value do
       "y" -> {:ok, true}
       "n" -> {:ok, false}
+      "yes" -> {:ok, true}
+      "no" -> {:ok, false}
     end
   end
 

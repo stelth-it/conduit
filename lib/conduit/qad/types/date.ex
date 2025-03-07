@@ -1,21 +1,11 @@
 defmodule Conduit.QAD.Types.Date do
-  @moduledoc """
-  Custom Ecto type for handling QAD date strings in "mm/dd/yy" format.
-
-  Converts between string format "mm/dd/yy" and Elixir Date structs.
-  Years starting with 9 are interpreted as 1900s, all others as 2000s.
-
-  Examples:
-    "01/15/99" -> ~D[1999-01-15]
-    "01/15/23" -> ~D[2023-01-15]
-  """
   use Ecto.Type
 
   @impl true
-  def type, do: :string
+  def type, do: :naive_datetime
 
   @impl true
-  def cast(%Date{} = date), do: {:ok, date}
+  def cast(%NaiveDateTime{} = date), do: {:ok, date}
   def cast(nil), do: {:ok, nil}
 
   def cast(date_string) when is_binary(date_string) do
@@ -28,7 +18,7 @@ defmodule Conduit.QAD.Types.Date do
   def cast(_), do: :error
 
   @impl true
-  def dump(%Date{} = date) do
+  def dump(%NaiveDateTime{} = date) do
     {:ok, date}
   end
 
@@ -36,7 +26,7 @@ defmodule Conduit.QAD.Types.Date do
   def dump(_), do: :error
 
   @impl true
-  def load(%Date{} = date) do
+  def load(%NaiveDateTime{} = date) do
     {:ok, date}
   end
 
@@ -44,15 +34,16 @@ defmodule Conduit.QAD.Types.Date do
   def load(_), do: :error
 
   @doc """
-  Parses a date string in "mm/dd/yy" format into a Date struct.
+  Parses a date string in "mm/dd/yy" format into a NaiveDateTime struct.
+  Time is set to midnight (00:00:00).
 
   ## Examples
 
       iex> parse_date("01/15/99")
-      {:ok, ~D[1999-01-15]}
+      {:ok, ~N[1999-01-15 00:00:00]}
       
       iex> parse_date("01/15/23")
-      {:ok, ~D[2023-01-15]}
+      {:ok, ~N[2023-01-15 00:00:00]}
       
       iex> parse_date("invalid")
       :error
@@ -68,7 +59,10 @@ defmodule Conduit.QAD.Types.Date do
           n -> 2000 + n
         end
 
-      Date.new(full_year, month, day)
+      case NaiveDateTime.new(full_year, month, day, 0, 0, 0) do
+        {:ok, datetime} -> {:ok, datetime}
+        {:error, _} -> :error
+      end
     else
       _ -> :error
     end
