@@ -64,6 +64,8 @@ defmodule Conduit.Sage.Query do
       page_size,
       offset
     )
+    # TODO: options are not passed now, but we are using other functions to take care of this.
+    # should we remove it ?
     |> then(fn query ->
       if opts[:start_date] && opts[:end_date] do
         insert_filter(
