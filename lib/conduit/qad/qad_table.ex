@@ -1,4 +1,8 @@
 defmodule Conduit.QAD.QadTable do
+  @moduledoc """
+  Represents a description of a QAD table.
+  """
+
   @base_export_path "priv/qad_data/reports"
   use TypedEctoSchema
   import Ecto.Changeset
@@ -11,6 +15,9 @@ defmodule Conduit.QAD.QadTable do
     embeds_many(:fields, Conduit.QAD.QadField)
   end
 
+  @doc """
+  Creates a new struct based on intput parameters.
+  """
   def new(params) do
     %__MODULE__{}
     |> cast(params, [:table_name, :table_flags, :field_count])
@@ -18,6 +25,9 @@ defmodule Conduit.QAD.QadTable do
     |> apply_action(:create)
   end
 
+  @doc """
+  As `new/1` but will raise if invalid data is given.
+  """
   def new!(params) do
     case new(params) do
       {:ok, struct} -> struct
@@ -25,10 +35,21 @@ defmodule Conduit.QAD.QadTable do
     end
   end
 
+  @doc """
+  Lists all field names for the given table.
+  """
   def list_field_names(%__MODULE__{fields: fields}) do
     for f <- fields do
       f.field_name
     end
+  end
+
+  @doc """
+  Given a table struct returns the schema module
+  corresponding to that table.
+  """
+  def table_module(%__MODULE__{} = t) do
+    Module.concat([Conduit, QAD, Table, String.capitalize(t.table_name)])
   end
 
   def report_file_location(%__MODULE__{table_name: tn}) do
