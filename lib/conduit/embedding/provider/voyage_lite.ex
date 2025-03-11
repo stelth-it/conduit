@@ -1,13 +1,41 @@
 defmodule Conduit.Embedding.Provider.VoyageLite do
   @behaviour Conduit.Embedding.Provider
 
+  @moduledoc """
+  Embedding implementation for VoyageLite 
+  embedding model provided by Voyage AI.
+  """
+
+  @embed_options NimbleOptions.new!(
+                   input_type: [
+                     type: {:in, [:document, :query, nil]},
+                     default: nil,
+                     doc:
+                       "determines how the input will be embedded. nil will embed without any customization"
+                   ],
+                   truncation: [
+                     type: :boolean,
+                     default: true,
+                     doc: "if true will shorten input to match max token"
+                   ]
+                 )
+
+  @doc """
+  Submits embedding request to the VoyageAI lite model.
+
+  ### Options
+
+  #{NimbleOptions.docs(@embed_options)}
+  """
   @impl true
-  def embed(input) do
+  def embed(input, options \\ []) do
+    opts = NimbleOptions.validate!(options, @embed_options)
+
     Req.new(
       method: :post,
       url: url(),
       auth: {:bearer, get_api_key()},
-      json: prep_body(input)
+      json: prep_body(input, opts[:input_type], opts[:truncation])
     )
     |> Req.Request.put_header("content-type", "application/json")
     |> Req.Request.append_response_steps(check_status: &check_status/1)
@@ -39,10 +67,12 @@ defmodule Conduit.Embedding.Provider.VoyageLite do
     end
   end
 
-  defp prep_body(body) when is_binary(body) do
+  defp prep_body(body, input_type, truncate?) when is_binary(body) do
     %{
       input: [body],
-      model: model_name()
+      model: model_name(),
+      truncation: truncate?,
+      input_type: input_type || "null"
     }
   end
 

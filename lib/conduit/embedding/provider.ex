@@ -5,6 +5,6 @@ defmodule Conduit.Embedding.Provider do
   `:ok` tuple containing the embedding as 
   a list.
   """
-  @callback embed(input :: String.t()) ::
+  @callback embed(input :: String.t(), options :: Keyword.t()) ::
               embedding :: {:ok, list(integer() | float())} | {:error, Exception.t()}
 end
