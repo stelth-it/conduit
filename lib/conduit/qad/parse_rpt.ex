@@ -16,6 +16,8 @@ defmodule Conduit.QAD.ParseRpt do
   ]
 
   def build_summary(file_path) do
+    table_descriptions = extract_table_descripitons(file_path)
+
     File.stream!(file_path)
     |> Stream.map(&String.trim_trailing/1)
     |> chunk_descripitons()
@@ -49,6 +51,23 @@ defmodule Conduit.QAD.ParseRpt do
       end
     )
     |> elem(0)
+    |> Enum.map(fn table ->
+      desc = table_descriptions[table.table_name]
+      %{table | description: desc && String.trim(desc)}
+    end)
+  end
+
+  @description_pattern ~r/(?<table_name>\w+)\s+(?<description> [\w\h]+)/
+  def extract_table_descripitons(file_path) do
+    file_path
+    |> File.stream!()
+    |> Stream.drop(6)
+    |> Stream.take(770)
+    |> Enum.reduce(%{}, fn line, acc ->
+      matches = Regex.named_captures(@description_pattern, line)
+
+      Map.put(acc, matches["table_name"], matches["description"])
+    end)
   end
 
   @spec transform_line(line :: String.t()) :: list(String.t()) | []
