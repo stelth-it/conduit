@@ -12,6 +12,9 @@ defmodule Conduit.QAD.QadTable do
     field :table_name, :string, primary_key: true
     field :table_flags, :string
     field :field_count, :integer
+    field :voyage_embedding, Pgvector.Ecto.Vector
+    field :embed_document, :string
+    field :description, :string
     embeds_many(:fields, Conduit.QAD.QadField)
   end
 
