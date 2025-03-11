@@ -137,7 +137,7 @@ config :conduit, Conduit.Sage.Vault,
   ciphers: [
     default:
       {Cloak.Ciphers.AES.GCM,
-       tag: "AES.GCM.V1", key: System.get_env("CLOAK_KEY", "not_found") |> Base.decode64!()}
+       tag: "AES.GCM.V1", key: System.get_env("CLOAK_KEY", "notfound") |> Base.decode64!()}
   ]
 
 # voyage api key used for embeddings
