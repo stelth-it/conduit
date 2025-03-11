@@ -65,7 +65,8 @@ defmodule Conduit.MixProject do
       {:cloak_ecto, "~> 1.3"},
       {:typed_ecto_schema, "~> 0.4.1"},
       {:igniter, "~> 0.5", only: [:dev, :test]},
-      {:nimble_csv, "~> 1.1"}
+      {:nimble_csv, "~> 1.1"},
+      {:pgvector, "~> 0.3.0"}
     ]
   end
 
