@@ -17,13 +17,6 @@ import Config
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 #
-config :conduit, Conduit.Sage.Vault,
-  ciphers: [
-    default:
-      {Cloak.Ciphers.AES.GCM,
-       tag: "AES.GCM.V1", key: System.get_env("CLOAK_KEY") |> Base.decode64!()}
-  ]
-
 if System.get_env("PHX_SERVER") do
   config :conduit, ConduitWeb.Endpoint, server: true
 end
@@ -122,4 +115,30 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+  #
 end
+
+# default sage api configuration is 
+# provided for convenience in the dev 
+# environment.
+if config_env() == :dev do
+  # default sage api configuration
+  config :conduit, :sage_api_config,
+    user_id: System.get_env("WEB_USER"),
+    company_id: System.get_env("COMPANY_ID"),
+    user_password: System.get_env("WEB_USER_PASSWORD"),
+    web_sender_id: System.get_env("SENDER_ID"),
+    web_sender_password: System.get_env("SENDER_PASSWORD")
+end
+
+# our apps runtime config, these need to run in every environment
+# cloak configuration for conduit
+config :conduit, Conduit.Sage.Vault,
+  ciphers: [
+    default:
+      {Cloak.Ciphers.AES.GCM,
+       tag: "AES.GCM.V1", key: System.get_env("CLOAK_KEY", "not_found") |> Base.decode64!()}
+  ]
+
+# voyage api key used for embeddings
+config :conduit, :voyage_key, System.get_env("VOYAGE_KEY", "not_found")

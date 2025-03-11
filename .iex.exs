@@ -4,16 +4,18 @@ alias Conduit.Sage.Request, as: SR
 alias Conduit.Sage.Repo
 import Ecto.Query
 
+api_config = Application.get_env(:conduit, :sage_api_config)
+
 request_options =
   [
     authentication: [
-      user_id: System.get_env("WEB_USER"),
-      company_id: System.get_env("COMPANY_ID"),
-      user_password: System.get_env("WEB_USER_PASSWORD")
+      user_id: api_config[:user_id],
+      company_id: api_config[:company_id],
+      user_password: api_config[:user_password]
     ],
     control: [
-      web_sender_id: System.get_env("SENDER_ID"),
-      web_sender_password: System.get_env("SENDER_PASSWORD")
+      web_sender_id: api_config[:web_sender_id],
+      web_sender_password: api_config[:web_sender_password]
     ]
   ]
 
