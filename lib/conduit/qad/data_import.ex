@@ -4,7 +4,7 @@ defmodule Conduit.QAD.DataImport do
   CSV Data.
   """
   require Logger
-  alias Conduit.QAD.QadTable
+  alias Conduit.QAD.QadTables.QadTable
 
   NimbleCSV.define(CSVParser, [])
 

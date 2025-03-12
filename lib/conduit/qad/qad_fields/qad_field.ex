@@ -1,4 +1,4 @@
-defmodule Conduit.QAD.QadField do
+defmodule Conduit.QAD.QadFields.QadField do
   use TypedEctoSchema
   import Ecto.Changeset
 
@@ -26,5 +26,14 @@ defmodule Conduit.QAD.QadField do
       {:ok, struct} -> struct
       {:error, changeset} -> raise ArgumentError, "invalid input, #{inspect(changeset)}"
     end
+  end
+
+  def markdown_table_header() do
+    "| field name | field type | field description |\n" <>
+      "| -- | -- | -- |"
+  end
+
+  def markdown_table_entry(struct = %__MODULE__{}) do
+    "| #{struct.field_name} | #{struct.field_type} | #{struct.description} |"
   end
 end

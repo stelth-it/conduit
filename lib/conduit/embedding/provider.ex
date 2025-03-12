@@ -7,4 +7,8 @@ defmodule Conduit.Embedding.Provider do
   """
   @callback embed(input :: String.t(), options :: Keyword.t()) ::
               embedding :: {:ok, list(integer() | float())} | {:error, Exception.t()}
+
+  def embed(module, string, opts \\ []) do
+    apply(module, :embed, [string, opts])
+  end
 end

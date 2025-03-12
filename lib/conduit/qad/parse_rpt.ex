@@ -1,5 +1,5 @@
 defmodule Conduit.QAD.ParseRpt do
-  alias Conduit.QAD.{QadField, QadTable, FieldDetail}
+  alias Conduit.QAD.{QadFields.QadField, QadTables.QadTable, FieldDetail}
 
   @moduledoc """
   Module for parsing the qad.rpt report to extract 
@@ -55,9 +55,16 @@ defmodule Conduit.QAD.ParseRpt do
       desc = table_descriptions[table.table_name]
       %{table | description: desc && String.trim(desc)}
     end)
+    |> Enum.map(fn table = %QadTable{} ->
+      %{table | embed_document: Conduit.QAD.QadTables.create_table_report(table)}
+    end)
   end
 
   @description_pattern ~r/(?<table_name>\w+)\s+(?<description> [\w\h]+)/
+  @doc """
+  Given the filepath to a QAD rpt file will extract all table 
+  descriptions.
+  """
   def extract_table_descripitons(file_path) do
     file_path
     |> File.stream!()
