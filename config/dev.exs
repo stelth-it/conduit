@@ -30,6 +30,10 @@ config :conduit, ConduitWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:conduit, ~w(--watch)]}
   ]
 
+# path to file containing qad table report.  Used for generating
+# QAD table descriptions
+config :conduit, :qad_rpt_path, "priv/qad_data/qad.rpt"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
