@@ -1,6 +1,7 @@
 defmodule Conduit.QAD.QadTables do
   alias Conduit.QAD.{ParseRpt, QadTables.QadTable, QadFields}
   import Ecto.Query
+  import Pgvector.Ecto.Query
   require Logger
 
   @moduledoc """
@@ -43,6 +44,23 @@ defmodule Conduit.QAD.QadTables do
       end
     end)
     |> Enum.each(&Conduit.Repo.update/1)
+  end
+
+  def embedding_search(embedding_module, query_string) do
+    case Conduit.Embedding.Provider.embed(embedding_module, query_string, input_type: :query) do
+      {:ok, embedding} ->
+        vector_embedding = Pgvector.new(embedding)
+
+        q =
+          from qt in QadTable,
+            order_by: cosine_distance(qt.voyage_embedding, ^vector_embedding),
+            limit: 3
+
+        {:ok, Conduit.Repo.all(q)}
+
+      {:error, _} = error ->
+        error
+    end
   end
 
   def create_table_report(%QadTable{} = table) do
