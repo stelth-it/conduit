@@ -1,7 +1,9 @@
 require Logger
 alias Conduit.Sage.Request.Function, as: SF
 alias Conduit.Sage.Request, as: SR
-alias Conduit.Sage.Repo
+alias Conduit.Repo
+alias Conduit.QAD
+
 import Ecto.Query
 
 api_config = Application.get_env(:conduit, :sage_api_config)
