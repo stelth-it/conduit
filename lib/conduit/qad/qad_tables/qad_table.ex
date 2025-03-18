@@ -16,6 +16,8 @@ defmodule Conduit.QAD.QadTables.QadTable do
     field :embed_document, :string
     field :description, :string
     field :record_count, :integer
+    field :schema_fields, {:array, :map}, virtual: true
+    field :migration_fields, {:array, :map}, virtual: true
     has_many :qad_import_actions, QadImportAction, references: :table_name
     embeds_many(:fields, Conduit.QAD.QadFields.QadField)
   end
@@ -132,7 +134,7 @@ defmodule Conduit.QAD.QadTables.QadTable do
   from QAD to generate a table name
   for postgres.
   """
-  def postgres_table_name(%__MODULE__{table_name: tn} = table) do
+  def postgres_table_name(%__MODULE__{table_name: tn} = _table) do
     "qad_#{tn}"
   end
 

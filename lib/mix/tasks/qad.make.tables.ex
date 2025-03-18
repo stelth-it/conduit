@@ -97,6 +97,8 @@ if Code.ensure_loaded?(Igniter) do
         Conduit.Repo.all(Conduit.QAD.QadTables.QadTable)
         |> Enum.map(&transform_fields/1)
 
+      IO.inspect(List.first(tables), label: "our first table")
+
       Enum.reduce(tables, igniter, fn table, igniter ->
         schema_module_name =
           Igniter.Project.Module.parse("Conduit.QAD.Table.#{String.capitalize(table.table_name)}")
@@ -130,13 +132,12 @@ if Code.ensure_loaded?(Igniter) do
 
     defp transform_fields(table) do
       schema_fields =
-        transform_descriptions(table.fields, @schema_type_translations)
+        transform_descriptions(table, @schema_type_translations)
 
       migration_fields =
-        transform_descriptions(table.fields, @migration_type_translations)
+        transform_descriptions(table, @migration_type_translations)
 
       table
-      |> Map.from_struct()
       |> Map.put(:schema_fields, schema_fields)
       |> Map.put(:migration_fields, migration_fields)
     end
@@ -149,10 +150,10 @@ if Code.ensure_loaded?(Igniter) do
         |> Enum.map(fn f ->
           f
           |> convert_type(translation_map)
-          |> Map.update!(:field_type, &Map.fetch!(translation_map, &1))
+          |> Map.update!(:field_name, &String.to_atom/1)
         end)
 
-      %{table | fields: new_fields}
+      new_fields
     end
 
     defp convert_type(%{mult: mult, field_type: ft} = field, translation_map)
