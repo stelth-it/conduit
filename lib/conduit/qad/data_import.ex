@@ -4,7 +4,7 @@ defmodule Conduit.QAD.DataImport do
   CSV Data.
   """
   require Logger
-  alias Conduit.QAD.QadTables.QadTable
+  alias Conduit.QAD.{QadTables.QadTable, QadImports, QadImportActions}
 
   NimbleCSV.define(CSVParser, [])
 
@@ -22,7 +22,7 @@ defmodule Conduit.QAD.DataImport do
   def parse_csv(%QadTable{} = table, opts \\ []) do
     opts = NimbleOptions.validate!(opts, @parse_csv_options)
 
-    stream = record_stream(table)
+    {:ok, stream} = record_stream(table)
 
     if opts[:row_count] == :infinite do
       Enum.to_list(stream)
@@ -39,7 +39,7 @@ defmodule Conduit.QAD.DataImport do
   def record_stream(%QadTable{} = table) do
     file_location = QadTable.report_file_location(table)
 
-    if File.exists?(file_location) do
+    if file_location do
       stream =
         file_location
         |> File.stream!()
@@ -61,12 +61,47 @@ defmodule Conduit.QAD.DataImport do
   completed, as in a mix task.
   """
   def persist_all_csv() do
-    Conduit.Repo.all(Conduit.QAD.QadTable)
-    |> Enum.each(fn table ->
-      Task.start(fn ->
-        Logger.info("starting table: #{table.table_name}")
-        persist_csv(table)
+    {:ok, qad_import} = QadImports.new("csv_files")
+
+    tables =
+      Conduit.Repo.all(QadTable)
+      |> Enum.filter(fn table ->
+        QadTable.report_file_location(table)
       end)
+
+    Task.Supervisor.async_stream_nolink(
+      Conduit.QADImportSupervisor,
+      tables,
+      fn table ->
+        persist_csv(table, qad_import, drop_existing: true)
+      end,
+      timeout: :infinity,
+      ordered: false,
+      zip_input_on_exit: true
+    )
+    |> Enum.each(fn
+      {:ok, {:completed, table}} ->
+        QadImportActions.new_with_associations(
+          "#{QadTable.report_file_location(table)}",
+          "success completed table",
+          qad_import,
+          table
+        )
+
+        {:completed, table}
+
+      {:ok, {:failed, table}} ->
+        {:failed, table}
+
+      {:exit, {table, reason}} ->
+        QadImportActions.new_with_associations(
+          "#{QadTable.report_file_location(table)}",
+          "failure import task for table faild with reason: #{inspect(reason)}",
+          qad_import,
+          table
+        )
+
+        {:exited, table}
     end)
   end
 
@@ -75,33 +110,79 @@ defmodule Conduit.QAD.DataImport do
   data export corresponding to that struct to 
   the db
   """
-  @persist_csv_opts NimbleOptions.new!([])
-  def persist_csv(%QadTable{} = table, opts \\ []) do
+  @persist_csv_opts NimbleOptions.new!(
+                      drop_existing: [
+                        type: :boolean,
+                        default: false,
+                        doc: "if set to true then existing records will be dropped"
+                      ]
+                    )
+  def persist_csv(%QadTable{} = table, qad_import, opts \\ []) do
     opts = NimbleOptions.validate!(opts, @persist_csv_opts)
 
     with {:module_load, {:module, schema_module}} <-
            {:module_load, Code.ensure_loaded(QadTable.table_module(table))},
          {:file_load, {:ok, stream}} <- {:file_load, record_stream(table)} do
+      if opts[:drop_existing], do: Conduit.Repo.delete_all(schema_module)
+
+      QadImportActions.new_with_associations(
+        "#{QadTable.report_file_location(table)}",
+        "success starting import task",
+        qad_import,
+        table
+      )
+
       stream
       |> Stream.chunk_every(100)
       |> Stream.map(fn chunk ->
         Enum.map(chunk, &apply(schema_module, :changeset, [struct!(schema_module), Map.new(&1)]))
       end)
-      |> Stream.map(&filter_and_log_invalid_cs/1)
+      |> Stream.map(&filter_and_log_invalid_cs(&1, qad_import, table))
       |> Stream.map(&add_insert_update_dates/1)
-      |> Stream.each(&Conduit.Repo.insert_all(schema_module, &1))
+      |> Stream.map(&Conduit.Repo.insert_all(schema_module, &1))
+      |> Stream.each(fn {record_count, _} ->
+        QadImportActions.new_with_associations(
+          "#{QadTable.report_file_location(table)}",
+          "success inserted #{record_count} records",
+          qad_import,
+          table
+        )
+      end)
       |> Stream.run()
+
+      {:completed, table}
     else
       {:module_load, {:error, message}} ->
-        Logger.warning(
-          "failed to load module for #{inspect(table)}, received error #{inspect(message)}"
+        QadImportActions.new_with_associations(
+          "#{QadTable.report_file_location(table)}",
+          "failure could not load module, #{inspect(message)}",
+          qad_import,
+          table
         )
 
+        {:failed, table}
+
       {:file_load, {:error, message}} ->
-        Logger.warning(
-          "failed to load csv file for #{inspect(table)}, received error #{inspect(message)}"
+        QadImportActions.new_with_associations(
+          "#{QadTable.report_file_location(table)}",
+          "failure could not load csv file. #{message}",
+          qad_import,
+          table
         )
+
+        {:failed, table}
     end
+  end
+
+  def table_export_column_count(%QadTable{} = table) do
+    comma_count =
+      QadTable.report_file_location(table)
+      |> File.stream!()
+      |> Enum.take(1)
+      |> List.first()
+      |> Enum.count(",")
+
+    comma_count + 1
   end
 
   @doc """
@@ -123,13 +204,19 @@ defmodule Conduit.QAD.DataImport do
   contains invalid entries.  Invalid changesets 
   are logged an discarded.
   """
-  def filter_and_log_invalid_cs(cs_list) do
+  def filter_and_log_invalid_cs(cs_list, qad_import, table) do
     cs_list
     |> Enum.flat_map(fn cs ->
       if cs.valid? do
         [cs.changes]
       else
-        Logger.warning("invalid data taken from csv: #{inspect(cs)}")
+        QadImportActions.new_with_associations(
+          "#{QadTable.report_file_location(table)}",
+          "failure invalid changes found in csv, #{inspect(cs.errors)}",
+          qad_import,
+          table
+        )
+
         []
       end
     end)

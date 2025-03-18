@@ -9,7 +9,7 @@ defmodule Conduit.Repo.Migrations.ImportLoggingAdded do
 
     create table("qad_import_actions") do
       add :data_source, :string
-      add :status, :string
+      add :status, :text
       add :qad_import_id, references("qad_imports")
       add :qad_table_name, references("qad_tables", column: :table_name, type: :string)
       timestamps()

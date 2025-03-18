@@ -19,7 +19,8 @@ defmodule Conduit.Application do
       # Start a worker by calling: Conduit.Worker.start_link(arg)
       # {Conduit.Worker, arg}
       Conduit.Sage.Vault,
-      {Conduit.Sage.Request.Runner, [spacing: 1_000]}
+      {Conduit.Sage.Request.Runner, [spacing: 1_000]},
+      {Task.Supervisor, name: Conduit.QADImportSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -31,7 +31,6 @@ defmodule Conduit.QAD.QadImportActions.QadImportAction do
     struct
     |> Map.put(:qad_import_id, import_id)
     |> Map.put(:qad_table_name, table_name)
-    |> dbg()
     |> cast(params)
   end
 end
