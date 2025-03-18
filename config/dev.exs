@@ -32,7 +32,13 @@ config :conduit, ConduitWeb.Endpoint,
 
 # path to file containing qad table report.  Used for generating
 # QAD table descriptions
-config :conduit, :qad_rpt_path, "priv/qad_data/qad.rpt"
+config :conduit, QAD,
+  qad_rpt_path: "priv/qad_data/qad.rpt",
+  qad_export_directory: "priv/qad_data/reports"
+
+# open ai key to be used in langchain 
+config :langchain, openai_key: System.fetch_env!("OPENAI_APIKEY")
+config :langchain, openai_org_id: System.fetch_env!("OPENAI_ORG_ID")
 
 # ## SSL Support
 #
