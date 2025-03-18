@@ -174,17 +174,6 @@ defmodule Conduit.QAD.DataImport do
     end
   end
 
-  def table_export_column_count(%QadTable{} = table) do
-    comma_count =
-      QadTable.report_file_location(table)
-      |> File.stream!()
-      |> Enum.take(1)
-      |> List.first()
-      |> Enum.count(",")
-
-    comma_count + 1
-  end
-
   @doc """
   adds pg_inserted_at and pg_updated_at to change map
   set to the current date time.
