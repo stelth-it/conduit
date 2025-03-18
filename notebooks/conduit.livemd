@@ -1,0 +1,81 @@
+# Conduit
+
+```elixir
+Mix.install(
+  [
+    {:conduit, path: Path.join(__DIR__, ".."), env: :dev},
+    {:kino, "~> 0.12.0"}
+  ],
+  config_path: :conduit,
+  lockfile: :conduit
+)
+```
+
+## Root
+
+Branch work from here to start a new, independent context.
+
+<!-- livebook:{"branch_parent_index":0} -->
+
+## Ask QAD
+
+```elixir
+output_frame = Kino.Frame.new()
+
+input_form =
+  Kino.Control.form(
+    [
+      query_type:
+        Kino.Input.select("query type", sql_query: "suggest sql query", tables: "suggest tables"),
+      query: Kino.Input.textarea("query")
+    ],
+    submit: "Ask"
+  )
+
+Kino.listen(input_form, fn %{data: event} ->
+  case event do
+    %{query: query_text, query_type: :sql_query} ->
+      response =
+        Conduit.QAD.QadTables.query_suggestion(Conduit.Embedding.Provider.VoyageLite, query_text)
+
+      response = Kino.Shorts.tree(response)
+
+      Kino.Frame.render(output_frame, response)
+
+    %{query: query_text, query_type: :tables} ->
+      response =
+        Conduit.QAD.QadTables.table_suggestions(Conduit.Embedding.Provider.VoyageLite, query_text)
+
+      response = Kino.Shorts.markdown(response)
+      Kino.Frame.render(output_frame, response)
+  end
+end)
+
+Kino.render(input_form)
+output_frame
+```
+
+<!-- livebook:{"branch_parent_index":0} -->
+
+## QAD Data Cleanup
+
+Find tables that have a different number of columns from their descripition in qad.rpt.  These tables will never load correctly.
+
+```elixir
+alias Conduit.QAD.QadTables
+
+tables_with_diffs =
+  Conduit.Repo.all(QadTables.QadTable)
+  |> Enum.map(fn table ->
+    %{
+      table_name: table.table_name,
+      column_diff: QadTables.QadTable.definition_export_column_difference(table),
+      entries_in_export: QadTables.QadTable.export_file_record_count(table)
+    }
+  end)
+  |> Enum.reject(&(&1.column_diff == nil))
+  |> Enum.reject(&(&1.column_diff == 0))
+  |> Kino.Shorts.data_table()
+```
+
+<!-- livebook:{"offset":1869,"stamp":{"token":"XCP.p3qasrjJU2rNgfulYC6XhC3LbNaI_TtQjwDOrCq4NyeQVtRIxu6Dvuad54OnrKQMg0wjp6xQtc6g9oSN6MPIRrPCaV1guDX6ojw3vss6gU4_YpXWgC79nA","version":2}} -->
