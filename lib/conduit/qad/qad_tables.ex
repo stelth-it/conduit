@@ -1,5 +1,6 @@
 defmodule Conduit.QAD.QadTables do
-  alias Conduit.QAD.{ParseRpt, QadTables.QadTable, QadFields}
+  alias Conduit.QAD.{ParseRpt, QadTables.QadTable, QadFields, Inference}
+  alias Conduit.Repo
   import Ecto.Query
   import Pgvector.Ecto.Query
   require Logger
@@ -8,20 +9,26 @@ defmodule Conduit.QAD.QadTables do
   Functions for workign with QAD Tables
   """
 
+  def get_table_by_name(name) when is_binary(name) do
+    Repo.get(QadTable, name)
+  end
+
   @doc """
   Will retreive qad table info from the qad.rpt file
   and update all records in the qad_tables table 
   accordingly.
   """
   def import_rpt() do
-    Application.get_env(:conduit, :qad_rpt_path)
+    get_report_path()
     |> ParseRpt.build_summary()
     |> Enum.each(fn table ->
-      Conduit.Repo.insert(table, on_conflict: :replace_all, conflict_target: :table_name)
+      Conduit.Repo.insert(table,
+        on_conflict: {:replace_all_except, [:voyage_embedding]},
+        conflict_target: :table_name
+      )
     end)
   end
 
-  # TODO: Maybe allow custom embedding field name? 
   def update_embeddings(embedding_module, query \\ nil) do
     query = query || QadTable
 
@@ -46,6 +53,18 @@ defmodule Conduit.QAD.QadTables do
     |> Enum.each(&Conduit.Repo.update/1)
   end
 
+  def update_record_counts() do
+    Conduit.Repo.all(QadTable)
+    |> Enum.map(fn table ->
+      record_count =
+        QadTable.table_module(table)
+        |> Conduit.Repo.aggregate(:count)
+
+      QadTable.changeset(table, %{record_count: record_count})
+      |> Conduit.Repo.update()
+    end)
+  end
+
   def embedding_search(embedding_module, query_string) do
     case Conduit.Embedding.Provider.embed(embedding_module, query_string, input_type: :query) do
       {:ok, embedding} ->
@@ -53,6 +72,7 @@ defmodule Conduit.QAD.QadTables do
 
         q =
           from qt in QadTable,
+            where: qt.record_count > 0,
             order_by: cosine_distance(qt.voyage_embedding, ^vector_embedding),
             limit: 3
 
@@ -63,10 +83,29 @@ defmodule Conduit.QAD.QadTables do
     end
   end
 
-  def create_table_report(%QadTable{} = table) do
-    """
-    # #{table.table_name}
+  def query_suggestion(embedding_module, query_request) do
+    {:ok, tables} = embedding_search(embedding_module, query_request)
 
+    context_documents = Enum.map(tables, & &1.embed_document)
+
+    Inference.generate_sql_query(query_request, context_documents)
+  end
+
+  def table_suggestions(embedding_module, query) do
+    {:ok, tables} = embedding_search(embedding_module, query)
+
+    context_documents = Enum.map(tables, & &1.embed_document)
+
+    Inference.generate_table_suggestions(query, context_documents)
+  end
+
+  def create_table_report(%QadTable{} = table) do
+    table_name = "QAD_#{String.upcase(table.table_name)}"
+
+    """
+    # #{table_name} 
+
+    table name: #{table_name}
     #{table.description}
 
     # data types
@@ -84,5 +123,9 @@ defmodule Conduit.QAD.QadTables do
     #{QadFields.create_markdown_table(table.fields)}
     """
   end
-end
 
+  # gets path to rpt file
+  defp get_report_path() do
+    Application.get_env(:conduit, QAD)[:qad_rpt_path]
+  end
+end
