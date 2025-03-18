@@ -26,6 +26,9 @@ defmodule Conduit.QAD.Types.Bool do
       "n" -> {:ok, false}
       "yes" -> {:ok, true}
       "no" -> {:ok, false}
+      "0" -> {:ok, false}
+      "1" -> {:ok, true}
+      _ -> :error
     end
   end
 
