@@ -172,6 +172,6 @@ defmodule Conduit.QAD.QadTables.QadTable do
   end
 
   defp export_path() do
-    Application.get_env(:conduit, QAD)[:qad_export_directory]
+    Application.get_env(:conduit, Conduit.QAD)[:qad_export_directory]
   end
 end

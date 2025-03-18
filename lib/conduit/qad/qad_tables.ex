@@ -126,6 +126,6 @@ defmodule Conduit.QAD.QadTables do
 
   # gets path to rpt file
   defp get_report_path() do
-    Application.get_env(:conduit, QAD)[:qad_rpt_path]
+    Application.get_env(:conduit, Conduit.QAD)[:qad_rpt_path]
   end
 end
