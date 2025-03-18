@@ -3,9 +3,9 @@ defmodule Conduit.QAD.QadTables.QadTable do
   Represents a description of a QAD table.
   """
 
-  @base_export_path "priv/qad_data/reports"
   use TypedEctoSchema
   import Ecto.Changeset
+  alias Conduit.QAD.{QadImportActions.QadImportAction}
 
   @primary_key false
   typed_schema "qad_tables" do
@@ -15,6 +15,8 @@ defmodule Conduit.QAD.QadTables.QadTable do
     field :voyage_embedding, Pgvector.Ecto.Vector
     field :embed_document, :string
     field :description, :string
+    field :record_count, :integer
+    has_many :qad_import_actions, QadImportAction, references: :table_name
     embeds_many(:fields, Conduit.QAD.QadFields.QadField)
   end
 
@@ -45,7 +47,8 @@ defmodule Conduit.QAD.QadTables.QadTable do
         :field_count,
         :voyage_embedding,
         :embed_document,
-        :description
+        :description,
+        :record_count
       ])
 
   @doc """
@@ -68,6 +71,55 @@ defmodule Conduit.QAD.QadTables.QadTable do
   end
 
   @doc """
+  Counts the number of entires in the export, returns 
+  nil if the file does not exist.
+  """
+  def export_file_record_count(%__MODULE__{} = table) do
+    if loc = report_file_location(table) do
+      loc
+      |> File.stream!()
+      |> Enum.count()
+    end
+  end
+
+  @doc """
+  Gives the difference between the column count as defined 
+  in the struct and the qad.rpt file and the column count in 
+  the exported table.  equivalent to: definition_column_count - export_column_count
+
+  A negative number means the export has more columns than the qad.rpt.
+  If nil is returned than the given table does not have an export file.
+  """
+  def definition_export_column_difference(%__MODULE__{} = table) do
+    report_file_location(table) && definition_column_count(table) - export_column_count(table)
+  end
+
+  @doc """
+  Gives the number of colunmns present in the 
+  description of the table.
+  """
+  def definition_column_count(%__MODULE__{} = table) do
+    table.fields |> Enum.count()
+  end
+
+  @doc """
+  Given a table finds out how many columns are in 
+  its export file.
+
+  Will return nil if there is no export file for the table.
+  """
+  def export_column_count(%__MODULE__{} = table) do
+    if loc = report_file_location(table) do
+      loc
+      |> File.stream!()
+      |> Enum.take(1)
+      |> List.first()
+      |> String.split(",")
+      |> Enum.count()
+    end
+  end
+
+  @doc """
   Given a table struct returns the schema module
   corresponding to that table.
   """
@@ -76,7 +128,22 @@ defmodule Conduit.QAD.QadTables.QadTable do
   end
 
   def report_file_location(%__MODULE__{table_name: tn}) do
-    Path.join(@base_export_path, "#{tn}.d.prepped")
+    File.ls!(export_path())
+    |> Enum.map(fn path ->
+      {String.split(path, ".") |> List.first(), path}
+    end)
+    |> Enum.flat_map(fn {prefix, path} ->
+      if String.starts_with?(tn, prefix) do
+        [path]
+      else
+        []
+      end
+    end)
+    |> Enum.find(&(&1 =~ "prepped"))
+    |> case do
+      nil -> nil
+      file_name when is_binary(file_name) -> Path.join(export_path(), file_name)
+    end
   end
 
   def reverse_fields(%__MODULE__{} = s) do
@@ -102,5 +169,9 @@ defmodule Conduit.QAD.QadTables.QadTable do
       {:ok, struct} -> struct
       {:error, cs} -> raise ArgumentError, "invalid field provided #{inspect(cs)}"
     end
+  end
+
+  defp export_path() do
+    Application.get_env(:conduit, QAD)[:qad_export_directory]
   end
 end
