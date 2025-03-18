@@ -8,11 +8,12 @@ defmodule Conduit.QAD.QadFields.QadField do
     field :field_name, :string
     field :field_type, :string
     field :description, :string
+    field :mult, :integer
   end
 
   def new(params) do
     %__MODULE__{}
-    |> cast(params, [:order, :field_name, :field_type, :description])
+    |> cast(params, [:order, :field_name, :field_type, :description, :mult])
     |> validate_required([:order, :field_name, :field_type])
     |> apply_action(:create)
   end

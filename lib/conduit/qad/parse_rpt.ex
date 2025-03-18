@@ -9,7 +9,7 @@ defmodule Conduit.QAD.ParseRpt do
   @line_patterns [
     {~r/(?<table_name>\w+)\s+(?<table_flags>[fs])\s+(?<field_count>\d+)\s+(?<index_count>\d+).*/,
      :table_meta},
-    {~r/^\s*(?<order>\d+) (?<field_name>[a-z0-9_]+)\s+(?<field_type>[a-z0-9-]+).*/,
+    {~r/^\s*(?<order>\d+) (?<field_name>[a-z0-9_]+)\s+(?<field_type>[a-z0-9-]+)(?:\[(?<mult>[0-9]+)\])?.*/,
      :field_description},
     {~r/\*\* Field Name: (?<field_name>[a-z0-9_]+)\s+Description: (?<description>.*)/,
      :field_detail}
