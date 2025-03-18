@@ -127,6 +127,15 @@ defmodule Conduit.QAD.QadTables.QadTable do
     Module.concat([Conduit, QAD, Table, String.capitalize(t.table_name)])
   end
 
+  @doc """
+  Given a table uses its table name 
+  from QAD to generate a table name
+  for postgres.
+  """
+  def postgres_table_name(%__MODULE__{table_name: tn} = table) do
+    "qad_#{tn}"
+  end
+
   def report_file_location(%__MODULE__{table_name: tn}) do
     File.ls!(export_path())
     |> Enum.map(fn path ->

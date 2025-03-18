@@ -94,14 +94,14 @@ if Code.ensure_loaded?(Igniter) do
     @impl Igniter.Mix.Task
     def igniter(igniter) do
       tables =
-        Conduit.Repo.all(Conduit.QAD.QadTable)
+        Conduit.Repo.all(Conduit.QAD.QadTables.QadTable)
         |> Enum.map(&transform_fields/1)
 
       Enum.reduce(tables, igniter, fn table, igniter ->
         schema_module_name =
           Igniter.Project.Module.parse("Conduit.QAD.Table.#{String.capitalize(table.table_name)}")
 
-        table_name = "qad_#{table.table_name}"
+        table_name = Conduit.QAD.QadTables.QadTable.postgres_table_name(table)
 
         igniter
         |> Igniter.copy_template(
