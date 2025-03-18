@@ -66,7 +66,8 @@ defmodule Conduit.MixProject do
       {:typed_ecto_schema, "~> 0.4.1"},
       {:igniter, "~> 0.5", only: [:dev, :test]},
       {:nimble_csv, "~> 1.1"},
-      {:pgvector, "~> 0.3.0"}
+      {:pgvector, "~> 0.3.0"},
+      {:langchain, "0.3.1"}
     ]
   end
 
