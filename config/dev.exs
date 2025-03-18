@@ -32,7 +32,7 @@ config :conduit, ConduitWeb.Endpoint,
 
 # path to file containing qad table report.  Used for generating
 # QAD table descriptions
-config :conduit, QAD,
+config :conduit, Conduit.QAD,
   qad_rpt_path: "priv/qad_data/qad.rpt",
   qad_export_directory: "priv/qad_data/reports"
 
