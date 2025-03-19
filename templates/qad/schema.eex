@@ -1,0 +1,26 @@
+defmodule <%= @module_name %> do
+  use TypedEctoSchema
+  import Ecto.Changeset
+
+  typed_schema "<%= @table_name %>" do
+    <%= for f <- @descriptions do%> 
+      <%= if Atom.to_string(f.field_name) =~ "oid" do %>
+        field <%= inspect(f.field_name) %>, <%= inspect(f.field_type) %>, primary_key: true
+      <% else %>
+        field <%= inspect(f.field_name) %>, <%= inspect(f.field_type) %>  
+      <% end %>
+    <% end %>
+    timestamps(
+      inserted_at: :pg_inserted_at,
+      updated_at: :pg_updated_at,
+      inserted_at_source: :pg_inserted_at,
+      updated_at_source: :pg_updated_at
+    )
+  end
+
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields), empty_values: ["?", empty_values()])
+  end
+end
