@@ -4,7 +4,6 @@ defmodule Conduit.Repo.Migrations.AddQadTablesDetail do
   def up do
     create table("QAD_WO_MSTR") do
       add :wo_nbr, :string
-
       add :wo_lot, :string
 
       add :wo_so_job, :string
