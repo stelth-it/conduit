@@ -1,0 +1,19 @@
+  def up do
+    <%= for table <- @tables do %>
+      create table("<%=Conduit.QAD.QadTables.QadTable.postgres_table_name(table)%>") do
+        <%= for f <- table.migration_fields do%> 
+          add <%= inspect(f.field_name) %>, <%= inspect(f.field_type) %>  
+        <% end %>
+        timestamps(
+          inserted_at: :pg_inserted_at,
+          updated_at: :pg_updated_at
+        )
+      end
+    <% end %>
+end
+
+  def down do
+    <%= for table <- @tables do %>
+      drop table("<%= Conduit.QAD.QadTables.QadTable.postgres_table_name(table)%>")
+    <% end %>
+  end
