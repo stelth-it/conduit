@@ -28,6 +28,36 @@ defmodule Mix.Tasks.Qad.PrepReports do
       end)
     end)
     |> Task.await_many(:infinity)
+
+    for file_path <- files_with_bad_utf8_non_break_space() do
+      fix_bad_non_break_space(file_path) |> File.write!(file_path)
+    end
+  end
+
+  @doc """
+  'fixes' invalid non breaking space characters by throwing them away.
+  """
+  def fix_bad_non_break_space(file_path) do
+    File.stream!(file_path)
+    |> Stream.map(fn bin ->
+      for <<c::8 <- bin>>, c != 160, into: "", do: <<c>>
+    end)
+    |> Enum.join("")
+  end
+
+  @doc """
+  We know that these files have invalid non breaking space characters 
+  that must be removed. 
+
+  It appears that the data was exported in the latin-1 character set 
+  and the non breaking space code in that encoding OxA0 is not valid 
+  utf-8
+  """
+  def files_with_bad_utf8_non_break_space() do
+    [
+      "bcd_det.d.prepped",
+      "cr_mstr.d.prepped"
+    ]
   end
 
   def replace_space_delimiters(line, replacement_character) do
