@@ -97,8 +97,6 @@ if Code.ensure_loaded?(Igniter) do
         Conduit.Repo.all(Conduit.QAD.QadTables.QadTable)
         |> Enum.map(&transform_fields/1)
 
-      IO.inspect(List.first(tables), label: "our first table")
-
       Enum.reduce(tables, igniter, fn table, igniter ->
         schema_module_name =
           Igniter.Project.Module.parse("Conduit.QAD.Table.#{String.capitalize(table.table_name)}")
@@ -126,7 +124,7 @@ if Code.ensure_loaded?(Igniter) do
               tables: tables
             ]
           ),
-        on_exists: :skip
+        on_exists: :increment
       )
     end
 
