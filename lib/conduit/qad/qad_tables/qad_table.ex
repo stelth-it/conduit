@@ -101,7 +101,15 @@ defmodule Conduit.QAD.QadTables.QadTable do
   description of the table.
   """
   def definition_column_count(%__MODULE__{} = table) do
-    table.fields |> Enum.count()
+    table.fields
+    |> Enum.map(fn
+      %{mult: nil} ->
+        1
+
+      %{mult: n} when is_integer(n) ->
+        n
+    end)
+    |> Enum.sum()
   end
 
   @doc """
@@ -116,8 +124,21 @@ defmodule Conduit.QAD.QadTables.QadTable do
       |> File.stream!()
       |> Enum.take(1)
       |> List.first()
-      |> String.split(",")
-      |> Enum.count()
+      |> String.split("")
+      |> Enum.reduce({false, 1}, fn
+        "\"", {false, _} = acc ->
+          put_elem(acc, 0, true)
+
+        "\"", {true, _} = acc ->
+          put_elem(acc, 0, false)
+
+        ",", {false, count} ->
+          {false, count + 1}
+
+        _, acc ->
+          acc
+      end)
+      |> elem(1)
     end
   end
 
