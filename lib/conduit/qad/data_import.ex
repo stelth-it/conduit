@@ -63,7 +63,7 @@ defmodule Conduit.QAD.DataImport do
         end)
 
       case record_count do
-        :infinitiy -> {:ok, stream}
+        :infinite -> {:ok, stream}
         n when is_integer(n) -> {:ok, Stream.take(stream, n)}
       end
     else
