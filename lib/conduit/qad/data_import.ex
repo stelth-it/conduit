@@ -3,26 +3,30 @@ defmodule Conduit.QAD.DataImport do
   Dealing with importing and parsing 
   CSV Data.
   """
+
   require Logger
-  alias Conduit.QAD.{QadTables.QadTable, QadImports, QadImportActions}
+  alias Conduit.QAD.{QadTables.QadTable, QadImports, QadImportActions, QadFields}
 
   NimbleCSV.define(CSVParser, [])
 
-  @doc """
-  Given a `Conduit.QAD.QadTable` stuct will 
-  lookup the corresponding csv export file
-  and parse it.
-  """
   @parse_csv_options NimbleOptions.new!(
                        row_count: [
                          type: {:or, [{:in, [:infinite]}, :non_neg_integer]},
                          default: :infinite
                        ]
                      )
+  @doc """
+  Given a `Conduit.QAD.QadTable` stuct will 
+  lookup the corresponding csv export file
+  and parse it.
+
+  ## Options
+  #{NimbleOptions.docs(@parse_csv_options)}
+  """
   def parse_csv(%QadTable{} = table, opts \\ []) do
     opts = NimbleOptions.validate!(opts, @parse_csv_options)
 
-    {:ok, stream} = record_stream(table)
+    {:ok, stream} = record_stream(table, opts[:row_count])
 
     if opts[:row_count] == :infinite do
       Enum.to_list(stream)
@@ -36,7 +40,7 @@ defmodule Conduit.QAD.DataImport do
   lookup the corresponding csv export file
   and stream the parsed entries.
   """
-  def record_stream(%QadTable{} = table) do
+  def record_stream(%QadTable{} = table, record_count) do
     file_location = QadTable.report_file_location(table)
 
     if file_location do
@@ -45,22 +49,52 @@ defmodule Conduit.QAD.DataImport do
         |> File.stream!()
         |> CSVParser.parse_stream(skip_headers: false)
         |> Stream.map(fn values ->
-          Enum.zip(QadTable.list_field_names(table), values)
+          QadFields.explode(table.fields)
+          |> Enum.zip(values)
+          |> Enum.reduce(%{}, fn {k, v}, acc ->
+            Map.update(acc, k, v, fn
+              vlist when is_list(vlist) ->
+                List.insert_at(vlist, -1, v)
+
+              value ->
+                [value, v]
+            end)
+          end)
         end)
 
-      {:ok, stream}
+      case record_count do
+        :infinitiy -> {:ok, stream}
+        n when is_integer(n) -> {:ok, Stream.take(stream, n)}
+      end
     else
       {:error, "csv file does not exist"}
     end
   end
 
+  @persist_all_csv_options NimbleOptions.new!(
+                             drop_existing: [
+                               type: :boolean,
+                               default: false,
+                               doc: "if set to true then existing records will be dropped"
+                             ],
+                             row_count: [
+                               type: {:or, [{:in, [:infinite]}, :non_neg_integer]},
+                               default: :infinite,
+                               doc: "number of rows to import from csv file"
+                             ]
+                           )
   @doc """
   Will attempt to persist all qad tables in parallel.
-  Because tasks are used this will fail if the calling 
-  process terminates the appication before the tasks are 
-  completed, as in a mix task.
+  Tasks are run under a supervisor and all actions will 
+  be logged to the `Conduit.QAD.QadImportActions` table.
+
+  ## Options
+  #{NimbleOptions.docs(@persist_all_csv_options)}
   """
-  def persist_all_csv() do
+  # TODO: provide logging options.  Maybe accept functions or modules?
+  def persist_all_csv(opts \\ []) do
+    opts = NimbleOptions.validate!(opts, @persist_all_csv_options)
+
     {:ok, qad_import} = QadImports.new("csv_files")
 
     tables =
@@ -73,7 +107,13 @@ defmodule Conduit.QAD.DataImport do
       Conduit.QADImportSupervisor,
       tables,
       fn table ->
-        persist_csv(table, qad_import, drop_existing: true)
+        persist_csv_options =
+          [
+            drop_existing: opts[:drop_existing],
+            row_count: opts[:row_count]
+          ]
+
+        persist_csv(table, qad_import, persist_csv_options)
       end,
       timeout: :infinity,
       ordered: false,
@@ -105,24 +145,33 @@ defmodule Conduit.QAD.DataImport do
     end)
   end
 
-  @doc """
-  Given a table struct will persist the csv 
-  data export corresponding to that struct to 
-  the db
-  """
   @persist_csv_opts NimbleOptions.new!(
                       drop_existing: [
                         type: :boolean,
                         default: false,
                         doc: "if set to true then existing records will be dropped"
+                      ],
+                      row_count: [
+                        type: {:or, [{:in, [:infinite]}, :non_neg_integer]},
+                        default: :infinite,
+                        doc: "number of rows to import from csv file"
                       ]
                     )
+  @doc """
+  Given a table struct will persist the csv 
+  data export corresponding to that struct to 
+  the db
+
+  ## Options
+  #{NimbleOptions.docs(@persist_csv_opts)}
+  """
+  # TODO: change logging to a function, see persist_all.  Provide default IO logging.
   def persist_csv(%QadTable{} = table, qad_import, opts \\ []) do
     opts = NimbleOptions.validate!(opts, @persist_csv_opts)
 
     with {:module_load, {:module, schema_module}} <-
            {:module_load, Code.ensure_loaded(QadTable.table_module(table))},
-         {:file_load, {:ok, stream}} <- {:file_load, record_stream(table)} do
+         {:file_load, {:ok, stream}} <- {:file_load, record_stream(table, opts[:row_count])} do
       if opts[:drop_existing], do: Conduit.Repo.delete_all(schema_module)
 
       QadImportActions.new_with_associations(
