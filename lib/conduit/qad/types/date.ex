@@ -34,8 +34,10 @@ defmodule Conduit.QAD.Types.Date do
   def load(_), do: :error
 
   @doc """
-  Parses a date string in "mm/dd/yy" format into a NaiveDateTime struct.
+  Parses a date string in "mm/dd/yy" or "mm/dd/yyyy" format into a NaiveDateTime struct.
   Time is set to midnight (00:00:00).
+
+
 
   ## Examples
 
@@ -43,6 +45,9 @@ defmodule Conduit.QAD.Types.Date do
       {:ok, ~N[1999-01-15 00:00:00]}
       
       iex> parse_date("01/15/23")
+      {:ok, ~N[2023-01-15 00:00:00]}
+
+      iex> parse_date("01/15/2023")
       {:ok, ~N[2023-01-15 00:00:00]}
       
       iex> parse_date("invalid")
@@ -60,6 +65,20 @@ defmodule Conduit.QAD.Types.Date do
         end
 
       case NaiveDateTime.new(full_year, month, day, 0, 0, 0) do
+        {:ok, datetime} -> {:ok, datetime}
+        {:error, _} -> :error
+      end
+    else
+      _ -> :error
+    end
+  end
+
+  def parse_date(<<month::binary-size(2), "/", day::binary-size(2), "/", year::binary-size(4)>>) do
+    with {month, ""} <- Integer.parse(month),
+         {day, ""} <- Integer.parse(day),
+         {year, ""} <- Integer.parse(year),
+         true <- month in 1..12 and day in 1..31 do
+      case NaiveDateTime.new(year, month, day, 0, 0, 0) do
         {:ok, datetime} -> {:ok, datetime}
         {:error, _} -> :error
       end
