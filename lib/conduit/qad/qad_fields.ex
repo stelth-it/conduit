@@ -2,6 +2,20 @@ defmodule Conduit.QAD.QadFields do
   import Conduit.QAD.QadFields.QadField
 
   @doc """
+  Given a list of fields will reutrn a list of field names
+  with field names with mult value duplicated mult times.
+  """
+  def explode(field_list) when is_list(field_list) do
+    Enum.flat_map(field_list, fn
+      %{mult: nil} = field ->
+        [field.field_name]
+
+      %{mult: n} = field when is_integer(n) ->
+        List.duplicate(field.field_name, n)
+    end)
+  end
+
+  @doc """
   Given a list of fields will create a markdown table
   describing each one.
   """
