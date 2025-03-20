@@ -30,7 +30,7 @@ defmodule Mix.Tasks.Qad.PrepReports do
     |> Task.await_many(:infinity)
 
     for file_path <- files_with_bad_utf8_non_break_space() do
-      fix_bad_non_break_space(file_path) |> File.write!(file_path)
+      fix_bad_non_break_space(file_path) |> then(&File.write!(file_path, &1))
     end
   end
 
@@ -56,7 +56,9 @@ defmodule Mix.Tasks.Qad.PrepReports do
   def files_with_bad_utf8_non_break_space() do
     [
       "bcd_det.d.prepped",
-      "cr_mstr.d.prepped"
+      "cr_mstr.d.prepped",
+      "fnh_hist.d.prepped",
+      "fn_mstr.d.prepped"
     ]
   end
 
