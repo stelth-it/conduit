@@ -1,0 +1,40 @@
+defmodule Elixir.Conduit.QAD.Table.Im_mstr do
+  use TypedEctoSchema
+  import Ecto.Changeset
+
+  typed_schema "qad_im_mstr" do
+    field :im_inv_mov, :string
+
+    field :im_desc, :string
+
+    field :im_tr_type, :string
+
+    field :im_user1, :string
+
+    field :im_user2, :string
+
+    field :im__qadc01, :string
+
+    field :im_unplanned_acct, :string
+
+    field :im_unplanned_sub, :string
+
+    field :im_unplanned_cc, :string
+
+    field :im_domain, :string
+
+    field :oid_im_mstr, :decimal, primary_key: true
+
+    timestamps(
+      inserted_at: :pg_inserted_at,
+      updated_at: :pg_updated_at,
+      inserted_at_source: :pg_inserted_at,
+      updated_at_source: :pg_updated_at
+    )
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields), empty_values: ["?", empty_values()])
+  end
+end
