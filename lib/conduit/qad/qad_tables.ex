@@ -99,13 +99,31 @@ defmodule Conduit.QAD.QadTables do
     Inference.generate_table_suggestions(query, context_documents)
   end
 
+  @doc """
+  Will update table reports for all QAD tables.
+  Uses `update_table_report/1` to perform the updates.
+  """
+  def update_table_reports() do
+    QadTable
+    |> Repo.all()
+    |> Enum.each(&update_table_report/1)
+  end
+
+  @doc """
+  Given a QAD table struct will update its table report.
+  The table report will be generated with `create_table_report/1`
+  """
+  def update_table_report(%QadTable{} = table) do
+    table
+    |> QadTable.changeset(%{embed_document: create_table_report(table)})
+    |> Repo.update()
+  end
+
   def create_table_report(%QadTable{} = table) do
-    table_name = "QAD_#{String.upcase(table.table_name)}"
-
     """
-    # #{table_name} 
+    # #{QadTable.postgres_table_name(table)} 
 
-    table name: #{table_name}
+    table name: #{QadTable.postgres_table_name(table)}
     #{table.description}
 
     # data types
@@ -118,7 +136,7 @@ defmodule Conduit.QAD.QadTables do
     # field descriptons
 
     The following table describes each field in the 
-    #{table.table_name} table.
+    #{QadTable.postgres_table_name(table)} table.
 
     #{QadFields.create_markdown_table(table.fields)}
     """
