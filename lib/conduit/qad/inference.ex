@@ -63,9 +63,11 @@ defmodule Conduit.QAD.Inference do
         from different tables in each to answer the users question.
 
         Format your response as JSON in the following format:
-        {
+        { queries: [
           explanation: <explanation of query here>,
           sql_query: <list of sql queries text without whitespace here>
+          ],
+          ... other queries
         }
         """)
       )
