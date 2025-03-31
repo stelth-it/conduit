@@ -7,37 +7,37 @@ defmodule Elixir.Conduit.Sage.Object.Gljournal do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLJOURNAL" do
-    field(:RECORDNO, :integer, primary_key: true)
+    field :RECORDNO, :integer, primary_key: true
 
-    field(:SYMBOL, :string, primary_key: true)
+    field :SYMBOL, :string, primary_key: true
 
-    field(:STATUS, :string, primary_key: true)
+    field :STATUS, :string, primary_key: true
 
-    field(:TITLE, :string, primary_key: true)
+    field :TITLE, :string, primary_key: true
 
-    field(:START_DATE, Conduit.Sage.Object.Date, primary_key: true)
+    field :START_DATE, Conduit.Sage.Object.Date, primary_key: true
 
-    field(:LAST_DATE, Conduit.Sage.Object.Date, primary_key: true)
+    field :LAST_DATE, Conduit.Sage.Object.Date, primary_key: true
 
-    field(:ADJ, :boolean, primary_key: true)
+    field :ADJ, :boolean, primary_key: true
 
-    field(:BOOKID, :string, primary_key: true)
+    field :BOOKID, :string, primary_key: true
 
-    field(:BOOKTYPE, :string, primary_key: true)
+    field :BOOKTYPE, :string, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:BILLABLE, :boolean, primary_key: true)
+    field :BILLABLE, :boolean, primary_key: true
 
-    field(:DISABLEDIRECTPOSTING, :boolean, primary_key: true)
+    field :DISABLEDIRECTPOSTING, :boolean, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -55,6 +55,11 @@ defmodule Elixir.Conduit.Sage.Object.Gljournal do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

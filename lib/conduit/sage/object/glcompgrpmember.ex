@@ -7,45 +7,45 @@ defmodule Elixir.Conduit.Sage.Object.Glcompgrpmember do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLCOMPGRPMEMBER" do
-    field(:RECORDNO, :string, primary_key: true)
+    field :RECORDNO, :string, primary_key: true
 
-    field(:PARENTKEY, :integer, primary_key: true)
+    field :PARENTKEY, :integer, primary_key: true
 
-    field(:LHSACCTNO, :string, primary_key: true)
+    field :LHSACCTNO, :string, primary_key: true
 
-    field(:LHSACCTGRPNAME, :string, primary_key: true)
+    field :LHSACCTGRPNAME, :string, primary_key: true
 
-    field(:LHSCONST, :string, primary_key: true)
+    field :LHSCONST, :string, primary_key: true
 
-    field(:OPERATOR, :string, primary_key: true)
+    field :OPERATOR, :string, primary_key: true
 
-    field(:RHSACCTNO, :string, primary_key: true)
+    field :RHSACCTNO, :string, primary_key: true
 
-    field(:RHSACCTGRPNAME, :string, primary_key: true)
+    field :RHSACCTGRPNAME, :string, primary_key: true
 
-    field(:RHSCONST, :string, primary_key: true)
+    field :RHSCONST, :string, primary_key: true
 
-    field(:PRECISION, :string, primary_key: true)
+    field :PRECISION, :string, primary_key: true
 
-    field(:DISPLAYAS, :string, primary_key: true)
+    field :DISPLAYAS, :string, primary_key: true
 
-    field(:UOM, :string, primary_key: true)
+    field :UOM, :string, primary_key: true
 
-    field(:LHSASOF, :string, primary_key: true)
+    field :LHSASOF, :string, primary_key: true
 
-    field(:RHSASOF, :string, primary_key: true)
+    field :RHSASOF, :string, primary_key: true
 
-    field(:UOMALIGNMENT, :string, primary_key: true)
+    field :UOMALIGNMENT, :string, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -63,6 +63,11 @@ defmodule Elixir.Conduit.Sage.Object.Glcompgrpmember do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

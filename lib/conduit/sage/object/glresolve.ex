@@ -7,33 +7,33 @@ defmodule Elixir.Conduit.Sage.Object.Glresolve do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLRESOLVE" do
-    field(:GLENTRYKEY, :integer, primary_key: true)
+    field :GLENTRYKEY, :integer, primary_key: true
 
-    field(:PRENTRYKEY, :integer, primary_key: true)
+    field :PRENTRYKEY, :integer, primary_key: true
 
-    field(:PRRECORDKEY, :integer, primary_key: true)
+    field :PRRECORDKEY, :integer, primary_key: true
 
-    field(:DOCENTRYKEY, :integer, primary_key: true)
+    field :DOCENTRYKEY, :integer, primary_key: true
 
-    field(:SUBTOTKEY, :integer, primary_key: true)
+    field :SUBTOTKEY, :integer, primary_key: true
 
-    field(:DOCHDRKEY, :integer, primary_key: true)
+    field :DOCHDRKEY, :integer, primary_key: true
 
-    field(:TRX_AMOUNT, Conduit.Sage.Object.Float, primary_key: true)
+    field :TRX_AMOUNT, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:CURRENCY, :string, primary_key: true)
+    field :CURRENCY, :string, primary_key: true
 
-    field(:AMOUNT, Conduit.Sage.Object.Float, primary_key: true)
+    field :AMOUNT, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -51,6 +51,11 @@ defmodule Elixir.Conduit.Sage.Object.Glresolve do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

@@ -7,113 +7,113 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrp do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLACCTGRP" do
-    field(:RECORDNO, :integer, primary_key: true)
+    field :RECORDNO, :integer, primary_key: true
 
-    field(:NAME, :string, primary_key: true)
+    field :NAME, :string, primary_key: true
 
-    field(:NORMAL_BALANCE, :string, primary_key: true)
+    field :NORMAL_BALANCE, :string, primary_key: true
 
-    field(:ASOF, :string, primary_key: true)
+    field :ASOF, :string, primary_key: true
 
-    field(:INCLUDECHILDAMT, :boolean, primary_key: true)
+    field :INCLUDECHILDAMT, :boolean, primary_key: true
 
-    field(:TITLE, :string, primary_key: true)
+    field :TITLE, :string, primary_key: true
 
-    field(:TOTALTITLE, :string, primary_key: true)
+    field :TOTALTITLE, :string, primary_key: true
 
-    field(:DBCR, :string, primary_key: true)
+    field :DBCR, :string, primary_key: true
 
-    field(:FILTERDEPT, :string, primary_key: true)
+    field :FILTERDEPT, :string, primary_key: true
 
-    field(:FILTERLOC, :string, primary_key: true)
+    field :FILTERLOC, :string, primary_key: true
 
-    field(:MEMBERTYPE, :string, primary_key: true)
+    field :MEMBERTYPE, :string, primary_key: true
 
-    field(:DEPTNO, :string, primary_key: true)
+    field :DEPTNO, :string, primary_key: true
 
-    field(:LOCNO, :string, primary_key: true)
+    field :LOCNO, :string, primary_key: true
 
-    field(:ISKPI, :boolean, primary_key: true)
+    field :ISKPI, :boolean, primary_key: true
 
-    field(:FILTERVENDOR, :string, primary_key: true)
+    field :FILTERVENDOR, :string, primary_key: true
 
-    field(:FILTERCUSTOMER, :string, primary_key: true)
+    field :FILTERCUSTOMER, :string, primary_key: true
 
-    field(:FILTERPROJECT, :string, primary_key: true)
+    field :FILTERPROJECT, :string, primary_key: true
 
-    field(:FILTEREMPLOYEE, :string, primary_key: true)
+    field :FILTEREMPLOYEE, :string, primary_key: true
 
-    field(:FILTERITEM, :string, primary_key: true)
+    field :FILTERITEM, :string, primary_key: true
 
-    field(:FILTERCLASS, :string, primary_key: true)
+    field :FILTERCLASS, :string, primary_key: true
 
-    field(:FILTERCONTRACT, :string, primary_key: true)
+    field :FILTERCONTRACT, :string, primary_key: true
 
-    field(:FILTERTASK, :string, primary_key: true)
+    field :FILTERTASK, :string, primary_key: true
 
-    field(:FILTERWAREHOUSE, :string, primary_key: true)
+    field :FILTERWAREHOUSE, :string, primary_key: true
 
-    field(:FILTERCOSTTYPE, :string, primary_key: true)
+    field :FILTERCOSTTYPE, :string, primary_key: true
 
-    field(:FILTERASSET, :string, primary_key: true)
+    field :FILTERASSET, :string, primary_key: true
 
-    field(:FILTERAFFILIATEENTITY, :string, primary_key: true)
+    field :FILTERAFFILIATEENTITY, :string, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:ACCTGROUPMANAGER, :string, primary_key: true)
+    field :ACCTGROUPMANAGER, :string, primary_key: true
 
-    field(:GLACCTGRPPURPOSEID, :string, primary_key: true)
+    field :GLACCTGRPPURPOSEID, :string, primary_key: true
 
-    field(:MEGAENTITYKEY, :integer, primary_key: true)
+    field :MEGAENTITYKEY, :integer, primary_key: true
 
-    field(:MEGAENTITYID, :string, primary_key: true)
+    field :MEGAENTITYID, :string, primary_key: true
 
-    field(:MEGAENTITYNAME, :string, primary_key: true)
+    field :MEGAENTITYNAME, :string, primary_key: true
 
-    field(:CUSTOMERDIMKEY, :integer, primary_key: true)
+    field :CUSTOMERDIMKEY, :integer, primary_key: true
 
-    field(:CUSTOMERID, :string, primary_key: true)
+    field :CUSTOMERID, :string, primary_key: true
 
-    field(:CUSTOMERNAME, :string, primary_key: true)
+    field :CUSTOMERNAME, :string, primary_key: true
 
-    field(:VENDORDIMKEY, :integer, primary_key: true)
+    field :VENDORDIMKEY, :integer, primary_key: true
 
-    field(:VENDORID, :string, primary_key: true)
+    field :VENDORID, :string, primary_key: true
 
-    field(:VENDORNAME, :string, primary_key: true)
+    field :VENDORNAME, :string, primary_key: true
 
-    field(:EMPLOYEEDIMKEY, :integer, primary_key: true)
+    field :EMPLOYEEDIMKEY, :integer, primary_key: true
 
-    field(:EMPLOYEEID, :string, primary_key: true)
+    field :EMPLOYEEID, :string, primary_key: true
 
-    field(:EMPLOYEENAME, :string, primary_key: true)
+    field :EMPLOYEENAME, :string, primary_key: true
 
-    field(:ITEMDIMKEY, :integer, primary_key: true)
+    field :ITEMDIMKEY, :integer, primary_key: true
 
-    field(:ITEMID, :string, primary_key: true)
+    field :ITEMID, :string, primary_key: true
 
-    field(:ITEMNAME, :string, primary_key: true)
+    field :ITEMNAME, :string, primary_key: true
 
-    field(:CLASSDIMKEY, :integer, primary_key: true)
+    field :CLASSDIMKEY, :integer, primary_key: true
 
-    field(:CLASSID, :string, primary_key: true)
+    field :CLASSID, :string, primary_key: true
 
-    field(:CLASSNAME, :string, primary_key: true)
+    field :CLASSNAME, :string, primary_key: true
 
-    field(:WAREHOUSEDIMKEY, :integer, primary_key: true)
+    field :WAREHOUSEDIMKEY, :integer, primary_key: true
 
-    field(:WAREHOUSEID, :string, primary_key: true)
+    field :WAREHOUSEID, :string, primary_key: true
 
-    field(:WAREHOUSENAME, :string, primary_key: true)
+    field :WAREHOUSENAME, :string, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -131,6 +131,11 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrp do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

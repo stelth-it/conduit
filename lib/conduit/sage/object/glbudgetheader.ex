@@ -7,43 +7,43 @@ defmodule Elixir.Conduit.Sage.Object.Glbudgetheader do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLBUDGETHEADER" do
-    field(:RECORDNO, :integer, primary_key: true)
+    field :RECORDNO, :integer, primary_key: true
 
-    field(:BUDGETID, :string, primary_key: true)
+    field :BUDGETID, :string, primary_key: true
 
-    field(:DESCRIPTION, :string, primary_key: true)
+    field :DESCRIPTION, :string, primary_key: true
 
-    field(:SYSTEMGENERATED, :string, primary_key: true)
+    field :SYSTEMGENERATED, :string, primary_key: true
 
-    field(:DEFAULT_BUDGET, :boolean, primary_key: true)
+    field :DEFAULT_BUDGET, :boolean, primary_key: true
 
-    field(:USER, :string, primary_key: true)
+    field :USER, :string, primary_key: true
 
-    field(:STATUS, :string, primary_key: true)
+    field :STATUS, :string, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:ISCONSOLIDATED, :boolean, primary_key: true)
+    field :ISCONSOLIDATED, :boolean, primary_key: true
 
-    field(:CURRENCY, :string, primary_key: true)
+    field :CURRENCY, :string, primary_key: true
 
-    field(:ISPABUDGET, :boolean, primary_key: true)
+    field :ISPABUDGET, :boolean, primary_key: true
 
-    field(:ISPCNBUDGET, :boolean, primary_key: true)
+    field :ISPCNBUDGET, :boolean, primary_key: true
 
-    field(:MEGAENTITYKEY, :integer, primary_key: true)
+    field :MEGAENTITYKEY, :integer, primary_key: true
 
-    field(:MEGAENTITYID, :string, primary_key: true)
+    field :MEGAENTITYID, :string, primary_key: true
 
-    field(:MEGAENTITYNAME, :string, primary_key: true)
+    field :MEGAENTITYNAME, :string, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -61,6 +61,11 @@ defmodule Elixir.Conduit.Sage.Object.Glbudgetheader do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

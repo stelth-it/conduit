@@ -7,23 +7,23 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrpmember do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLACCTGRPMEMBER" do
-    field(:RECORDNO, :string, primary_key: true)
+    field :RECORDNO, :string, primary_key: true
 
-    field(:PARENTKEY, :integer, primary_key: true)
+    field :PARENTKEY, :integer, primary_key: true
 
-    field(:CHILDNAME, :string, primary_key: true)
+    field :CHILDNAME, :string, primary_key: true
 
-    field(:SORTORD, :integer, primary_key: true)
+    field :SORTORD, :integer, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -41,6 +41,11 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrpmember do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

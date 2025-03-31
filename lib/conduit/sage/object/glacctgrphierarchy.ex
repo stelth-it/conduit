@@ -7,35 +7,35 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrphierarchy do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLACCTGRPHIERARCHY" do
-    field(:RECORDNO, :string, primary_key: true)
+    field :RECORDNO, :string, primary_key: true
 
-    field(:GLACCTGRPKEY, :integer, primary_key: true)
+    field :GLACCTGRPKEY, :integer, primary_key: true
 
-    field(:GLACCTGRPNAME, :string, primary_key: true)
+    field :GLACCTGRPNAME, :string, primary_key: true
 
-    field(:GLACCTGRPTITLE, :string, primary_key: true)
+    field :GLACCTGRPTITLE, :string, primary_key: true
 
-    field(:GLACCTGRPNORMALBALANCE, :string, primary_key: true)
+    field :GLACCTGRPNORMALBALANCE, :string, primary_key: true
 
-    field(:GLACCTGRPMEMBERTYPE, :string, primary_key: true)
+    field :GLACCTGRPMEMBERTYPE, :string, primary_key: true
 
-    field(:GLACCTGRPHOWCREATED, :string, primary_key: true)
+    field :GLACCTGRPHOWCREATED, :string, primary_key: true
 
-    field(:GLACCTGRPLOCATIONKEY, :integer, primary_key: true)
+    field :GLACCTGRPLOCATIONKEY, :integer, primary_key: true
 
-    field(:ACCOUNTKEY, :integer, primary_key: true)
+    field :ACCOUNTKEY, :integer, primary_key: true
 
-    field(:ACCOUNTNO, :string, primary_key: true)
+    field :ACCOUNTNO, :string, primary_key: true
 
-    field(:ACCOUNTTITLE, :string, primary_key: true)
+    field :ACCOUNTTITLE, :string, primary_key: true
 
-    field(:ACCOUNTNORMALBALANCE, :string, primary_key: true)
+    field :ACCOUNTNORMALBALANCE, :string, primary_key: true
 
-    field(:ACCOUNTTYPE, :string, primary_key: true)
+    field :ACCOUNTTYPE, :string, primary_key: true
 
-    field(:ACCOUNTLOCATIONKEY, :integer, primary_key: true)
+    field :ACCOUNTLOCATIONKEY, :integer, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -53,6 +53,11 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrphierarchy do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

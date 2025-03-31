@@ -7,83 +7,83 @@ defmodule Elixir.Conduit.Sage.Object.Glaccountbalance do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLACCOUNTBALANCE" do
-    field(:BOOKID, :string, primary_key: true)
+    field :BOOKID, :string, primary_key: true
 
-    field(:CURRENCY, :string, primary_key: true)
+    field :CURRENCY, :string, primary_key: true
 
-    field(:PERIOD, :string, primary_key: true)
+    field :PERIOD, :string, primary_key: true
 
-    field(:OPENBAL, Conduit.Sage.Object.Float, primary_key: true)
+    field :OPENBAL, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:TOTDEBIT, Conduit.Sage.Object.Float, primary_key: true)
+    field :TOTDEBIT, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:TOTCREDIT, Conduit.Sage.Object.Float, primary_key: true)
+    field :TOTCREDIT, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:TOTADJDEBIT, Conduit.Sage.Object.Float, primary_key: true)
+    field :TOTADJDEBIT, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:TOTADJCREDIT, Conduit.Sage.Object.Float, primary_key: true)
+    field :TOTADJCREDIT, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:FORBAL, Conduit.Sage.Object.Float, primary_key: true)
+    field :FORBAL, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:ENDBAL, Conduit.Sage.Object.Float, primary_key: true)
+    field :ENDBAL, Conduit.Sage.Object.Float, primary_key: true
 
-    field(:ACCOUNTREC, :integer, primary_key: true)
+    field :ACCOUNTREC, :integer, primary_key: true
 
-    field(:ACCOUNTNO, :string, primary_key: true)
+    field :ACCOUNTNO, :string, primary_key: true
 
-    field(:ACCOUNTTITLE, :string, primary_key: true)
+    field :ACCOUNTTITLE, :string, primary_key: true
 
-    field(:DEPARTMENTID, :string, primary_key: true)
+    field :DEPARTMENTID, :string, primary_key: true
 
-    field(:LOCATIONID, :string, primary_key: true)
+    field :LOCATIONID, :string, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:LOCATIONNO, :integer, primary_key: true)
+    field :LOCATIONNO, :integer, primary_key: true
 
-    field(:CUSTOMERDIMKEY, :integer, primary_key: true)
+    field :CUSTOMERDIMKEY, :integer, primary_key: true
 
-    field(:CUSTOMERID, :string, primary_key: true)
+    field :CUSTOMERID, :string, primary_key: true
 
-    field(:CUSTOMERNAME, :string, primary_key: true)
+    field :CUSTOMERNAME, :string, primary_key: true
 
-    field(:VENDORDIMKEY, :integer, primary_key: true)
+    field :VENDORDIMKEY, :integer, primary_key: true
 
-    field(:VENDORID, :string, primary_key: true)
+    field :VENDORID, :string, primary_key: true
 
-    field(:VENDORNAME, :string, primary_key: true)
+    field :VENDORNAME, :string, primary_key: true
 
-    field(:EMPLOYEEDIMKEY, :integer, primary_key: true)
+    field :EMPLOYEEDIMKEY, :integer, primary_key: true
 
-    field(:EMPLOYEEID, :string, primary_key: true)
+    field :EMPLOYEEID, :string, primary_key: true
 
-    field(:EMPLOYEENAME, :string, primary_key: true)
+    field :EMPLOYEENAME, :string, primary_key: true
 
-    field(:ITEMDIMKEY, :integer, primary_key: true)
+    field :ITEMDIMKEY, :integer, primary_key: true
 
-    field(:ITEMID, :string, primary_key: true)
+    field :ITEMID, :string, primary_key: true
 
-    field(:ITEMNAME, :string, primary_key: true)
+    field :ITEMNAME, :string, primary_key: true
 
-    field(:CLASSDIMKEY, :integer, primary_key: true)
+    field :CLASSDIMKEY, :integer, primary_key: true
 
-    field(:CLASSID, :string, primary_key: true)
+    field :CLASSID, :string, primary_key: true
 
-    field(:CLASSNAME, :string, primary_key: true)
+    field :CLASSNAME, :string, primary_key: true
 
-    field(:WAREHOUSEDIMKEY, :integer, primary_key: true)
+    field :WAREHOUSEDIMKEY, :integer, primary_key: true
 
-    field(:WAREHOUSEID, :string, primary_key: true)
+    field :WAREHOUSEID, :string, primary_key: true
 
-    field(:WAREHOUSENAME, :string, primary_key: true)
+    field :WAREHOUSENAME, :string, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -101,6 +101,11 @@ defmodule Elixir.Conduit.Sage.Object.Glaccountbalance do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do

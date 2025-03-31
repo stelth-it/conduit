@@ -7,27 +7,27 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrppurpose do
 
   @primary_key {:pg_id, :id, autogenerate: true}
   typed_schema "GLACCTGRPPURPOSE" do
-    field(:NAME, :string, primary_key: true)
+    field :NAME, :string, primary_key: true
 
-    field(:STATUS, :string, primary_key: true)
+    field :STATUS, :string, primary_key: true
 
-    field(:RECORDNO, :string, primary_key: true)
+    field :RECORDNO, :string, primary_key: true
 
-    field(:WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENCREATED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true)
+    field :WHENMODIFIED, Conduit.Sage.Object.DateTime, primary_key: true
 
-    field(:CREATEDBY, :integer, primary_key: true)
+    field :CREATEDBY, :integer, primary_key: true
 
-    field(:MODIFIEDBY, :integer, primary_key: true)
+    field :MODIFIEDBY, :integer, primary_key: true
 
-    field(:MEGAENTITYKEY, :integer, primary_key: true)
+    field :MEGAENTITYKEY, :integer, primary_key: true
 
-    field(:MEGAENTITYID, :string, primary_key: true)
+    field :MEGAENTITYID, :string, primary_key: true
 
-    field(:MEGAENTITYNAME, :string, primary_key: true)
+    field :MEGAENTITYNAME, :string, primary_key: true
 
-    field(:RECORD_URL, :string, primary_key: true)
+    field :RECORD_URL, :string, primary_key: true
 
     timestamps(
       inserted_at: :pg_inserted_at,
@@ -45,6 +45,11 @@ defmodule Elixir.Conduit.Sage.Object.Glacctgrppurpose do
     struct
     |> cast(params, __MODULE__.__schema__(:fields))
     |> apply_action!(:received)
+  end
+
+  def cast_from_api(struct, params \\ %{}) do
+    struct
+    |> cast(params, __MODULE__.__schema__(:fields))
   end
 
   def field_list(:atoms) do
