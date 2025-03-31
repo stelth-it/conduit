@@ -1,14 +1,57 @@
+<!-- livebook:{"app_settings":{"access_type":"public","slug":"qad"}} -->
+
 # Conduit
 
 ```elixir
+app_directory = "/home/patrick/Documents/conduit"
+
+if File.cwd!() != app_directory, do: File.cd!(app_directory)
+
 Mix.install(
   [
     {:conduit, path: Path.join(__DIR__, ".."), env: :dev},
-    {:kino, "~> 0.12.0"}
+    {:kino, "~> 0.12.0"},
+    {:kino_db, "~> 0.2.3"},
+    {:postgrex, ">= 0.0.0"}
   ],
   config_path: :conduit,
   lockfile: :conduit
 )
+
+# Connection to SQL DB
+opts = [
+  hostname: "localhost",
+  port: 5432,
+  username: "postgres",
+  password: System.fetch_env!("LB_POSTGRES_PASS"),
+  database: "sage_repo"
+]
+
+defmodule KinoSpinner do
+  def new(dimensions \\ "30px") do
+    Kino.HTML.new("""
+    <div class="loader"></div>
+
+    <style>
+      .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: #{dimensions};
+        height: #{dimensions};
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+    """)
+  end
+end
+
+{:ok, conn} = Kino.start_child({Postgrex, opts})
 ```
 
 ## Root
@@ -17,10 +60,10 @@ Branch work from here to start a new, independent context.
 
 <!-- livebook:{"branch_parent_index":0} -->
 
-## Ask QAD
+## Chat With QAD
 
 ```elixir
-output_frame = Kino.Frame.new()
+output_frame = Kino.Frame.new(placeholder: false)
 
 input_form =
   Kino.Control.form(
@@ -33,14 +76,40 @@ input_form =
   )
 
 Kino.listen(input_form, fn %{data: event} ->
+  Kino.Frame.render(output_frame, KinoSpinner.new())
+
   case event do
     %{query: query_text, query_type: :sql_query} ->
       response =
         Conduit.QAD.QadTables.query_suggestion(Conduit.Embedding.Provider.VoyageLite, query_text)
 
-      response = Kino.Shorts.tree(response)
+      response_summary = Kino.Shorts.tree(response)
 
-      Kino.Frame.render(output_frame, response)
+      queries =
+        response
+        |> Map.fetch!("queries")
+        |> Enum.map(fn query ->
+          Kino.Control.form(
+            [
+              explanation: Kino.Input.textarea("explanation", default: query["explanation"]),
+              query: Kino.Input.textarea("query", default: query["sql_query"])
+            ],
+            submit: "Run"
+          )
+        end)
+        |> tap(
+          &Enum.each(&1, fn form ->
+            Kino.listen(form, fn %{data: event} ->
+              result = Postgrex.query!(conn, event.query)
+              Kino.Frame.append(output_frame, result)
+            end)
+          end)
+        )
+        |> then(&Enum.zip(~w(query_1 query_2 query_3)a, &1))
+
+      tabbed_output = Kino.Layout.tabs(Keyword.merge([response: response_summary], queries))
+
+      Kino.Frame.render(output_frame, tabbed_output)
 
     %{query: query_text, query_type: :tables} ->
       response =
@@ -62,7 +131,8 @@ output_frame
 Find tables that have a different number of columns from their descripition in qad.rpt.  These tables will never load correctly.
 
 ```elixir
-alias Conduit.QAD.QadTables
+alias Conduit.QAD.{QadTables, QadImportActions}
+import Ecto.Query
 
 tables_with_diffs =
   Conduit.Repo.all(QadTables.QadTable)
@@ -78,4 +148,25 @@ tables_with_diffs =
   |> Kino.Shorts.data_table()
 ```
 
-<!-- livebook:{"offset":1869,"stamp":{"token":"XCP.p3qasrjJU2rNgfulYC6XhC3LbNaI_TtQjwDOrCq4NyeQVtRIxu6Dvuad54OnrKQMg0wjp6xQtc6g9oSN6MPIRrPCaV1guDX6ojw3vss6gU4_YpXWgC79nA","version":2}} -->
+```elixir
+output_frame = Kino.Frame.new()
+
+input_form =
+  Kino.Control.form(
+    [
+      import_id: Kino.Input.number("import id")
+    ],
+    submit: "Report"
+  )
+
+Kino.listen(input_form, fn %{data: %{import_id: import_id}} ->
+  QadImportActions.get_failures_in_import(import_id)
+  |> Kino.Shorts.data_table()
+  |> then(&Kino.Frame.render(output_frame, &1))
+end)
+
+Kino.render(input_form)
+output_frame
+```
+
+<!-- livebook:{"offset":4201,"stamp":{"token":"XCP.9mIWVlO-Kn5sPBw8y1cHxNjuxnm8k8FV62qZBu3ev0x6uTtyBhD-AYizbS4ugHpd6g5Km8Wg9y9UY8GKp_oaOAHb1eoBpY-oMNLQCkXTiuHOa6ojetjcqGnZworMMuwR9r3DWVMTbgrH_Q","version":2}} -->
