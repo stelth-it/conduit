@@ -1,4 +1,5 @@
 import Config
+require Logger
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
@@ -69,9 +70,7 @@ if config_env() == :prod do
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
-  # to your endpoint configuration:
-  #
-  #     config :conduit, ConduitWeb.Endpoint,
+  # to your endpoint configuration: config :conduit, ConduitWeb.Endpoint,
   #       https: [
   #         ...,
   #         port: 443,
@@ -132,13 +131,30 @@ if config_env() == :dev do
 end
 
 # our apps runtime config, these need to run in every environment
+
 # cloak configuration for conduit
 config :conduit, Conduit.Sage.Vault,
   ciphers: [
-    default:
-      {Cloak.Ciphers.AES.GCM,
-       tag: "AES.GCM.V1", key: System.get_env("CLOAK_KEY", "notfound") |> Base.decode64!()}
+    default: {
+      Cloak.Ciphers.AES.GCM,
+      # there is no sensible default here, if we don't have the key the app cannot start.
+      tag: "AES.GCM.V1", key: System.fetch_env!("CLOAK_KEY") |> Base.decode64!()
+    }
   ]
 
 # voyage api key used for embeddings
-config :conduit, :voyage_key, System.get_env("VOYAGE_KEY", "not_found")
+config :conduit,
+       :voyage_key,
+       System.get_env("VOYAGE_KEY") ||
+         (Logger.warning("no VOYAGE_KEY found in environment") && nil)
+
+# open ai key to be used in langchain 
+config :langchain,
+  openai_key:
+    System.get_env("OPENAI_APIKEY") ||
+      (Logger.warning("no OPENAI_APIKEY found in environment") && nil)
+
+config :langchain,
+  openai_org_id:
+    System.get_env("OPENAI_ORG_ID") ||
+      (Logger.warning("no OPENAI_ORG_ID found in environment") && nil)

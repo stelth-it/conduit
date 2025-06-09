@@ -36,10 +36,6 @@ config :conduit, Conduit.QAD,
   qad_rpt_path: "priv/qad_data/qad.rpt",
   qad_export_directory: "priv/qad_data/reports"
 
-# open ai key to be used in langchain 
-config :langchain, openai_key: System.fetch_env!("OPENAI_APIKEY")
-config :langchain, openai_org_id: System.fetch_env!("OPENAI_ORG_ID")
-
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
