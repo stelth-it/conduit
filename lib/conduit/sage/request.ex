@@ -6,7 +6,7 @@ defmodule Conduit.Sage.Request do
   user id / password, and company information. See documentation 
   for the new/1 function fo more information on required arguments.
   """
-  alias Postgrex.SuperExtension
+
   alias Conduit.Sage.XML, as: X
   alias Conduit.Sage.Query, as: Q
   alias Conduit.Sage.Endpoints.Endpoint, as: EP

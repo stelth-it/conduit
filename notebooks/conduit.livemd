@@ -169,4 +169,4 @@ Kino.render(input_form)
 output_frame
 ```
 
-<!-- livebook:{"offset":4201,"stamp":{"token":"XCP.9mIWVlO-Kn5sPBw8y1cHxNjuxnm8k8FV62qZBu3ev0x6uTtyBhD-AYizbS4ugHpd6g5Km8Wg9y9UY8GKp_oaOAHb1eoBpY-oMNLQCkXTiuHOa6ojetjcqGnZworMMuwR9r3DWVMTbgrH_Q","version":2}} -->
+<!-- livebook:{"offset":4201,"stamp":{"token":"XCP.7gDaP7QyaDqSmSLL7Cl0-PzzocX8iX7ymMx4bj_k4myYfYRkwh0QJeaNWrpoBVP4VjQvCSAfktdjfzSaGEGamR1Zk7arddEcyoyt6M7QyHHncqJS16sn8NZrD2dm4GgxyXYNko_TT84f3w","version":2}} -->
