@@ -71,7 +71,8 @@ defmodule Conduit.MixProject do
       {:igniter, "~> 0.5", only: [:dev, :test]},
       {:nimble_csv, "~> 1.1"},
       {:pgvector, "~> 0.3.0"},
-      {:langchain, "0.3.1"}
+      {:langchain, "0.3.1"},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 
