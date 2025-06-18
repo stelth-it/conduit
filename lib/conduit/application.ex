@@ -18,7 +18,7 @@ defmodule Conduit.Application do
       ConduitWeb.Endpoint,
       # Start a worker by calling: Conduit.Worker.start_link(arg)
       # {Conduit.Worker, arg}
-      Conduit.Sage.Vault,
+      Conduit.Vault,
       {Conduit.Sage.Request.Runner, [spacing: 1_000]},
       {Task.Supervisor, name: Conduit.QADImportSupervisor}
     ]

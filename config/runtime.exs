@@ -132,23 +132,13 @@ end
 
 # our apps runtime config, these need to run in every environment
 
-# cloak configuration for conduit
-config :conduit, Conduit.Sage.Vault,
-  ciphers: [
-    default: {
-      Cloak.Ciphers.AES.GCM,
-      # there is no sensible default here, if we don't have the key the app cannot start.
-      tag: "AES.GCM.V1", key: System.fetch_env!("CLOAK_KEY") |> Base.decode64!()
-    }
-  ]
-
 # voyage api key used for embeddings
 config :conduit,
        :voyage_key,
        System.get_env("VOYAGE_KEY") ||
          (Logger.warning("no VOYAGE_KEY found in environment") && nil)
 
-# open ai key to be used in langchain 
+# open ai key to be used in langchain
 config :langchain,
   openai_key:
     System.get_env("OPENAI_APIKEY") ||

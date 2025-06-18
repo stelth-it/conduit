@@ -8,9 +8,9 @@ defmodule Conduit.Sage.Endpoints.Endpoint do
   typed_schema "endpoints" do
     field(:type, Ecto.Enum, values: [:prod, :sandbox])
     field(:web_user, :string)
-    field(:web_user_password, Conduit.Sage.Endpoints.Secret, redact: true) :: term() | nil
+    field(:web_user_password, Conduit.Vault.EncryptedBinary, redact: true) :: term() | nil
     field(:sender_id, :string)
-    field(:sender_password, Conduit.Sage.Endpoints.Secret, redact: true) :: term() | nil
+    field(:sender_password, Conduit.Vault.EncryptedBinary, redact: true) :: term() | nil
     field(:company_id, :string)
     field(:objects, {:array, :string})
     field(:unqueryable_objects, {:array, :string})
