@@ -1,8 +1,7 @@
 defmodule Conduit.Quickbooks.Endpoints do
   import Ecto.Query
-  alias Conduit.Sage.Endpoints.Endpoint
-  alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Quickbooks.AccessToken
+  alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Repo
 
   @doc """
