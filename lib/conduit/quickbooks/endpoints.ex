@@ -23,8 +23,7 @@ defmodule Conduit.Quickbooks.Endpoints do
   end
 
   @doc """
-  finds an endpoint by company_id and type.
-  Type defaults to :sandbox.
+  finds an endpoint by company_id and type. Type defaults to :sandbox.
   """
   def get_by_company_id(company_id, type \\ :sandbox) do
     if type not in [:sandbox, :prod],
@@ -67,10 +66,18 @@ defmodule Conduit.Quickbooks.Endpoints do
   end
 
   @doc """
-  Given an endpoint will retrieve an access token
+  Given an endpoint will retrieve an access token.
+  Will return with the (potentially updated) endpoint as the final entry.
+
+  ## QB API Details
+
+  QB API will at "sometime within 24hrs" return an updated refresh token along with 
+  an access token in their response to an access token request.  This function 
+  will handle this case by updating the endpoint in the DB and returning an updated
+  endpoint.
   """
   @spec fetch_access_token(endpoint :: Endpoint.t()) ::
-          {:ok, access_token :: AccessToken.t()} | {:error, term()}
+          {:ok, access_token :: AccessToken.t(), endpoint :: Endpoint.t()} | {:error, term()}
   def fetch_access_token(%Endpoint{} = ep) do
     with {:ok, resp} <-
            Req.post(ep.token_endpoint,
@@ -83,8 +90,29 @@ defmodule Conduit.Quickbooks.Endpoints do
                "grant_type" => "refresh_token",
                "refresh_token" => ep.refresh_token.value
              }
-           ) do
-      {:ok, AccessToken.from_response(resp)}
+           ),
+         {:ok, access_token} <- AccessToken.from_response(resp),
+         {:ok, ep} <- maybe_update_refresh_token(ep, access_token) do
+      {:ok, access_token, ep}
     end
+  end
+
+  @doc """
+  If the refresh token in the endpoint is different then the 
+  provided access token the endpoint will be updated.
+  """
+  @spec maybe_update_refresh_token(endpoint :: Endpoint.t(), access_token :: AccessToken.t()) ::
+          {:ok, Endpoint.t()} | {:error, Ecto.Changeset.t()}
+  def maybe_update_refresh_token(
+        %Endpoint{refresh_token: %Endpoint.RefreshToken{value: rt}} = ep,
+        %AccessToken{
+          refresh_token: rt
+        }
+      ) do
+    {:ok, ep}
+  end
+
+  def maybe_update_refresh_token(ep, %AccessToken{refresh_token: rt}) do
+    update_refresh_token(ep, rt)
   end
 end
