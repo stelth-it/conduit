@@ -1,4 +1,7 @@
 defmodule Conduit.Quickbooks.AccessToken do
+  @moduledoc """
+  Represents an access token from the QB API.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

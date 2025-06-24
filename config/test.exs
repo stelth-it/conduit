@@ -1,5 +1,8 @@
 import Config
 
+# req testing configuratin
+config :conduit, :qb_testing_plug, {Req.Test, Conduit.QB}
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used

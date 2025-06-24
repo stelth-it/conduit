@@ -72,7 +72,8 @@ defmodule Conduit.MixProject do
       {:nimble_csv, "~> 1.1"},
       {:pgvector, "~> 0.3.0"},
       {:langchain, "0.3.1"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:faker, "~> 0.18", only: :test}
     ]
   end
 

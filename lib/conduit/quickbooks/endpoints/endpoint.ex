@@ -1,4 +1,9 @@
 defmodule Conduit.Quickbooks.Endpoints.Endpoint do
+  @moduledoc """
+  Represents a quickbooks endpoint.
+  Stores all of the information needed 
+  to build API requests to the given endpoint.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -32,13 +37,13 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
     |> unique_constraint([:company_id, :type])
   end
 
-  def intuit_app_changeset(schema, params \\ %{}) do
+  defp intuit_app_changeset(schema, params) do
     schema
     |> cast(params, [:client_id, :client_secret, :app_id, :app_name])
     |> validate_required([:client_id, :client_secret, :app_id, :app_name])
   end
 
-  def refresh_token_changeset(schema, params \\ %{}) do
+  defp refresh_token_changeset(schema, params) do
     schema
     |> cast(params, [:value, :retrieved_on])
     |> validate_required([:value, :retrieved_on])

@@ -1,8 +1,13 @@
 defmodule Conduit.Quickbooks.Endpoints do
+  @moduledoc """
+  Functions for working with quickbooks endpoints.
+  """
   import Ecto.Query
   alias Conduit.Quickbooks.AccessToken
   alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Repo
+
+  @test_plug Application.compile_env(:conduit, :qb_testing_plug)
 
   @doc """
   Retrieves the OAuth discovery document.
@@ -34,7 +39,7 @@ defmodule Conduit.Quickbooks.Endpoints do
         where: e.company_id == ^company_id,
         where: e.type == ^type
 
-    Repo.one!(q)
+    Repo.one(q)
   end
 
   @doc """
@@ -89,7 +94,9 @@ defmodule Conduit.Quickbooks.Endpoints do
              form: %{
                "grant_type" => "refresh_token",
                "refresh_token" => ep.refresh_token.value
-             }
+             },
+             retry: :transient,
+             plug: @test_plug
            ),
          {:ok, access_token} <- AccessToken.from_response(resp),
          {:ok, ep} <- maybe_update_refresh_token(ep, access_token) do
