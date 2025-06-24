@@ -14,17 +14,17 @@ defmodule Conduit.Quickbooks.EndpointsTest do
 
   describe "new/1" do
     test "inserts a valid map", ctx do
-      assert match?({:ok, ep}, Endpoints.new(ctx.valid_ep_map))
+      assert match?({:ok, %Endpoint{}}, Endpoints.new(ctx.valid_ep_map))
     end
 
     test "does not insert invalid map", ctx do
-      assert match?({:error, ep}, Endpoints.new(Map.drop(ctx.valid_ep_map, [:type])))
+      assert match?({:error, _ep}, Endpoints.new(Map.drop(ctx.valid_ep_map, [:type])))
     end
   end
 
   describe "get_by_company_id/1" do
     test "finds valid id", ctx do
-      {:ok, ep} = Endpoints.new(ctx.valid_ep_map)
+      {:ok, _ep} = Endpoints.new(ctx.valid_ep_map)
 
       assert match?(
                %Endpoint{},
@@ -36,7 +36,7 @@ defmodule Conduit.Quickbooks.EndpointsTest do
     end
 
     test "cannot find invalid id", ctx do
-      {:ok, ep} = Endpoints.new(ctx.valid_ep_map)
+      {:ok, _ep} = Endpoints.new(ctx.valid_ep_map)
 
       assert nil ==
                Endpoints.get_by_company_id(
