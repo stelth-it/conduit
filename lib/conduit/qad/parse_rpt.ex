@@ -6,14 +6,16 @@ defmodule Conduit.QAD.ParseRpt do
   information on tables and fields
   """
 
-  @line_patterns [
-    {~r/(?<table_name>\w+)\s+(?<table_flags>[fs])\s+(?<field_count>\d+)\s+(?<index_count>\d+).*/,
-     :table_meta},
-    {~r/^\s*(?<order>\d+) (?<field_name>[a-z0-9_]+)\s+(?<field_type>[a-z0-9-]+)(?:\[(?<mult>[0-9]+)\])?.*/,
-     :field_description},
-    {~r/\*\* Field Name: (?<field_name>[a-z0-9_]+)\s+Description: (?<description>.*)/,
-     :field_detail}
-  ]
+  defp line_patterns() do
+    [
+      {~r/(?<table_name>\w+)\s+(?<table_flags>[fs])\s+(?<field_count>\d+)\s+(?<index_count>\d+).*/,
+       :table_meta},
+      {~r/^\s*(?<order>\d+) (?<field_name>[a-z0-9_]+)\s+(?<field_type>[a-z0-9-]+)(?:\[(?<mult>[0-9]+)\])?.*/,
+       :field_description},
+      {~r/\*\* Field Name: (?<field_name>[a-z0-9_]+)\s+Description: (?<description>.*)/,
+       :field_detail}
+    ]
+  end
 
   def build_summary(file_path) do
     table_descriptions = extract_table_descripitons(file_path)
@@ -79,7 +81,7 @@ defmodule Conduit.QAD.ParseRpt do
 
   @spec transform_line(line :: String.t()) :: list(String.t()) | []
   def transform_line(line) do
-    Enum.reduce_while(@line_patterns, [], fn {pattern, action}, acc ->
+    Enum.reduce_while(line_patterns(), [], fn {pattern, action}, acc ->
       if captured = Regex.named_captures(pattern, line) do
         {:halt, [apply(__MODULE__, action, [captured])]}
       else
