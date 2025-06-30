@@ -65,7 +65,7 @@ defmodule Conduit.MixProject do
       {:nimble_options, "~> 1.1"},
       {:uuid, "~> 1.1"},
       {:req, "~> 0.5.8"},
-      {:easy_html, "~> 0.3.0"},
+      {:easyhtml, "~> 0.3.0"},
       {:wallaby, "~> 0.30"},
       {:sweet_xml, "~> 0.7.5"},
       {:cloak_ecto, "~> 1.3"},
