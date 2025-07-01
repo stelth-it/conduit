@@ -18,9 +18,8 @@ ARG DEBIAN_VERSION=bookworm-20250610-slim
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
 ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 
-FROM ${BUILDER_IMAGE} as builder
-
 # install build dependencies
+FROM ${BUILDER_IMAGE} as builder 
 RUN apt-get update -y && apt-get install -y build-essential git \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
@@ -76,28 +75,69 @@ RUN apt-get update -y && \
 #We use npm here because it is the official 
 #method recommended by google to download chrome and 
 #chrome driver binaries of a specific version.
-RUN apt-get update && apt-get install -y npm \
-    libasound2 \ 
+
+ENV CHROME_VERSION="138.0.7204.49"
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    ca-certificates \
+    fonts-liberation \
+    libappindicator3-1 \
+    libasound2 \
     libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libc6 \
     libcairo2 \
     libcups2 \
-    fonts-liberation \
+    libdbus-1-3 \
+    libexpat1 \
+    libfontconfig1 \
+    libgbm1 \
+    libgcc-s1 \
+    libglib2.0-0 \
     libgtk-3-0 \
     libnspr4 \
     libnss3 \
     libpango-1.0-0 \
-    libvulkan1 \
+    libpangocairo-1.0-0 \
+    libstdc++6 \
+    libx11-6 \
+    libx11-xcb1 \
+    libxcb1 \
+    libxcomposite1 \
+    libxcursor1 \
     libxdamage1 \
-    libxkbcommon0 \
-    wget \
+    libxext6 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxss1 \
+    libxtst6 \
+    lsb-release \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
+# Download and install Chrome and ChromeDriver
+RUN echo "Downloading Chrome version: ${CHROME_VERSION}" && \
+    wget -q --show-progress -O /tmp/chrome.zip \
+    "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" && \
+    wget -q --show-progress -O /tmp/chromedriver.zip \
+    "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip" && \
+    cd /tmp && \
+    unzip -q chrome.zip && \
+    unzip -q chromedriver.zip && \
+    cp chrome-linux64/chrome /usr/local/bin/google-chrome && \
+    cp chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/google-chrome /usr/local/bin/chromedriver && \
+    rm -rf /tmp/chrome* && \
+    echo "Chrome version: $(chrome --version)" && \
+    echo "ChromeDriver version: $(chromedriver --version)"
 
-ENV CHROME_DRIVER_VERSION="138.0.7204.49"
 
-RUN npx @puppeteer/browsers install chrome@${CHROME_DRIVER_VERSION} --install-deps
-RUN npx @puppeteer/browsers install chromedriver@${CHROME_DRIVER_VERSION}
-
+# Verify installation
+RUN google-chrome --version && chromedriver --version
 
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
