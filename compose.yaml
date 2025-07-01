@@ -11,12 +11,13 @@ services:
       PHX_HOST: ${PHX_HOST}
       CLOAK_KEY: ${CLOAK_KEY}
     depends_on:
-      - db
+      db: 
+        condition: service_started
     profiles:
       - prod
       - dev
   db:
-    image: postgres
+    image: pgvector/pgvector:pg17
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
