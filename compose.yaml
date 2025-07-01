@@ -1,8 +1,8 @@
 version: "3.8"
 services:
   web:
-    image: .
-    command: sh -c '/app/bin/resume eval "Conduit.Release.migrate" && /app/bin/server'
+    build: .
+    command: sh -c '/app/bin/conduit eval "Conduit.Release.migrate" && /app/bin/server'
     ports: 
       - 4001:4000
     environment:
@@ -12,7 +12,9 @@ services:
       CLOAK_KEY: ${CLOAK_KEY}
     depends_on:
       - db
-      - proxy
+    profiles:
+      - prod
+      - dev
   db:
     image: postgres
     environment:
@@ -23,6 +25,9 @@ services:
       - 5433:5432
     volumes:
       - db:/var/lib/postgresql/data
+    profiles:
+      - prod
+      - dev 
   proxy:
     image: caddy
     restart: unless-stopped
@@ -33,6 +38,8 @@ services:
       - static:/srv
       - caddy_data:/data
       - caddy_config:/config
+    profiles:
+      - prod
 volumes:
   db:
     driver: local
