@@ -40,3 +40,6 @@ npm-debug.log
 
 #ignore QAD reports
 priv/qad_data
+
+#ignore binaries
+priv/bin
