@@ -7,6 +7,8 @@
 # General application configuration
 import Config
 
+config :wallaby, binary: "priv/bin/google-chrome", path: "priv/bin/chromedriver"
+
 config :conduit,
   ecto_repos: [Conduit.Repo],
   generators: [timestamp_type: :utc_datetime]

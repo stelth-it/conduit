@@ -66,7 +66,7 @@ defmodule Conduit.MixProject do
       {:uuid, "~> 1.1"},
       {:req, "~> 0.5.8"},
       {:easyhtml, "~> 0.3.0"},
-      {:wallaby, "~> 0.30"},
+      {:wallaby, git: "https://github.com/stelth-it/wallaby.git", branch: "main"},
       {:sweet_xml, "~> 0.7.5"},
       {:cloak_ecto, "~> 1.3"},
       {:typed_ecto_schema, "~> 0.4.1"},
