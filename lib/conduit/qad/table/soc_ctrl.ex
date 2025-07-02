@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Soc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_soc_ctrl" do
+  schema "qad_soc_ctrl" do
     field :soc_on_ord, Conduit.QAD.Types.Bool
 
     field :soc_req, Conduit.QAD.Types.Bool

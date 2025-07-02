@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rps_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rps_mstr" do
+  schema "qad_rps_mstr" do
     field :rps_part, :string
 
     field :rps_due_date, Conduit.QAD.Types.Date

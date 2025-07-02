@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Customergroup do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO ID NAME DESCRIPTION GROUPTYPE WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY MEGAENTITYKEY MEGAENTITYID MEGAENTITYNAME RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "CUSTOMERGROUP" do
+  schema "CUSTOMERGROUP" do
     field(:RECORDNO, :integer)
 
     field(:ID, :string)

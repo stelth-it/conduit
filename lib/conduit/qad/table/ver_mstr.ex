@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ver_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ver_mstr" do
+  schema "qad_ver_mstr" do
     field :ver_vendor, :string
 
     field :ver_vendor_source, :string

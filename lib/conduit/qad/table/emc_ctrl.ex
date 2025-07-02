@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Emc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_emc_ctrl" do
+  schema "qad_emc_ctrl" do
     field :emc_nbr, :integer
 
     field :emc__qad01, :integer

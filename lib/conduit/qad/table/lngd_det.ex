@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lngd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lngd_det" do
+  schema "qad_lngd_det" do
     field :lngd_dataset, :string
 
     field :lngd_key1, :string

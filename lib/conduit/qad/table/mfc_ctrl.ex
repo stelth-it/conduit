@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mfc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mfc_ctrl" do
+  schema "qad_mfc_ctrl" do
     field :mfc_module, :string
 
     field :mfc_seq, :integer

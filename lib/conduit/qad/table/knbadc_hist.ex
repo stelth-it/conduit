@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Knbadc_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_knbadc_hist" do
+  schema "qad_knbadc_hist" do
     field :knbadc_part, :string
 
     field :knbadc_site, :string

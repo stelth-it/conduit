@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Emap_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_emap_det" do
+  schema "qad_emap_det" do
     field :emap_doc_id, :integer
 
     field :emap_doc_line, :integer

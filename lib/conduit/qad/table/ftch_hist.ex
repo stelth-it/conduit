@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ftch_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ftch_hist" do
+  schema "qad_ftch_hist" do
     field :ftch_desc, :string
 
     field :ftch_eff_date, Conduit.QAD.Types.Date

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Shc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_shc_ctrl" do
+  schema "qad_shc_ctrl" do
     field :shc__qadi01, :integer
 
     field :shc_preship_nr_id, :string

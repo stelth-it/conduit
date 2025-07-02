@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rcs_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rcs_mstr" do
+  schema "qad_rcs_mstr" do
     field :rcs_shipfrom, :string
 
     field :rcs_shipto, :string

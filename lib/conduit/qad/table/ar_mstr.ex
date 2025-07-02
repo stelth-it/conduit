@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ar_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ar_mstr" do
+  schema "qad_ar_mstr" do
     field :ar_type, :string
 
     field :ar_nbr, :string

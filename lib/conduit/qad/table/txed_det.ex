@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Txed_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_txed_det" do
+  schema "qad_txed_det" do
     field :txed_tax_env, :string
 
     field :txed_tax_type, :string

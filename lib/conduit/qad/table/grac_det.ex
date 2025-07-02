@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grac_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grac_det" do
+  schema "qad_grac_det" do
     field :grac_acc, :string
 
     field :grac_cc, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ipd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ipd_det" do
+  schema "qad_ipd_det" do
     field :ipd_part, :string
 
     field :ipd_routing, :string

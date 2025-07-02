@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vph_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vph_hist" do
+  schema "qad_vph_hist" do
     field :vph_ref, :string
 
     field :vph__qadc02, :string

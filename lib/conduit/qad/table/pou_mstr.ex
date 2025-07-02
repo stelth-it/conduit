@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pou_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pou_mstr" do
+  schema "qad_pou_mstr" do
     field :pou_code, :string
 
     field :pou_desc, :string

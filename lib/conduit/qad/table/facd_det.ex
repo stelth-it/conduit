@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Facd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_facd_det" do
+  schema "qad_facd_det" do
     field :facd_facls_id, :string
 
     field :facd_fabk_id, :string

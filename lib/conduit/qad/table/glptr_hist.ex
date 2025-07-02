@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Glptr_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_glptr_hist" do
+  schema "qad_glptr_hist" do
     field :glptr_eff_date, Conduit.QAD.Types.Date
 
     field :glptr_prt_date, Conduit.QAD.Types.Date

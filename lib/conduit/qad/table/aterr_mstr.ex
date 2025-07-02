@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Aterr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_aterr_mstr" do
+  schema "qad_aterr_mstr" do
     field :aterr_event_id, :decimal
 
     field :aterr_status, :string

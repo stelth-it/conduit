@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Apiusagedetail do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO CLIENT_TYPE PARTNERID FUNCTION CONTROLID POLICYID DTDVERSION DOCCONTROLID LOGINID N_TRANS CREATED_DATE CREATED_TIME STATUS"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "APIUSAGEDETAIL" do
+  schema "APIUSAGEDETAIL" do
     field(:RECORDNO, :string)
 
     field(:CLIENT_TYPE, :string)

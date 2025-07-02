@@ -1,14 +1,13 @@
 defmodule Conduit.QAD.FieldDetail do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :field_name, :string
     field :description, :string, default: "none provided"
   end
 
-  @spec new(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
   def new(params) do
     %__MODULE__{}
     |> cast(params, [:field_name, :description])
@@ -16,7 +15,6 @@ defmodule Conduit.QAD.FieldDetail do
     |> apply_action(:create)
   end
 
-  @spec new!(map()) :: t()
   def new!(params) do
     case new(params) do
       {:ok, field_detail} ->

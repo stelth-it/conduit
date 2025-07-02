@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ptls_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ptls_det" do
+  schema "qad_ptls_det" do
     field :ptls_part, :string
 
     field :ptls_lotser, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lblc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lblc_ctrl" do
+  schema "qad_lblc_ctrl" do
     field :lblc_index1, :integer
 
     field :lblc_trans_frame, Conduit.QAD.Types.Bool

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lotw_wkfl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lotw_wkfl" do
+  schema "qad_lotw_wkfl" do
     field :lotw_lotser, :string
 
     field :lotw_part, :string

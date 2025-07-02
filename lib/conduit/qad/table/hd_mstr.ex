@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Hd_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_hd_mstr" do
+  schema "qad_hd_mstr" do
     field :hd_date, Conduit.QAD.Types.Date
 
     field :hd_desc, :string

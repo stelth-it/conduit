@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pigp_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pigp_det" do
+  schema "qad_pigp_det" do
     field :pigp_amt_type, :string
 
     field :pigp_code, :string

@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Apbilljointpayee do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO JOINTPAYEENAME JOINTPAYEEPRINTAS APBILLKEY APBILLID WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "APBILLJOINTPAYEE" do
+  schema "APBILLJOINTPAYEE" do
     field(:RECORDNO, :string)
 
     field(:JOINTPAYEENAME, :string)

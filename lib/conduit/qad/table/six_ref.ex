@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Six_ref do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_six_ref" do
+  schema "qad_six_ref" do
     field :six_trnbr, :integer
 
     field :six_type, :string

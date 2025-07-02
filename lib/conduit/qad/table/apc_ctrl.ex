@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Apc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_apc_ctrl" do
+  schema "qad_apc_ctrl" do
     field :apc_batch, :integer
 
     field :apc_voucher, :integer

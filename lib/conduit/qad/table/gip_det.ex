@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Gip_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_gip_det" do
+  schema "qad_gip_det" do
     field :gip_ref_key, :integer
 
     field :gip_attribute, :string

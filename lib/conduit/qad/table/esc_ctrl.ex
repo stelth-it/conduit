@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Esc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_esc_ctrl" do
+  schema "qad_esc_ctrl" do
     field :esc_nbr, :integer
 
     field :esc_es_prefix, :string

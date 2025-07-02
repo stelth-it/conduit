@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Glacctgrphierarchy do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO GLACCTGRPKEY GLACCTGRPNAME GLACCTGRPTITLE GLACCTGRPNORMALBALANCE GLACCTGRPMEMBERTYPE GLACCTGRPHOWCREATED GLACCTGRPLOCATIONKEY ACCOUNTKEY ACCOUNTNO ACCOUNTTITLE ACCOUNTNORMALBALANCE ACCOUNTTYPE ACCOUNTLOCATIONKEY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "GLACCTGRPHIERARCHY" do
+  schema "GLACCTGRPHIERARCHY" do
     field :RECORDNO, :string, primary_key: true
 
     field :GLACCTGRPKEY, :integer, primary_key: true

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Atwp_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_atwp_mstr" do
+  schema "qad_atwp_mstr" do
     field :oid_atwp_mstr, :decimal, primary_key: true
 
     field :oid_att_mstr, :decimal, primary_key: true

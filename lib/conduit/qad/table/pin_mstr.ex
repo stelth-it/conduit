@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pin_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pin_mstr" do
+  schema "qad_pin_mstr" do
     field :pin_product, :string
 
     field :pin_desc, :string

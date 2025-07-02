@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Woc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_woc_ctrl" do
+  schema "qad_woc_ctrl" do
     field :woc_auto_nbr, Conduit.QAD.Types.Bool
 
     field :woc_nbr, :integer

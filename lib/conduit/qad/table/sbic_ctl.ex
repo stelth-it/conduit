@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sbic_ctl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sbic_ctl" do
+  schema "qad_sbic_ctl" do
     field :sbic_active, Conduit.QAD.Types.Bool
 
     field :sbic_prefix, :string

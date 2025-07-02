@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sytf_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sytf_mstr" do
+  schema "qad_sytf_mstr" do
     field :sytf_fldname, :string
 
     field :sytf_tblname, :string

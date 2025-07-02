@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sv_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sv_mstr" do
+  schema "qad_sv_mstr" do
     field :sv_code, :string
 
     field :sv_desc, :string

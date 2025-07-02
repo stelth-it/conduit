@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Txz_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_txz_mstr" do
+  schema "qad_txz_mstr" do
     field :txz_tax_zone, :string
 
     field :txz_desc, :string

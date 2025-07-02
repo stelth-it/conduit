@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pshc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pshc_ctrl" do
+  schema "qad_pshc_ctrl" do
     field :pshc_shipper_nr_id, :string
 
     field :pshc_master_nr_id, :string

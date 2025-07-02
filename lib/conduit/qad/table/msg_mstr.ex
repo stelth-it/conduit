@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Msg_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_msg_mstr" do
+  schema "qad_msg_mstr" do
     field :msg_nbr, :integer
 
     field :msg_desc, :string

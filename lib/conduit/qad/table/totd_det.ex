@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Totd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_totd_det" do
+  schema "qad_totd_det" do
     field :totd_terms_code, :string
 
     field :totd_lc_charge, :string

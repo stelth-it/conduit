@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Exr_rate do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_exr_rate" do
+  schema "qad_exr_rate" do
     field :exr_curr1, :string
 
     field :exr_curr2, :string

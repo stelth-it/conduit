@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Customeremailtemplate do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO CUSTOMERKEY CUSTOMERID DOCPARID EMAILTEMPLATEKEY EMAILTEMPLATENAME EMAILTEMPLATETYPE RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "CUSTOMEREMAILTEMPLATE" do
+  schema "CUSTOMEREMAILTEMPLATE" do
     field(:RECORDNO, :string)
 
     field(:CUSTOMERKEY, :integer)

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Knp_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_knp_mstr" do
+  schema "qad_knp_mstr" do
     field :knp_site, :string
 
     field :knp_process_id, :string

@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Arterm do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "NAME DESCRIPTION STATUS RECORDNO WHENMODIFIED WHENCREATED MODIFIEDBY CREATEDBY DUEDATE DUEFROM DISCDATE DISCFROM DISCAMOUNT DISCPERCAMN DISCFUDGEDAYS PEN_TYPES PENAMOUNT PENPERCAMN PENFUDGEDAYS DISCCALCON RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "ARTERM" do
+  schema "ARTERM" do
     field(:NAME, :string)
 
     field(:DESCRIPTION, :string)

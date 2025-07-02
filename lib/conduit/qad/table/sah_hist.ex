@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sah_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sah_hist" do
+  schema "qad_sah_hist" do
     field :sah_area, :string
 
     field :sah_arrears, Conduit.QAD.Types.Bool

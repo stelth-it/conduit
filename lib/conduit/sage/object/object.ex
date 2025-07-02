@@ -1,11 +1,11 @@
 defmodule Conduit.Sage.Object.Object do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
   alias Conduit.Sage.Object.Field
   alias Conduit.Sage.Endpoints.Endpoint
 
   @primary_key false
-  typed_schema "objects" do
+  schema "objects" do
     belongs_to(:endpoint, Conduit.Sage.Endpoints.Endpoint, primary_key: true)
     field(:name, :string, primary_key: true)
     embeds_many(:fields, Field)

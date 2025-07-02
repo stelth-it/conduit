@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vee_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vee_mstr" do
+  schema "qad_vee_mstr" do
     field :vee_event, :string
 
     field :vee_name, :string

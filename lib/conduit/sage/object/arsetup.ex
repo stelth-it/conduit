@@ -1,11 +1,11 @@
 defmodule Elixir.Conduit.Sage.Object.Arsetup do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORD_URL" |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "ARSETUP" do
+  schema "ARSETUP" do
     field(:RECORD_URL, :string)
 
     timestamps(

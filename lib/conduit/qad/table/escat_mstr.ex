@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Escat_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_escat_mstr" do
+  schema "qad_escat_mstr" do
     field :oid_escat_mstr, :decimal, primary_key: true
 
     field :escat_category_code, :string

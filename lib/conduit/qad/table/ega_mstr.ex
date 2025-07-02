@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ega_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ega_mstr" do
+  schema "qad_ega_mstr" do
     field :ega_week, Conduit.QAD.Types.Date
 
     field :ega_eng_code, :string

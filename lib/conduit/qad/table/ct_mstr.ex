@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ct_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ct_mstr" do
+  schema "qad_ct_mstr" do
     field :ct_code, :string
 
     field :ct_desc, :string

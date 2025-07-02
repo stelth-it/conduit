@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mrpc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mrpc_ctrl" do
+  schema "qad_mrpc_ctrl" do
     field :mrpc_horizon, :integer
 
     field :mrpc_sum_def, :integer

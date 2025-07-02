@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fn_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fn_mstr" do
+  schema "qad_fn_mstr" do
     field :fn_account_eng, Conduit.QAD.Types.Bool
 
     field :fn_ca_desc, :string

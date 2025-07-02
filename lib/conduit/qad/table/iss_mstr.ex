@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Iss_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_iss_mstr" do
+  schema "qad_iss_mstr" do
     field :iss_eu_nbr, :string
 
     field :iss_par, :string

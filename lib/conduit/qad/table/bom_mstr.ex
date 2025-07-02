@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Bom_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_bom_mstr" do
+  schema "qad_bom_mstr" do
     field :bom_parent, :string
 
     field :bom_desc, :string

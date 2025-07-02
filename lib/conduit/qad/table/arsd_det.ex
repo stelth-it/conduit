@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Arsd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_arsd_det" do
+  schema "qad_arsd_det" do
     field :arsd_batch, :string
 
     field :arsd_line, :integer

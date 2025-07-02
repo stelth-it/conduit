@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lacd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lacd_det" do
+  schema "qad_lacd_det" do
     field :lacd_internal_ref_type, :string
 
     field :lacd_internal_ref, :string

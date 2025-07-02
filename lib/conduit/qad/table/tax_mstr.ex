@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Tax_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_tax_mstr" do
+  schema "qad_tax_mstr" do
     field :tax_state, :string
 
     field :tax_city, :string

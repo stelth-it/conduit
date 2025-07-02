@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pgc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pgc_ctrl" do
+  schema "qad_pgc_ctrl" do
     field :pgc_wait_status, :string
 
     field :pgc_addr, :string

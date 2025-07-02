@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cph_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cph_hist" do
+  schema "qad_cph_hist" do
     field :cph_year, :integer
 
     field :cph_cust, :string

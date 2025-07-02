@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vex_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vex_mstr" do
+  schema "qad_vex_mstr" do
     field :vex_site, :string
 
     field :vex_vendor, :string

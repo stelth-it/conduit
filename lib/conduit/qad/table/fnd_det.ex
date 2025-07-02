@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fnd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fnd_det" do
+  schema "qad_fnd_det" do
     field :fnd_ca_nbr, :string
 
     field :fnd_comp_date, Conduit.QAD.Types.Date

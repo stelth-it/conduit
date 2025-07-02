@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fac_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fac_ctrl" do
+  schema "qad_fac_ctrl" do
     field :fac__qadi01, :integer
 
     field :fac_so_rec, Conduit.QAD.Types.Bool

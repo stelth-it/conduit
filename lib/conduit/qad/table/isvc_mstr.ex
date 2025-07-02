@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Isvc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_isvc_mstr" do
+  schema "qad_isvc_mstr" do
     field :isvc_ctry_dest, :string
 
     field :isvc_ctry_orig, :string

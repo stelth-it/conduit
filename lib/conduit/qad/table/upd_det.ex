@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Upd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_upd_det" do
+  schema "qad_upd_det" do
     field :upd_userid, :string
 
     field :upd_exec, :string

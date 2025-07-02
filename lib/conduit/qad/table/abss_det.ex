@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Abss_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_abss_det" do
+  schema "qad_abss_det" do
     field :abss_abs_id, :string
 
     field :abss_shipfrom, :string

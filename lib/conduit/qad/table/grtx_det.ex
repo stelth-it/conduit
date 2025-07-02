@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grtx_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grtx_det" do
+  schema "qad_grtx_det" do
     field :grtx_indx, :integer
 
     field :grtx_seq, :integer

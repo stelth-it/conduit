@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Euc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_euc_ctrl" do
+  schema "qad_euc_ctrl" do
     field :euc_nbr, :integer
 
     field :euc_user1, :string

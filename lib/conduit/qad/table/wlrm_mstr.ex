@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Wlrm_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_wlrm_mstr" do
+  schema "qad_wlrm_mstr" do
     field :wlrm_routing, :string
 
     field :wlrm_start, Conduit.QAD.Types.Date

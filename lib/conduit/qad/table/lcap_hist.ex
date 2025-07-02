@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lcap_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lcap_hist" do
+  schema "qad_lcap_hist" do
     field :lcap_db, :string
 
     field :lcap_table, :string

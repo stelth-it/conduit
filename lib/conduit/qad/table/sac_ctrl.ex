@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sac_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sac_ctrl" do
+  schema "qad_sac_ctrl" do
     field :sac_auto_sa, Conduit.QAD.Types.Bool
 
     field :sac_sa, :integer

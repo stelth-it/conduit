@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Knbd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_knbd_det" do
+  schema "qad_knbd_det" do
     field :knbd_id, :integer
 
     field :knbd_keyid, :decimal

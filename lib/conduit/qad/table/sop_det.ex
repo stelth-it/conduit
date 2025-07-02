@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sop_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sop_det" do
+  schema "qad_sop_det" do
     field :sop_sim, :string
 
     field :sop_routing, :string

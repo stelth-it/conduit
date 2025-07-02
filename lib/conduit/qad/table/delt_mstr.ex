@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Delt_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_delt_mstr" do
+  schema "qad_delt_mstr" do
     field :delt_site, :string
 
     field :delt_ctry, :string

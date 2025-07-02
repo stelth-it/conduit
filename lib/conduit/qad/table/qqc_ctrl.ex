@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Qqc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_qqc_ctrl" do
+  schema "qad_qqc_ctrl" do
     field :qqc_email_flg, Conduit.QAD.Types.Bool
 
     field :qqc_email_userid, :string

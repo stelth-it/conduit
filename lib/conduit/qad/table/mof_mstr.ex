@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mof_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mof_mstr" do
+  schema "qad_mof_mstr" do
     field :mof_key, :string
 
     field :mof_from_login, :integer

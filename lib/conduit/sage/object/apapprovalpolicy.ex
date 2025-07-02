@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Apapprovalpolicy do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO MODULE OBJ_TYPE WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "APAPPROVALPOLICY" do
+  schema "APAPPROVALPOLICY" do
     field(:RECORDNO, :integer)
 
     field(:MODULE, :string)

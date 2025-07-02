@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grib_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grib_det" do
+  schema "qad_grib_det" do
     field :grib_run_id, :integer
 
     field :grib_an_code, :string

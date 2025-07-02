@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Qcc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_qcc_ctrl" do
+  schema "qad_qcc_ctrl" do
     field :qcc_site, :string
 
     field :qcc_inspect, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pp_plan do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pp_plan" do
+  schema "qad_pp_plan" do
     field :pp_prod_line, :string
 
     field :pp_year, :integer

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Imap_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_imap_det" do
+  schema "qad_imap_det" do
     field :imap_doc_id, :integer
 
     field :imap_doc_line, :integer

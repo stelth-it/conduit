@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Gras_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_gras_det" do
+  schema "qad_gras_det" do
     field :gras_an_code, :string
 
     field :gras_sel_low, :string

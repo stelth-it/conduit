@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lac_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lac_ctrl" do
+  schema "qad_lac_ctrl" do
     field :lac_use_logistics, Conduit.QAD.Types.Bool
 
     field :lac__qadi01, :integer

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Apm_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_apm_ctrl" do
+  schema "qad_apm_ctrl" do
     field :apm__qadi03, :integer
 
     field :apm_div, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Absr_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_absr_det" do
+  schema "qad_absr_det" do
     field :absr_qty, :decimal
 
     field :absr_date, Conduit.QAD.Types.Date

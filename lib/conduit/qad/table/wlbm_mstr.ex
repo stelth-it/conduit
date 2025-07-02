@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Wlbm_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_wlbm_mstr" do
+  schema "qad_wlbm_mstr" do
     field :wlbm_bom_code, :string
 
     field :wlbm_start, Conduit.QAD.Types.Date

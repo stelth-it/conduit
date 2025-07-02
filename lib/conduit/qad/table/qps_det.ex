@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Qps_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_qps_det" do
+  schema "qad_qps_det" do
     field :qps_routing, :string
 
     field :qps_op, :integer

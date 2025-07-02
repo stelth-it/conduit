@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fcg_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fcg_mstr" do
+  schema "qad_fcg_mstr" do
     field :fcg_billable, Conduit.QAD.Types.Bool
 
     field :fcg_code, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Egs_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_egs_det" do
+  schema "qad_egs_det" do
     field :egs_eng_code, :string
 
     field :egs_skill, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pld_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pld_det" do
+  schema "qad_pld_det" do
     field :pld_prodline, :string
 
     field :pld_site, :string

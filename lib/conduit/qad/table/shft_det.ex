@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Shft_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_shft_det" do
+  schema "qad_shft_det" do
     field :shft_wkctr, :string
 
     field :shft_mch, :string

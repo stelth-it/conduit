@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Insd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_insd_det" do
+  schema "qad_insd_det" do
     field :insd_sched_date, Conduit.QAD.Types.Date
 
     field :insd_pjs_line, :integer

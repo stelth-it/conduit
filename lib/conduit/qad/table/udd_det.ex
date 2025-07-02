@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Udd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_udd_det" do
+  schema "qad_udd_det" do
     field :udd_userid, :string
 
     field :udd_domain, :string

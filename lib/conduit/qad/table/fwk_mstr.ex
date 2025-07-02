@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fwk_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fwk_mstr" do
+  schema "qad_fwk_mstr" do
     field :fwk_ca_int_type, :string
 
     field :fwk_desc, :string

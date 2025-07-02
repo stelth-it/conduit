@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Drp_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_drp_ctrl" do
+  schema "qad_drp_ctrl" do
     field :drp_auto_req, Conduit.QAD.Types.Bool
 
     field :drp_req_nbr, :integer

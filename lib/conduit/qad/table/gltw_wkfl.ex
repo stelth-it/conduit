@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Gltw_wkfl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_gltw_wkfl" do
+  schema "qad_gltw_wkfl" do
     field :gltw_entity, :string
 
     field :gltw_acct, :string

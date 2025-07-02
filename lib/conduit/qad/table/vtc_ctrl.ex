@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vtc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vtc_ctrl" do
+  schema "qad_vtc_ctrl" do
     field :vtc_vt_class, :string
 
     field :vtc_disc, Conduit.QAD.Types.Bool

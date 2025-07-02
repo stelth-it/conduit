@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fp1_plan do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fp1_plan" do
+  schema "qad_fp1_plan" do
     field :fp1_beg_inv, :decimal
 
     field :fp1_bklg_act, {:array, :decimal}

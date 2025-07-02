@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sim_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sim_det" do
+  schema "qad_sim_det" do
     field :sim_site, :string
 
     field :sim_inv_mov, :string

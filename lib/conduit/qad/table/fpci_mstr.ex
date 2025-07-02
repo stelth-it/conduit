@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fpci_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fpci_mstr" do
+  schema "qad_fpci_mstr" do
     field :fpci_index, :string
 
     field :fpci_mod_date, Conduit.QAD.Types.Date

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cnsu_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cnsu_mstr" do
+  schema "qad_cnsu_mstr" do
     field :cnsu_pkey, :integer
 
     field :cnsu_batch, :integer

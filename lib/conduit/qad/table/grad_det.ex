@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grad_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grad_det" do
+  schema "qad_grad_det" do
     field :grad_an_code, :string
 
     field :grad_gl_type, :string

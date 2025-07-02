@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Iro_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_iro_det" do
+  schema "qad_iro_det" do
     field :iro_part, :string
 
     field :iro_site, :string

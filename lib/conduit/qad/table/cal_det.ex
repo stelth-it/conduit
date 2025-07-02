@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cal_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cal_det" do
+  schema "qad_cal_det" do
     field :cal_ref, :string
 
     field :cal_wkctr, :string

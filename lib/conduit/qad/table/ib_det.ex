@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ib_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ib_det" do
+  schema "qad_ib_det" do
     field :ib_sys_seq, :integer
 
     field :ib_tag, Conduit.QAD.Types.Bool

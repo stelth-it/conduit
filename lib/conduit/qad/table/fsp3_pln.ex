@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fsp3_pln do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fsp3_pln" do
+  schema "qad_fsp3_pln" do
     field :fsp3_beg_inv, :decimal
 
     field :fsp3_prod_act, {:array, :decimal}

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Swc_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_swc_det" do
+  schema "qad_swc_det" do
     field :swc_sim, :string
 
     field :swc_wkctr, :string

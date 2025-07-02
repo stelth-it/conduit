@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cost_cal do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cost_cal" do
+  schema "qad_cost_cal" do
     field :cost_set, :string
 
     field :cost_site, :string

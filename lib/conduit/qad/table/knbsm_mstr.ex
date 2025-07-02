@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Knbsm_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_knbsm_mstr" do
+  schema "qad_knbsm_mstr" do
     field :knbsm_site, :string
 
     field :knbsm_supermarket_id, :string

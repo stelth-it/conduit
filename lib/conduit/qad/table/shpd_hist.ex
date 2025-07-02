@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Shpd_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_shpd_hist" do
+  schema "qad_shpd_hist" do
     field :shpd_tran_id, :integer
 
     field :shpd_measurement_type, :integer

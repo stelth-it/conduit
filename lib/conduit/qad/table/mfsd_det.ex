@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mfsd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mfsd_det" do
+  schema "qad_mfsd_det" do
     field :mfsd_userid, :string
 
     field :mfsd_eng_code, :string

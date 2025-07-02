@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pic_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pic_ctrl" do
+  schema "qad_pic_ctrl" do
     field :pic__qadi01, :integer
 
     field :pic_list_id, :integer

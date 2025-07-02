@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Gl_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_gl_ctrl" do
+  schema "qad_gl_ctrl" do
     field :gl_ar_acct, :string
 
     field :gl_ar_cc, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Elg_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_elg_hist" do
+  schema "qad_elg_hist" do
     field :elg_access_code, :string
 
     field :elg_app_id, :string

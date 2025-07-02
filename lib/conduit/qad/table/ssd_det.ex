@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ssd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ssd_det" do
+  schema "qad_ssd_det" do
     field :ssd_network, :string
 
     field :ssd_rec_site, :string

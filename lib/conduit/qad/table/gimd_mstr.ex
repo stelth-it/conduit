@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Gimd_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_gimd_mstr" do
+  schema "qad_gimd_mstr" do
     field :gimd_app_code, :string
 
     field :gimd_model_name, :string

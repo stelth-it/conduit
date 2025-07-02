@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vt_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vt_mstr" do
+  schema "qad_vt_mstr" do
     field :vt_class, :string
 
     field :vt_start, Conduit.QAD.Types.Date

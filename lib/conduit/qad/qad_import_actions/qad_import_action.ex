@@ -1,10 +1,10 @@
 defmodule Conduit.QAD.QadImportActions.QadImportAction do
   alias Conduit.QAD.QadImports.QadImport
   alias Conduit.QAD.QadTables.QadTable
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema("qad_import_actions") do
+  schema("qad_import_actions") do
     field :data_source, :string
     field :status, :string
     belongs_to :qad_import, QadImport

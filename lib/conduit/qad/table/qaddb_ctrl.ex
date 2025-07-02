@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Qaddb_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_qaddb_ctrl" do
+  schema "qad_qaddb_ctrl" do
     field :qaddb_index1, :integer
 
     field :qaddb_server_timezone, :string

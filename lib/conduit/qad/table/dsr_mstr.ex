@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Dsr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_dsr_mstr" do
+  schema "qad_dsr_mstr" do
     field :dsr_req_nbr, :string
 
     field :dsr_site, :string

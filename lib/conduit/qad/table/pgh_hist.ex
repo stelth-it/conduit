@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pgh_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pgh_hist" do
+  schema "qad_pgh_hist" do
     field :pgh_trnbr, :integer
 
     field :pgh_status, :string

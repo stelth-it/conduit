@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pfc_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pfc_det" do
+  schema "qad_pfc_det" do
     field :pfc_part, :string
 
     field :pfc_site, :string

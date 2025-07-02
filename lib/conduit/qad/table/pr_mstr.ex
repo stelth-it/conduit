@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pr_mstr" do
+  schema "qad_pr_mstr" do
     field :pr_type, :string
 
     field :pr_desc, :string

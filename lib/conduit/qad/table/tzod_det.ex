@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Tzod_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_tzod_det" do
+  schema "qad_tzod_det" do
     field :tzod_tzone, :string
 
     field :tzod_std_day, :string

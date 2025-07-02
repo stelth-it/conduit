@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Djrc_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_djrc_det" do
+  schema "qad_djrc_det" do
     field :djrc_code, :string
 
     field :djrc_type, :string

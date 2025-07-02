@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Glcd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_glcd_det" do
+  schema "qad_glcd_det" do
     field :glcd_year, :integer
 
     field :glcd_per, :integer

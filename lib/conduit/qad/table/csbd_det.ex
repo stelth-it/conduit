@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Csbd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_csbd_det" do
+  schema "qad_csbd_det" do
     field :csbd_addr, :string
 
     field :csbd_bank, :string

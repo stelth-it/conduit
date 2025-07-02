@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pjsx_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pjsx_det" do
+  schema "qad_pjsx_det" do
     field :pjsx_nbr, :string
 
     field :pjsx_line, :integer

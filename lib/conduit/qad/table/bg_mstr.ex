@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Bg_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_bg_mstr" do
+  schema "qad_bg_mstr" do
     field :bg_entity, :string
 
     field :bg_acc, :string

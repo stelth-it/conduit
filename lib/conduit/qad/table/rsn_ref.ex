@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rsn_ref do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rsn_ref" do
+  schema "qad_rsn_ref" do
     field :rsn_code, :string
 
     field :rsn_type, :string

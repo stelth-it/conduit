@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ecd4_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ecd4_det" do
+  schema "qad_ecd4_det" do
     field :ecd4_part, :string
 
     field :ecd4_routing, :string

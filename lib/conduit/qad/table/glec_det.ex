@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Glec_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_glec_det" do
+  schema "qad_glec_det" do
     field :glec_domain, :string
 
     field :glec_cons_ref, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sfh_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sfh_hist" do
+  schema "qad_sfh_hist" do
     field :sfh_cmtindx, :integer
 
     field :sfh_covered_amt, :decimal

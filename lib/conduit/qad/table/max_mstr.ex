@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Max_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_max_mstr" do
+  schema "qad_max_mstr" do
     field :max_field, :string
 
     field :max_desc, :string

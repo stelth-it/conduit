@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mnp_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mnp_det" do
+  schema "qad_mnp_det" do
     field :mnp_userid, :string
 
     field :mnp_sequence, :integer

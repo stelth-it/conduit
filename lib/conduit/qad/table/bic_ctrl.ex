@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Bic_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_bic_ctrl" do
+  schema "qad_bic_ctrl" do
     field :bic_periods, :integer
 
     field :bic_last_due, Conduit.QAD.Types.Date

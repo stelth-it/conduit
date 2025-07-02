@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Glbudgetheader do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO BUDGETID DESCRIPTION SYSTEMGENERATED DEFAULT_BUDGET USER STATUS WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY ISCONSOLIDATED CURRENCY ISPABUDGET ISPCNBUDGET MEGAENTITYKEY MEGAENTITYID MEGAENTITYNAME RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "GLBUDGETHEADER" do
+  schema "GLBUDGETHEADER" do
     field :RECORDNO, :integer, primary_key: true
 
     field :BUDGETID, :string, primary_key: true

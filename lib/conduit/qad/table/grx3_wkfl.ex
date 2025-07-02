@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grx3_wkfl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grx3_wkfl" do
+  schema "qad_grx3_wkfl" do
     field :grx3_run_id, :integer
 
     field :grx3_row, :integer

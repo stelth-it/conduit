@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Img_msg do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_img_msg" do
+  schema "qad_img_msg" do
     field :img_app_id, :string
 
     field :img_doc_id, :integer

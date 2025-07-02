@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rqm_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rqm_det" do
+  schema "qad_rqm_det" do
     field :rqm_reference, :string
 
     field :rqm_cat, :string

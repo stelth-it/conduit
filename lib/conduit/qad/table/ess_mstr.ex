@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ess_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ess_mstr" do
+  schema "qad_ess_mstr" do
     field :ess_status, :string
 
     field :ess_available, Conduit.QAD.Types.Bool

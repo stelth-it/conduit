@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grit_wkf do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grit_wkf" do
+  schema "qad_grit_wkf" do
     field :grit_runid, :string
 
     field :grit_gl_code, :string

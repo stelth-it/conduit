@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vew_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vew_mstr" do
+  schema "qad_vew_mstr" do
     field :vew_weight_code, :string
 
     field :vew_name, :string

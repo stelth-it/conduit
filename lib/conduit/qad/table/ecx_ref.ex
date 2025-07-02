@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ecx_ref do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ecx_ref" do
+  schema "qad_ecx_ref" do
     field :ecx_ext_ref, :string
 
     field :ecx_nbr, :string

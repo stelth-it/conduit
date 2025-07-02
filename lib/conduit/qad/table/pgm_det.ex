@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pgm_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pgm_det" do
+  schema "qad_pgm_det" do
     field :pgm_ref, :string
 
     field :pgm_eq, :string

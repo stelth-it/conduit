@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Wlbd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_wlbd_det" do
+  schema "qad_wlbd_det" do
     field :wlbd_bom_code, :string
 
     field :wlbd_comp, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cncud_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cncud_det" do
+  schema "qad_cncud_det" do
     field :cncud_cncu_pkey, :integer
 
     field :cncud_cncix_pkey, :integer

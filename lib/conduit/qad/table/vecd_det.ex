@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vecd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vecd_det" do
+  schema "qad_vecd_det" do
     field :vecd_category, :string
 
     field :vecd_value_from, :decimal

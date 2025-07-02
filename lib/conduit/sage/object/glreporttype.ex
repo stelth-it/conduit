@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Glreporttype do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "NAME STATUS RECORDNO WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY MEGAENTITYKEY MEGAENTITYID MEGAENTITYNAME RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "GLREPORTTYPE" do
+  schema "GLREPORTTYPE" do
     field :NAME, :string, primary_key: true
 
     field :STATUS, :string, primary_key: true

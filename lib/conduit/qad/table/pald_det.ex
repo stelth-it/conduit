@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pald_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pald_det" do
+  schema "qad_pald_det" do
     field :pald_pallet, :string
 
     field :pald_desc, :string

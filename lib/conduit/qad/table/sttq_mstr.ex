@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sttq_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sttq_mstr" do
+  schema "qad_sttq_mstr" do
     field :sttq_status_code, :string
 
     field :sttq_desc, :string

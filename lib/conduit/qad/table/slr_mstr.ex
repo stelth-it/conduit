@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Slr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_slr_mstr" do
+  schema "qad_slr_mstr" do
     field :slr_inventory_site, :string
 
     field :slr_attribute, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Txc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_txc_ctrl" do
+  schema "qad_txc_ctrl" do
     field :txc_index1, :integer
 
     field :txc_ctry_code, :string

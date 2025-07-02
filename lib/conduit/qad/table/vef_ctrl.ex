@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vef_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vef_ctrl" do
+  schema "qad_vef_ctrl" do
     field :vef__qadi03, :integer
 
     field :vef_asn_leadtime, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Co_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_co_ctrl" do
+  schema "qad_co_ctrl" do
     field :co__qad01, :string
 
     field :co_pl, :string

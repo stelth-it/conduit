@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Clc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_clc_ctrl" do
+  schema "qad_clc_ctrl" do
     field :clc_active, Conduit.QAD.Types.Bool
 
     field :clc_comp_issue, Conduit.QAD.Types.Bool

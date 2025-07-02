@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ptp_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ptp_det" do
+  schema "qad_ptp_det" do
     field :ptp_part, :string
 
     field :ptp_site, :string

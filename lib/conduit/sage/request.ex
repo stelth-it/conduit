@@ -11,11 +11,13 @@ defmodule Conduit.Sage.Request do
   alias Conduit.Sage.Query, as: Q
   alias Conduit.Sage.Endpoints.Endpoint, as: EP
   alias Conduit.Sage.Request.SessionKey
-  use TypedEctoSchema
+  use Ecto.Schema
   @derive {Inspect, except: ~w(web_sender_password user_password)a}
 
+  @type t :: %__MODULE__{}
+
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field(:web_sender_id, :string)
     field(:web_sender_password, :string)
     field(:control_id, :string)

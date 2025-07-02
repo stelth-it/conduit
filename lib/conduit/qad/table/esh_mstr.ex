@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Esh_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_esh_mstr" do
+  schema "qad_esh_mstr" do
     field :esh_status, :string
 
     field :esh_end_time, {:array, :string}

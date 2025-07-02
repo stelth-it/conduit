@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Whl_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_whl_mstr" do
+  schema "qad_whl_mstr" do
     field :whl_site, :string
 
     field :whl_loc, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Tblc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_tblc_mstr" do
+  schema "qad_tblc_mstr" do
     field :tblc_table, :string
 
     field :tblc_active, Conduit.QAD.Types.Bool

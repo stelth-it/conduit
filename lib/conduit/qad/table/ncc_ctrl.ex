@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ncc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ncc_ctrl" do
+  schema "qad_ncc_ctrl" do
     field :ncc_channel, :string
 
     field :ncc_pr_list, :string

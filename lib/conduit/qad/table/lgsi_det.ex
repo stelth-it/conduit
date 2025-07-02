@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lgsi_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lgsi_det" do
+  schema "qad_lgsi_det" do
     field :lgsi_app_id, :string
 
     field :lgsi_site, :string

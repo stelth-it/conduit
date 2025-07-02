@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Egc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_egc_ctrl" do
+  schema "qad_egc_ctrl" do
     field :egc__qadc05, {:array, :string}
 
     field :egc_index, :integer

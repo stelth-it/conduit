@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Bl_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_bl_ctrl" do
+  schema "qad_bl_ctrl" do
     field :bl_master_id, :string
 
     field :bl_user1, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rpc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rpc_ctrl" do
+  schema "qad_rpc_ctrl" do
     field :rpc__qadi01, :integer
 
     field :rpc_nbr, :integer

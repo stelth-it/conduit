@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grbg_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grbg_det" do
+  schema "qad_grbg_det" do
     field :grbg_acc, :string
 
     field :grbg_cc, :string

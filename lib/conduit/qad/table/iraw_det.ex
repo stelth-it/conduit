@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Iraw_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_iraw_det" do
+  schema "qad_iraw_det" do
     field :iraw_doc_id, :integer
 
     field :iraw_doc_line, :integer

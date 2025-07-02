@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cncix_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cncix_mstr" do
+  schema "qad_cncix_mstr" do
     field :cncix_pkey, :integer
 
     field :cncix_ship_trnbr, :integer

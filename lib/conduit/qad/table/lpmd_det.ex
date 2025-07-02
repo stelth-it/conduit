@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lpmd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lpmd_det" do
+  schema "qad_lpmd_det" do
     field :lpmd_product, :string
 
     field :lpmd_exec, :string

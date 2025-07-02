@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Iec_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_iec_ctrl" do
+  schema "qad_iec_ctrl" do
     field :iec_authority, :string
 
     field :iec_agent, :string

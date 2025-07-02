@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Wcr_route do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_wcr_route" do
+  schema "qad_wcr_route" do
     field :wcr_wkctr, :string
 
     field :wcr_part, :string

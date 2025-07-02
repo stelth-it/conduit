@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Dmw_wkfl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_dmw_wkfl" do
+  schema "qad_dmw_wkfl" do
     field :dmw_nbr, :string
 
     field :dmw_bill, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Tbl_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_tbl_mstr" do
+  schema "qad_tbl_mstr" do
     field :tbl_partype, :string
 
     field :tbl_parcode, :string

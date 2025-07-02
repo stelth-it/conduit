@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grqd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grqd_det" do
+  schema "qad_grqd_det" do
     field :grqd_per_end, :integer
 
     field :grqd_quarter, :integer

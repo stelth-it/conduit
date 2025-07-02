@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ops_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ops_ctrl" do
+  schema "qad_ops_ctrl" do
     field :ops_cover, :decimal
 
     field :ops_plan, Conduit.QAD.Types.Bool

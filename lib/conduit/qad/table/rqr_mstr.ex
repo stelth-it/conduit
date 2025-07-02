@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rqr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rqr_mstr" do
+  schema "qad_rqr_mstr" do
     field :rqr_role, :string
 
     field :rqr_userid, :string

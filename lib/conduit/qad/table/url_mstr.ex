@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Url_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_url_mstr" do
+  schema "qad_url_mstr" do
     field :url_field, :string
 
     field :url_field_value, :string

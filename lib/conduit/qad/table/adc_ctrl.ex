@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Adc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_adc_ctrl" do
+  schema "qad_adc_ctrl" do
     field :adc_format, :integer
 
     field :adc_user1, :string

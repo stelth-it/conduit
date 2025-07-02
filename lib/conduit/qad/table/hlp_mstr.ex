@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Hlp_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_hlp_mstr" do
+  schema "qad_hlp_mstr" do
     field :hlp_context_str, :string
 
     field :hlp_context_nbr, :integer

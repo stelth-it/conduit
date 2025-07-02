@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Qr_test do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_qr_test" do
+  schema "qad_qr_test" do
     field :qr_nbr, :string
 
     field :qr_op, :integer

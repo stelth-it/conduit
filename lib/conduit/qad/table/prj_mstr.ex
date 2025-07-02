@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Prj_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_prj_mstr" do
+  schema "qad_prj_mstr" do
     field :prj_nbr, :string
 
     field :prj_action_stat, :string

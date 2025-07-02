@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Trcs_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_trcs_det" do
+  schema "qad_trcs_det" do
     field :trcs_mtl_std, :decimal
 
     field :trcs_lbr_std, :decimal

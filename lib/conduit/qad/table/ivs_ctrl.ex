@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ivs_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ivs_ctrl" do
+  schema "qad_ivs_ctrl" do
     field :ivs_index1, :integer
 
     field :ivs_cmmts, Conduit.QAD.Types.Bool

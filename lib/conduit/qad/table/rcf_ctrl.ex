@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rcf_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rcf_ctrl" do
+  schema "qad_rcf_ctrl" do
     field :rcf__qadi03, :integer
 
     field :rcf_active, Conduit.QAD.Types.Bool

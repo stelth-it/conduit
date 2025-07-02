@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fal_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fal_mstr" do
+  schema "qad_fal_mstr" do
     field :fal_loc, :string
 
     field :fal_desc, :string

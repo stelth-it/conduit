@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Bkad_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_bkad_det" do
+  schema "qad_bkad_det" do
     field :bkad_bank, :string
 
     field :bkad_pay_method, :string

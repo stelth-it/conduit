@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Esapfc_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_esapfc_det" do
+  schema "qad_esapfc_det" do
     field :oid_esapfc_det, :decimal, primary_key: true
 
     field :oid_esapfil_det, :decimal, primary_key: true

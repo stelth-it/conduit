@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sor_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sor_mstr" do
+  schema "qad_sor_mstr" do
     field :sor_div, :string
 
     field :sor_group, :string

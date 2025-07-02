@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pigc_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pigc_det" do
+  schema "qad_pigc_det" do
     field :pigc_amt_type, :string
 
     field :pigc_code, :string

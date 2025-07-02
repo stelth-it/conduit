@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Adx_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_adx_det" do
+  schema "qad_adx_det" do
     field :adx_ext_appl, :string
 
     field :adx_ext_ref1, :string

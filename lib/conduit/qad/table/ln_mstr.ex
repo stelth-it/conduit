@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ln_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ln_mstr" do
+  schema "qad_ln_mstr" do
     field :ln_line, :string
 
     field :ln_site, :string

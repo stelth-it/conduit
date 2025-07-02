@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Dpc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_dpc_mstr" do
+  schema "qad_dpc_mstr" do
     field :dpc_conv, :string
 
     field :dpc_desc, :string

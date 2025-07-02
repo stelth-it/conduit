@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pli_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pli_mstr" do
+  schema "qad_pli_mstr" do
     field :pli_keyid, :integer
 
     field :pli_internal_ref_type, :string

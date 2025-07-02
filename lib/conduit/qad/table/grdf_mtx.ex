@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grdf_mtx do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grdf_mtx" do
+  schema "qad_grdf_mtx" do
     field :grdf_run_id, :integer
 
     field :grdf_row, :integer

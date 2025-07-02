@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Csld_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_csld_det" do
+  schema "qad_csld_det" do
     field :csld_ctry_code, :string
 
     field :csld_auth, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cctr_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cctr_hist" do
+  schema "qad_cctr_hist" do
     field :cctr_nbr, :string
 
     field :cctr_inv_nbr, :string

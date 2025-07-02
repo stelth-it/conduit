@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Opm_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_opm_mstr" do
+  schema "qad_opm_mstr" do
     field :opm_desc, :string
 
     field :opm_wkctr, :string

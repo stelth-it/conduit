@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cref_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cref_mstr" do
+  schema "qad_cref_mstr" do
     field :cref_ref_type, :string
 
     field :cref_item3, :string

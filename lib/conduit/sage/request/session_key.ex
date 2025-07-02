@@ -1,9 +1,9 @@
 defmodule Conduit.Sage.Request.SessionKey do
-  use TypedEctoSchema
+  use Ecto.Schema
   @derive {Jason.Encoder, only: [:creation_time]}
 
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field(:value, :string)
     field(:creation_time, :naive_datetime)
     field(:expiration_time, :naive_datetime)

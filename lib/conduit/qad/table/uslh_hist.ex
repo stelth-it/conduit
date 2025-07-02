@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Uslh_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_uslh_hist" do
+  schema "qad_uslh_hist" do
     field :uslh_userid, :string
 
     field :uslh_date, Conduit.QAD.Types.Date

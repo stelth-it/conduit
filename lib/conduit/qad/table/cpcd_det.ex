@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cpcd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cpcd_det" do
+  schema "qad_cpcd_det" do
     field :cpcd_cust, :string
 
     field :cpcd_year, :integer

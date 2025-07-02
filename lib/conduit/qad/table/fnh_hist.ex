@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fnh_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fnh_hist" do
+  schema "qad_fnh_hist" do
     field :fnh_account_eng, Conduit.QAD.Types.Bool
 
     field :fnh_ca_desc, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mpp_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mpp_det" do
+  schema "qad_mpp_det" do
     field :mpp_program, :string
 
     field :mpp_sequence, :integer

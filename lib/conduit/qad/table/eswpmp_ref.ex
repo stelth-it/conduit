@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Eswpmp_ref do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_eswpmp_ref" do
+  schema "qad_eswpmp_ref" do
     field :oid_eswpmp_ref, :decimal, primary_key: true
 
     field :oid_eswp_mstr, :decimal, primary_key: true

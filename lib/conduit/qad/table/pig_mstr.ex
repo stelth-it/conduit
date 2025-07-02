@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pig_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pig_mstr" do
+  schema "qad_pig_mstr" do
     field :pig_all_custs, Conduit.QAD.Types.Bool
 
     field :pig_all_items, Conduit.QAD.Types.Bool

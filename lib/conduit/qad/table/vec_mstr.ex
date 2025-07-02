@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vec_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vec_mstr" do
+  schema "qad_vec_mstr" do
     field :vec_category, :string
 
     field :vec_active_flag, Conduit.QAD.Types.Bool

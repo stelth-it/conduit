@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pcc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pcc_ctrl" do
+  schema "qad_pcc_ctrl" do
     field :pcc__qadi01, :integer
 
     field :pcc_auto_nbr, Conduit.QAD.Types.Bool

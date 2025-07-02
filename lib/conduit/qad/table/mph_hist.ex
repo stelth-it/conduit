@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mph_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mph_hist" do
+  schema "qad_mph_hist" do
     field :mph_part, :string
 
     field :mph_routing, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Btb_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_btb_det" do
+  schema "qad_btb_det" do
     field :btb_so, :string
 
     field :btb_sod_line, :integer

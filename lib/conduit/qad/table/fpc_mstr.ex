@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fpc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fpc_mstr" do
+  schema "qad_fpc_mstr" do
     field :fpc_amt, {:array, :decimal}
 
     field :fpc_amt_type, :string

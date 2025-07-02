@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Seq_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_seq_mstr" do
+  schema "qad_seq_mstr" do
     field :seq_line, :string
 
     field :seq_site, :string

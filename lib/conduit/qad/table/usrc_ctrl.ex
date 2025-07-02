@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Usrc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_usrc_ctrl" do
+  schema "qad_usrc_ctrl" do
     field :usrc_index1, :integer
 
     field :usrc_sec_opt, :string

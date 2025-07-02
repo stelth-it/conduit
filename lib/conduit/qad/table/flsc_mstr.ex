@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Flsc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_flsc_mstr" do
+  schema "qad_flsc_mstr" do
     field :flsc_schedule_code, :string
 
     field :flsc_start_date, Conduit.QAD.Types.Date

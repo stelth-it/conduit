@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ptc_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ptc_det" do
+  schema "qad_ptc_det" do
     field :ptc_part, :string
 
     field :ptc_charge, Conduit.QAD.Types.Bool

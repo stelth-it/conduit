@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fabch_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fabch_mstr" do
+  schema "qad_fabch_mstr" do
     field :fabch_id, :string
 
     field :fabch_ctrl, :decimal

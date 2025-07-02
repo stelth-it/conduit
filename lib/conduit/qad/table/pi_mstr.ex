@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pi_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pi_mstr" do
+  schema "qad_pi_mstr" do
     field :pi_list, :string
 
     field :pi_desc, :string

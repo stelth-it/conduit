@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Djr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_djr_mstr" do
+  schema "qad_djr_mstr" do
     field :djr_acc_skip, Conduit.QAD.Types.Bool
 
     field :djr_bank, :string

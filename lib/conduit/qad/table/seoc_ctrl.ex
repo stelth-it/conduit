@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Seoc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_seoc_ctrl" do
+  schema "qad_seoc_ctrl" do
     field :seoc_bo_advice, :integer
 
     field :seoc_dnote, :integer

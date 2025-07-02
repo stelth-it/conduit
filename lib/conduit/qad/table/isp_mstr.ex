@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Isp_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_isp_mstr" do
+  schema "qad_isp_mstr" do
     field :isp_access_code, :string
 
     field :isp_src_comp, :string

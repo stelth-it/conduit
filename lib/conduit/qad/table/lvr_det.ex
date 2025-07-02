@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lvr_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lvr_det" do
+  schema "qad_lvr_det" do
     field :lvr_userid, :string
 
     field :lvr_date, :string

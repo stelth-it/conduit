@@ -3,12 +3,12 @@ defmodule Conduit.QAD.QadTables.QadTable do
   Represents a description of a QAD table.
   """
 
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
   alias Conduit.QAD.{QadImportActions.QadImportAction}
 
   @primary_key false
-  typed_schema "qad_tables" do
+  schema "qad_tables" do
     field :table_name, :string, primary_key: true
     field :table_flags, :string
     field :field_count, :integer

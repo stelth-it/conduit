@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pac_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pac_mstr" do
+  schema "qad_pac_mstr" do
     field :pac_code, :string
 
     field :pac_desc, :string

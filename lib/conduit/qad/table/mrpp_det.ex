@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mrpp_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mrpp_det" do
+  schema "qad_mrpp_det" do
     field :mrpp_demand_mrp_keyid, :integer
 
     field :mrpp_supply_mrp_keyid, :integer

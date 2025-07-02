@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Glcompgrpmember do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO PARENTKEY LHSACCTNO LHSACCTGRPNAME LHSCONST OPERATOR RHSACCTNO RHSACCTGRPNAME RHSCONST PRECISION DISPLAYAS UOM LHSASOF RHSASOF UOMALIGNMENT WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "GLCOMPGRPMEMBER" do
+  schema "GLCOMPGRPMEMBER" do
     field :RECORDNO, :string, primary_key: true
 
     field :PARENTKEY, :integer, primary_key: true

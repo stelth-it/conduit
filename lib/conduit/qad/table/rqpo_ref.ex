@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rqpo_ref do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rqpo_ref" do
+  schema "qad_rqpo_ref" do
     field :rqpo_req_nbr, :string
 
     field :rqpo_req_line, :integer

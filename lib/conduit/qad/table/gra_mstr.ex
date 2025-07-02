@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Gra_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_gra_mstr" do
+  schema "qad_gra_mstr" do
     field :gra_an_code, :string
 
     field :gra_link, Conduit.QAD.Types.Bool

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Attmp_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_attmp_mstr" do
+  schema "qad_attmp_mstr" do
     field :attmp_event_id, :decimal
 
     field :attmp_table_name, :string

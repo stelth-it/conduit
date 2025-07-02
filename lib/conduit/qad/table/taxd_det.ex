@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Taxd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_taxd_det" do
+  schema "qad_taxd_det" do
     field :taxd_effdate, Conduit.QAD.Types.Date
 
     field :taxd_state, :string

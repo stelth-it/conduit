@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fact_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fact_ctrl" do
+  schema "qad_fact_ctrl" do
     field :fact_auto, Conduit.QAD.Types.Bool
 
     field :fact_gl_sum, Conduit.QAD.Types.Bool

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Gri_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_gri_mstr" do
+  schema "qad_gri_mstr" do
     field :gri_run_id, :integer
 
     field :gri_report, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vesd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vesd_det" do
+  schema "qad_vesd_det" do
     field :vesd_vendor, :string
 
     field :vesd_vendor_source, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Css_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_css_mstr" do
+  schema "qad_css_mstr" do
     field :css_ctry_code, :string
 
     field :css_auth, :string

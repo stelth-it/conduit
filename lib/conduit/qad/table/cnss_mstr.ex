@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cnss_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cnss_mstr" do
+  schema "qad_cnss_mstr" do
     field :cnss_supplier, :string
 
     field :cnss_part, :string

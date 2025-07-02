@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Dprd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_dprd_det" do
+  schema "qad_dprd_det" do
     field :dprd_asset, :string
 
     field :dprd_entity, :string

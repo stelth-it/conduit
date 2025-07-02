@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cct_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cct_mstr" do
+  schema "qad_cct_mstr" do
     field :cct_charge_type, :string
 
     field :cct_container_type, Conduit.QAD.Types.Bool

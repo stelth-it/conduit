@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Glresolve do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "GLENTRYKEY PRENTRYKEY PRRECORDKEY DOCENTRYKEY SUBTOTKEY DOCHDRKEY TRX_AMOUNT CURRENCY AMOUNT WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "GLRESOLVE" do
+  schema "GLRESOLVE" do
     field :GLENTRYKEY, :integer, primary_key: true
 
     field :PRENTRYKEY, :integer, primary_key: true

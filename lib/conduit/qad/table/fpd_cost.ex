@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fpd_cost do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fpd_cost" do
+  schema "qad_fpd_cost" do
     field :fpd_part, :string
 
     field :fpd_site, :string

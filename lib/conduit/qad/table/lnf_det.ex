@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lnf_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lnf_det" do
+  schema "qad_lnf_det" do
     field :lnf_site, :string
 
     field :lnf_production_line, :string

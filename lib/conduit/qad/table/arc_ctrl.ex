@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Arc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_arc_ctrl" do
+  schema "qad_arc_ctrl" do
     field :arc_memo, :integer
 
     field :arc_batch, :integer

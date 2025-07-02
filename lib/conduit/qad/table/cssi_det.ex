@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cssi_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cssi_det" do
+  schema "qad_cssi_det" do
     field :cssi_site, :string
 
     field :cssi_set, :string

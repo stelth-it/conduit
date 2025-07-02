@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Oa_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_oa_det" do
+  schema "qad_oa_det" do
     field :oa_nbr, :string
 
     field :oa_part, :string

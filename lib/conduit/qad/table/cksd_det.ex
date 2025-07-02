@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cksd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cksd_det" do
+  schema "qad_cksd_det" do
     field :cksd_batch, :string
 
     field :cksd_line, :integer

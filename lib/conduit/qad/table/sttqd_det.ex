@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sttqd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sttqd_det" do
+  schema "qad_sttqd_det" do
     field :sttqd_acceptable, Conduit.QAD.Types.Bool
 
     field :sttqd_active, Conduit.QAD.Types.Bool

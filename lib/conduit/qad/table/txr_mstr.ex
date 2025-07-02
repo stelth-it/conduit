@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Txr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_txr_mstr" do
+  schema "qad_txr_mstr" do
     field :txr_active, Conduit.QAD.Types.Bool
 
     field :txr_ap_page_num, :integer

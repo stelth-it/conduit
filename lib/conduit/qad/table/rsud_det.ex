@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rsud_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rsud_det" do
+  schema "qad_rsud_det" do
     field :rsud_index, :integer
 
     field :rsud_group, :string

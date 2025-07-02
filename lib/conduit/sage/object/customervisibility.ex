@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Customervisibility do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO CUSTOMERID NAME VISIBILITY MEGAENTITYKEY MEGAENTITYID MEGAENTITYNAME RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "CUSTOMERVISIBILITY" do
+  schema "CUSTOMERVISIBILITY" do
     field(:RECORDNO, :integer)
 
     field(:CUSTOMERID, :string)

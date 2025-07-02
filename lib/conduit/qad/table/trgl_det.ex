@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Trgl_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_trgl_det" do
+  schema "qad_trgl_det" do
     field :trgl_cr_acct, :string
 
     field :trgl_cr_cc, :string

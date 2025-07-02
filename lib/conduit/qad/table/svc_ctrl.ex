@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Svc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_svc_ctrl" do
+  schema "qad_svc_ctrl" do
     field :svc_code, :string
 
     field :svc_dflt_pri, :integer

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grig_mtx do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grig_mtx" do
+  schema "qad_grig_mtx" do
     field :grig_run_id, :integer
 
     field :grig_brk_gp, :string

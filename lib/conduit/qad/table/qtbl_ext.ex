@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Qtbl_ext do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_qtbl_ext" do
+  schema "qad_qtbl_ext" do
     field :qtbl_owner, :string
 
     field :qtbl_table, :string

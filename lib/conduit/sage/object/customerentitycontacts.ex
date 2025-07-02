@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Customerentitycontacts do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "WHENMODIFIED WHENCREATED CREATEDBY MODIFIEDBY RECORDNO RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "CUSTOMERENTITYCONTACTS" do
+  schema "CUSTOMERENTITYCONTACTS" do
     field(:WHENMODIFIED, Conduit.Sage.Object.DateTime)
 
     field(:WHENCREATED, Conduit.Sage.Object.DateTime)

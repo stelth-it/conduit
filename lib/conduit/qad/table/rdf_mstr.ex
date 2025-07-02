@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rdf_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rdf_mstr" do
+  schema "qad_rdf_mstr" do
     field :rdf_srtn_site, :string
 
     field :rdf_spare_loc, :string

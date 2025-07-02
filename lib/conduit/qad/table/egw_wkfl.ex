@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Egw_wkfl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_egw_wkfl" do
+  schema "qad_egw_wkfl" do
     field :egw_week, Conduit.QAD.Types.Date
 
     field :egw_available, Conduit.QAD.Types.Bool

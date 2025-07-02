@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Csid_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_csid_det" do
+  schema "qad_csid_det" do
     field :csid_ctry_code, :string
 
     field :csid_auth, :string

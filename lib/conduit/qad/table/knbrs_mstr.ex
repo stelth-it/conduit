@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Knbrs_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_knbrs_mstr" do
+  schema "qad_knbrs_mstr" do
     field :knbrs_dispatch_id, :string
 
     field :knbrs_dispatch_date, Conduit.QAD.Types.Date

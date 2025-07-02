@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lgs_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lgs_mstr" do
+  schema "qad_lgs_mstr" do
     field :lgs_app_id, :string
 
     field :lgs_act, Conduit.QAD.Types.Bool

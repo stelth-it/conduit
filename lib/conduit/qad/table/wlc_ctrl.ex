@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Wlc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_wlc_ctrl" do
+  schema "qad_wlc_ctrl" do
     field :wlc_trc_parents, Conduit.QAD.Types.Bool
 
     field :wlc_maxlotsize, :decimal

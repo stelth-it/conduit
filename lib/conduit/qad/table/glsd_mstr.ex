@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Glsd_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_glsd_mstr" do
+  schema "qad_glsd_mstr" do
     field :glsd_nbr, :string
 
     field :glsd_select, :integer

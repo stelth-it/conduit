@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Application_enablement_fa do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "name createdBy createdAt updatedBy updatedAt id RECORD_URL action_app allow_edit application_enablement"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "APPLICATION_ENABLEMENT_FA" do
+  schema "APPLICATION_ENABLEMENT_FA" do
     field(:name, :string)
 
     field(:comment, :string)

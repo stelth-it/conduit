@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rmc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rmc_ctrl" do
+  schema "qad_rmc_ctrl" do
     field :rmc_loc_ov, :string
 
     field :rmc_hcmmts, Conduit.QAD.Types.Bool

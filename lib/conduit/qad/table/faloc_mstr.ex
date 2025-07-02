@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Faloc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_faloc_mstr" do
+  schema "qad_faloc_mstr" do
     field :faloc_id, :string
 
     field :faloc_desc, :string

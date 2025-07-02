@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Dbs_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_dbs_mstr" do
+  schema "qad_dbs_mstr" do
     field :dbs_major, :decimal
 
     field :dbs_minor, :string

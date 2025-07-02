@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Apr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_apr_mstr" do
+  schema "qad_apr_mstr" do
     field :apr_access_code, :string
 
     field :apr_src_comp, :string

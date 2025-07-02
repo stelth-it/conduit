@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Crc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_crc_ctrl" do
+  schema "qad_crc_ctrl" do
     field :crc__qadi01, :integer
 
     field :crc_nbr, :integer

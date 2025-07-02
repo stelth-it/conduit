@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sufd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sufd_det" do
+  schema "qad_sufd_det" do
     field :sufd_shipfrom, :string
 
     field :sufd_shipto, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cns_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cns_ctrl" do
+  schema "qad_cns_ctrl" do
     field :cns__qadi01, :integer
 
     field :cns_active, Conduit.QAD.Types.Bool

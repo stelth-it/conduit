@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Mfrel_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_mfrel_mstr" do
+  schema "qad_mfrel_mstr" do
     field :mfrel_type, :string
 
     field :mfrel_source_key1, :string

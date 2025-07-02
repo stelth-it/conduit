@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grid_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grid_det" do
+  schema "qad_grid_det" do
     field :grid_run_id, :integer
 
     field :grid_row, :integer

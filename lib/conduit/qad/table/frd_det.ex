@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Frd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_frd_det" do
+  schema "qad_frd_det" do
     field :frd_code, :string
 
     field :frd_weight, :decimal

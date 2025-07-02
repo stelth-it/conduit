@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Apmr_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_apmr_mstr" do
+  schema "qad_apmr_mstr" do
     field :apmr_pricing, :integer
 
     field :apmr_rule, :integer

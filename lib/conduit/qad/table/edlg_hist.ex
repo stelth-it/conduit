@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Edlg_hist do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_edlg_hist" do
+  schema "qad_edlg_hist" do
     field :edlg_doc_id, :integer
 
     field :edlg_doc_sufx, :integer

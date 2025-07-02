@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Glacctgrpmember do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO PARENTKEY CHILDNAME SORTORD WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "GLACCTGRPMEMBER" do
+  schema "GLACCTGRPMEMBER" do
     field :RECORDNO, :string, primary_key: true
 
     field :PARENTKEY, :integer, primary_key: true

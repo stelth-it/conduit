@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sosrd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sosrd_det" do
+  schema "qad_sosrd_det" do
     field :sosrd_dataset, :string
 
     field :sosrd_line, :integer

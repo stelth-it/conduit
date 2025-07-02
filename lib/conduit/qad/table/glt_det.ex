@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Glt_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_glt_det" do
+  schema "qad_glt_det" do
     field :glt_entity, :string
 
     field :glt_acct, :string

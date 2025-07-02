@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Apapprovalruleset do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RULESETNAME RECORDNO RULETYPE MODULE WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "APAPPROVALRULESET" do
+  schema "APAPPROVALRULESET" do
     field(:RULESETNAME, :string)
 
     field(:RECORDNO, :integer)

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cslm_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cslm_mstr" do
+  schema "qad_cslm_mstr" do
     field :cslm_ctry_code, :string
 
     field :cslm_auth, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Grx_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_grx_mstr" do
+  schema "qad_grx_mstr" do
     field :grx_report, :string
 
     field :grx_desc, :string

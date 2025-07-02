@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Shd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_shd_det" do
+  schema "qad_shd_det" do
     field :shd_code, :string
 
     field :shd_src_site, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ip_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ip_mstr" do
+  schema "qad_ip_mstr" do
     field :ip_part, :string
 
     field :ip_routing, :string

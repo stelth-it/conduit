@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Esfil_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_esfil_mstr" do
+  schema "qad_esfil_mstr" do
     field :oid_esfil_mstr, :decimal, primary_key: true
 
     field :esfil_table_name, :string

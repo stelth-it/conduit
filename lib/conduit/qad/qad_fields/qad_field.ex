@@ -1,9 +1,9 @@
 defmodule Conduit.QAD.QadFields.QadField do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @primary_key false
-  typed_embedded_schema do
+  embedded_schema do
     field :order, :integer
     field :field_name, :string
     field :field_type, :string

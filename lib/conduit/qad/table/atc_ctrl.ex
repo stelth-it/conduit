@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Atc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_atc_ctrl" do
+  schema "qad_atc_ctrl" do
     field :oid_atc_ctrl, :decimal, primary_key: true
 
     field :atc_storage_shutdown, Conduit.QAD.Types.Bool

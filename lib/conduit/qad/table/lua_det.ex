@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Lua_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_lua_det" do
+  schema "qad_lua_det" do
     field :lua_userid, :string
 
     field :lua_sid, :string

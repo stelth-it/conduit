@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Pould_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_pould_det" do
+  schema "qad_pould_det" do
     field :pould_poul_ref_key, :integer
 
     field :pould_loc, :string

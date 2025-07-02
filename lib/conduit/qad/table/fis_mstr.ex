@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fis_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fis_mstr" do
+  schema "qad_fis_mstr" do
     field :fis_column, :integer
 
     field :fis_desc, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ie_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ie_mstr" do
+  schema "qad_ie_mstr" do
     field :ie_incl_memo, Conduit.QAD.Types.Bool
 
     field :ie_mode_transp, :string

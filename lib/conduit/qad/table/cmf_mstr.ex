@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cmf_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cmf_mstr" do
+  schema "qad_cmf_mstr" do
     field :cmf_trans_nbr, :integer
 
     field :cmf_doc_type, :string

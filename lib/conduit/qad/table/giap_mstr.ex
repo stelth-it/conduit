@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Giap_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_giap_mstr" do
+  schema "qad_giap_mstr" do
     field :giap_app_code, :string
 
     field :giap_app_desc, :string

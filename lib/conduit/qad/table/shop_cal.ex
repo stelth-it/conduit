@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Shop_cal do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_shop_cal" do
+  schema "qad_shop_cal" do
     field :shop_wdays, {:array, Conduit.QAD.Types.Bool}
 
     field :shop_hours, {:array, :decimal}

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Shpc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_shpc_ctrl" do
+  schema "qad_shpc_ctrl" do
     field :shpc__qadi01, :integer
 
     field :shpc_active, Conduit.QAD.Types.Bool

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Rbm_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_rbm_mstr" do
+  schema "qad_rbm_mstr" do
     field :rbm_ar_nbr, :string
 
     field :rbm_status, :string

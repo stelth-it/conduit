@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Gljournal do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO SYMBOL STATUS TITLE START_DATE LAST_DATE ADJ BOOKID BOOKTYPE WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY BILLABLE DISABLEDIRECTPOSTING RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "GLJOURNAL" do
+  schema "GLJOURNAL" do
     field :RECORDNO, :integer, primary_key: true
 
     field :SYMBOL, :string, primary_key: true

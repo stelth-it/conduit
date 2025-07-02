@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fsc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fsc_mstr" do
+  schema "qad_fsc_mstr" do
     field :fsc_code, :string
 
     field :fsc_con_parts, Conduit.QAD.Types.Bool

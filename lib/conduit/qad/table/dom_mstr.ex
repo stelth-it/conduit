@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Dom_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_dom_mstr" do
+  schema "qad_dom_mstr" do
     field :dom_domain, :string
 
     field :dom_name, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Esgc_ref do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_esgc_ref" do
+  schema "qad_esgc_ref" do
     field :oid_esgc_ref, :decimal, primary_key: true
 
     field :oid_escat_mstr, :decimal, primary_key: true

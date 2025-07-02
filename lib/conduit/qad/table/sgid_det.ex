@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sgid_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sgid_det" do
+  schema "qad_sgid_det" do
     field :sgid_grp, :string
 
     field :sgid_inv_mov, :string

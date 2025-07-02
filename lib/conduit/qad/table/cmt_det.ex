@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Cmt_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_cmt_det" do
+  schema "qad_cmt_det" do
     field :cmt_indx, :integer
 
     field :cmt_seq, :integer

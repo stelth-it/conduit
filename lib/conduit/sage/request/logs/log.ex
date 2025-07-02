@@ -1,10 +1,10 @@
 defmodule Conduit.Sage.Request.Logs.Log do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
   alias Conduit.Sage.Request, as: SR
   alias Conduit.Sage.Endpoints.Endpoint
 
-  typed_schema "request_logs" do
+  schema "request_logs" do
     field(:status, Ecto.Enum, values: [:success, :failure])
     field(:error, :map)
     embeds_one(:request, Conduit.Sage.Request)

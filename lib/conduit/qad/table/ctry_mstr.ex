@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Ctry_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_ctry_mstr" do
+  schema "qad_ctry_mstr" do
     field :ctry_ctry_code, :string
 
     field :ctry_country, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Bcd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_bcd_det" do
+  schema "qad_bcd_det" do
     field :bcd_batch, :string
 
     field :bcd_date_sub, Conduit.QAD.Types.Date

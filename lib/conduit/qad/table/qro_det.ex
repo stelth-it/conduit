@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Qro_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_qro_det" do
+  schema "qad_qro_det" do
     field :qro_routing, :string
 
     field :qro_op, :integer

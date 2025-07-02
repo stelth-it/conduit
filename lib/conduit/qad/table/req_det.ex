@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Req_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_req_det" do
+  schema "qad_req_det" do
     field :req_nbr, :string
 
     field :req_line, :integer

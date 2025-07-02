@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sr_wkfl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sr_wkfl" do
+  schema "qad_sr_wkfl" do
     field :sr_userid, :string
 
     field :sr_lineid, :string

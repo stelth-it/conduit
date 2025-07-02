@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sroc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sroc_ctrl" do
+  schema "qad_sroc_ctrl" do
     field :sroc_sro, :integer
 
     field :sroc__qad01, :integer

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Flp_plan do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_flp_plan" do
+  schema "qad_flp_plan" do
     field :flp_site, :string
 
     field :flp_part, :string

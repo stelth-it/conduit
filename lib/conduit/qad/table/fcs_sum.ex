@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fcs_sum do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fcs_sum" do
+  schema "qad_fcs_sum" do
     field :fcs_part, :string
 
     field :fcs_year, :integer

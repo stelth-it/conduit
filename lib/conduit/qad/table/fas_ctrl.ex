@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Fas_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_fas_ctrl" do
+  schema "qad_fas_ctrl" do
     field :fas_gain_acct, :string
 
     field :fas_gain_cc, :string

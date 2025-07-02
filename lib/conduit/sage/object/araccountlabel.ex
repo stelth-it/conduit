@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Araccountlabel do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO ACCOUNTLABEL DESCRIPTION GLACCOUNTNO GLACCOUNTTITLE STATUS OFFSETGLACCOUNTNO TAXABLE ISTAX SUBTOTAL TAXGROUP.NAME TAXCODE DEFERREDREVACCTKEY REVRECTEMPLKEY WHENMODIFIED WHENCREATED MODIFIEDBY CREATEDBY MEGAENTITYKEY MEGAENTITYID MEGAENTITYNAME RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "ARACCOUNTLABEL" do
+  schema "ARACCOUNTLABEL" do
     field(:RECORDNO, :integer)
 
     field(:ACCOUNTLABEL, :string)

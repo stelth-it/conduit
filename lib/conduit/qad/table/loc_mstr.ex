@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Loc_mstr do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_loc_mstr" do
+  schema "qad_loc_mstr" do
     field :loc_loc, :string
 
     field :loc__qad01, Conduit.QAD.Types.Bool

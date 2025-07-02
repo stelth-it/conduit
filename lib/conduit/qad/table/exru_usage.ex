@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Exru_usage do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_exru_usage" do
+  schema "qad_exru_usage" do
     field :exru_seq, :integer
 
     field :exru_step, :integer

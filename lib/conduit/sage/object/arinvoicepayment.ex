@@ -1,12 +1,12 @@
 defmodule Elixir.Conduit.Sage.Object.Arinvoicepayment do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
   @field_names "RECORDNO PAYMENTKEY PAYITEMKEY RECORDKEY PAIDITEMKEY AMOUNT STATE PARENTPYMT PAYMENTDATE CURRENCY TRX_AMOUNT INVBASEAMT INVTRXAMT WHENCREATED WHENMODIFIED CREATEDBY MODIFIEDBY RECORD_URL"
                |> String.split()
 
   @primary_key {:pg_id, :id, autogenerate: true}
-  typed_schema "ARINVOICEPAYMENT" do
+  schema "ARINVOICEPAYMENT" do
     field(:RECORDNO, :string)
 
     field(:PAYMENTKEY, :integer)

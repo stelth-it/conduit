@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Sypd_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_sypd_det" do
+  schema "qad_sypd_det" do
     field :sypd_profl_id, :string
 
     field :sypd_fldname, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Bdp_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_bdp_det" do
+  schema "qad_bdp_det" do
     field :bdp_program, :string
 
     field :bdp_addr, :string

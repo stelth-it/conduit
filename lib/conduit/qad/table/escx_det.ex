@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Escx_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_escx_det" do
+  schema "qad_escx_det" do
     field :oid_escx_det, :decimal, primary_key: true
 
     field :escx_xml_stamp, :string

@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Poc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_poc_ctrl" do
+  schema "qad_poc_ctrl" do
     field :poc_bill, :string
 
     field :poc_ship, :string

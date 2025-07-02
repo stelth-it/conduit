@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Usg_det do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_usg_det" do
+  schema "qad_usg_det" do
     field :usg_product, :string
 
     field :usg_exec, :string

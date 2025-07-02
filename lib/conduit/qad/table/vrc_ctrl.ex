@@ -1,8 +1,8 @@
 defmodule Elixir.Conduit.QAD.Table.Vrc_ctrl do
-  use TypedEctoSchema
+  use Ecto.Schema
   import Ecto.Changeset
 
-  typed_schema "qad_vrc_ctrl" do
+  schema "qad_vrc_ctrl" do
     field :vrc_v86, :string
 
     field :vrc_user1, :string
