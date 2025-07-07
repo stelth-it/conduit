@@ -130,6 +130,10 @@ RUN echo "Downloading Chrome version: ${CHROME_VERSION}" && \
     echo "Chrome version: $(chrome --version)" && \
     echo "ChromeDriver version: $(chromedriver --version)"
 
+# these values must be set or chrome will not launch, see: https://github.com/puppeteer/puppeteer/issues/11023#issuecomment-1776247197
+ENV XDG_CONFIG_HOME=/tmp/.chromium
+ENV XDG_CACHE_HOME=/tmp/.chromium
+
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
