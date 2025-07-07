@@ -7,7 +7,9 @@
 # General application configuration
 import Config
 
-config :wallaby, binary: "priv/bin/google-chrome", path: "priv/bin/chromedriver"
+config :wallaby, :chromedriver,
+  path: "/usr/local/bin/chromedriver",
+  binary: "/usr/local/bin/google-chrome"
 
 config :conduit,
   ecto_repos: [Conduit.Repo],

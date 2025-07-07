@@ -7,10 +7,8 @@
 # This file is based on these images:
 #
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
-#   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bullseye-20230612-slim - for the release image
+#   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bookworm-20250610-slim - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: hexpm/elixir:1.15.7-erlang-26.1-debian-bullseye-20230612-slim
-#
 ARG ELIXIR_VERSION=1.18.4
 ARG OTP_VERSION=28.0.1
 ARG DEBIAN_VERSION=bookworm-20250610-slim
@@ -70,14 +68,7 @@ RUN apt-get update -y && \
   apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates\
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
-#installing chrome and chrome driver so we can pull 
-#information from the quickbooks api docs.  
-#We use npm here because it is the official 
-#method recommended by google to download chrome and 
-#chrome driver binaries of a specific version.
-
-ENV CHROME_VERSION="138.0.7204.49"
-
+#Download chrome and chrome driver dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     unzip \
@@ -119,7 +110,9 @@ RUN apt-get update && apt-get install -y \
     xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and install Chrome and ChromeDriver
+ENV CHROME_VERSION="138.0.7204.49"
+
+#Download and install Chrome and ChromeDriver
 RUN echo "Downloading Chrome version: ${CHROME_VERSION}" && \
     wget -q --show-progress -O /tmp/chrome.zip \
     "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" && \
@@ -128,16 +121,14 @@ RUN echo "Downloading Chrome version: ${CHROME_VERSION}" && \
     cd /tmp && \
     unzip -q chrome.zip && \
     unzip -q chromedriver.zip && \
-    cp chrome-linux64/chrome /usr/local/bin/google-chrome && \
+    cp -r chrome-linux64 /usr/local/chrome-linux64 && \
+    ln -s /usr/local/chrome-linux64/chrome /usr/local/bin/google-chrome && \
     cp chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    chmod 755 /usr/local/chrome-linux64 && \
     chmod +x /usr/local/bin/google-chrome /usr/local/bin/chromedriver && \
     rm -rf /tmp/chrome* && \
     echo "Chrome version: $(chrome --version)" && \
     echo "ChromeDriver version: $(chromedriver --version)"
-
-
-# Verify installation
-RUN google-chrome --version && chromedriver --version
 
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
