@@ -7,6 +7,10 @@ defmodule Conduit.Quickbooks.Endpoints do
   alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Repo
 
+  # Allows us to easily test req.  In prod this will evaluate to nil
+  # and have no effect, in test it will evaluate to a tuple that will
+  # tell req to use testing stub modules that are configured within
+  # the exunit case.
   @test_plug Application.compile_env(:conduit, :qb_testing_plug)
 
   @doc """
