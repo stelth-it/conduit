@@ -46,6 +46,31 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
     |> put_embed(:objects, List.wrap(objects))
   end
 
+  @doc """
+  Returns the database prefix to be used by
+  data stored from objects using this endpoint.
+  """
+  def database_prefix(%__MODULE__{} = ep) do
+    # for now we are just using the friendly_name
+    ep.friendly_name
+  end
+
+  @doc """
+  Returns the directory that should be used for 
+  storing the schemas associated with this endpoint.
+  """
+  def schema_path(%__MODULE__{} = ep) do
+    "./lib/conduit/quickbooks/object/#{database_prefix(ep)}"
+  end
+
+  @doc """
+  Returns the directory to store migrations.
+  """
+  def migration_path(%__MODULE__{} = ep) do
+    # for now just default path, maybe prefix based in the future.
+    "./priv/repo/migrations"
+  end
+
   defp intuit_app_changeset(schema, params) do
     schema
     |> cast(params, [:client_id, :client_secret, :app_id, :app_name])
