@@ -7,9 +7,7 @@ defmodule Conduit.Quickbooks.Object.<%=@prefix%>.<%=String.capitalize(@table_nam
 
  @primary_key false
  schema "<%=@table_name%>" do
-  <%= for field <- @fields do%>
-    <%= Field.to_schema(field) %>
-  <% end %>
+  <%= Enum.map_join(@fields, "\n", & Field.to_schema(&1)) %>
   timestamps()
  end
 

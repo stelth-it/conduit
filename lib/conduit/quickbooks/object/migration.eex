@@ -1,11 +1,9 @@
 <% alias Conduit.Quickbooks.Object.Field %>
-defmodule Conduit.Repo.Migrations.Add<%=String.capitalize(@table_name)%><%=@prefix%> do
+defmodule Conduit.Repo.Migrations.Add<%=String.capitalize(@table_name)%><%=Macro.camelize(@prefix)%> do
   use Ecto.Migration
 
   create table("<%=@table_name%>", prefix: "<%=@prefix || "public"%>", primary_key: false) do
-   <%= for field <- @fields do %>
-    <%= Field.to_migration(field) %>
-   <% end %>
+   <%= Enum.map_join(@fields, "\n", & Field.to_migration(&1)) %>
    timestamps()
   end
 end
