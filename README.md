@@ -1,9 +1,5 @@
 # Conduit
 
-## Dependencies
-
-- Chrome + Chrome Driver: must be installed to scrape field description data from the QuickBooks API.
-
 ## Environment Variables
 
 - PG_DB_USER the username for the pg database
