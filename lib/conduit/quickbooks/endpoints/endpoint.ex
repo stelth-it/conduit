@@ -13,6 +13,7 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
     field :type, Ecto.Enum, values: [:prod, :sandbox]
     field :company_id, :string
     field :token_endpoint, :string
+    field :friendly_name, :string
 
     embeds_one :intuit_app, IntuitApp, on_replace: :update do
       field :client_id, :string
@@ -25,16 +26,24 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
       field :value, Conduit.Vault.EncryptedBinary, redact: true
       field :retrieved_on, :utc_datetime
     end
+
+    embeds_many :objects, Conduit.Quickbooks.Object, on_replace: :delete
   end
 
   def changeset(%__MODULE__{} = ep, params \\ %{}) do
     ep
-    |> cast(params, [:type, :company_id, :token_endpoint])
+    |> cast(params, [:type, :company_id, :token_endpoint, :friendly_name])
     |> cast_embed(:refresh_token, with: &refresh_token_changeset/2)
     |> cast_embed(:intuit_app, with: &intuit_app_changeset/2)
-    |> validate_required([:type, :company_id, :token_endpoint])
-    # unique index exists on these fileds
+    |> validate_required([:type, :company_id, :token_endpoint, :friendly_name])
+    # unique index exists on these fields
     |> unique_constraint([:company_id, :type])
+  end
+
+  def put_objects(%__MODULE__{} = ep, objects) do
+    ep
+    |> change()
+    |> put_embed(:objects, List.wrap(objects))
   end
 
   defp intuit_app_changeset(schema, params) do
