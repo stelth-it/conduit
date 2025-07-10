@@ -44,7 +44,7 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
       |> cast(Map.new(opts), [:overwrite, :path, :file_name])
       |> apply_action(:validate)
       |> case do
-        {:error, cs} -> raise ArgumentError, "invalid options"
+        {:error, _cs} -> raise ArgumentError, "invalid options"
         {:ok, opts_map} -> opts_map
       end
 
@@ -67,7 +67,16 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
   @doc """
   Creates the directory needed to hold schemas
   """
-  def create_directory!(%__MODULE__{} = ma), do: File.dir?(ma.path) || File.mkdir_p!(ma.path)
+  def create_directory(%__MODULE__{} = ma), do: File.dir?(ma.path) || File.mkdir_p(ma.path)
+
+  def create_directory_and_write(%__MODULE__{} = ma, full_file_name) do
+    with v when v in [true, :ok] <- create_directory(ma),
+         :ok <- File.write(full_file_name, ma.content) do
+      {:ok, ma}
+    else
+      _ -> {:error, ma}
+    end
+  end
 
   @doc """
   Writes the migration data to the file system.
@@ -75,20 +84,48 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
   Will try to create the directory that wil store the
   schema, will raise if directory creation fails
   """
-  @spec write_schema(t()) :: {:error, File.posix()} | :ok
+  @spec write_schema(t()) :: {:error, File.posix()} | {:ok, t()}
   def write_schema(%__MODULE__{} = ma) do
-    create_directory!(ma)
-    full_file_name = Path.join(ma.path, ma.file_name <> ".ex")
-
-    case {File.exists?(full_file_name), ma.overwrite} do
+    case {File.exists?(full_file_name(ma)), ma.overwrite} do
       {_, true} ->
-        File.write(full_file_name, ma.content)
+        create_directory_and_write(ma, full_file_name(ma))
 
       {false, _} ->
-        File.write(full_file_name, ma.content)
+        create_directory_and_write(ma, full_file_name(ma))
 
       _ ->
-        :ok
+        {:ok, ma}
     end
+  end
+
+  @doc """
+  Removes a schema file specified in a schema action.
+  This does **not** rollback any migration, it only deletes the file.
+
+  Should be used to cleanup if there is an issue with writing schemas.
+  """
+  def remove_schema(%__MODULE__{} = ma) do
+    File.rm(full_file_name(ma))
+  end
+
+  @doc """
+  Writes the schema file given an object or object name, an 
+  endpoint and ops.  
+
+  The ops are the same as for `from_object_in_endpoint/3`
+  """
+  def write_schema(%Object{} = obj, %Endpoint{} = ep, opts) do
+    from_object_in_endpoint(obj, ep, opts)
+    |> write_schema()
+  end
+
+  def write_schema(obj, %Endpoint{} = ep, opts) when is_binary(obj) do
+    from_object_in_endpoint(obj, ep, opts)
+    |> write_schema()
+  end
+
+  # appends extension
+  defp full_file_name(%__MODULE__{} = ma) do
+    Path.join(ma.path, ma.file_name <> ".ex")
   end
 end

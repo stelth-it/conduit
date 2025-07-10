@@ -2,7 +2,7 @@ defmodule Conduit.Quickbooks.Object.MigrationAction do
   @moduledoc """
   Represents a pending actio to create a migration file.
   """
-  defstruct [:path, :content, :file_suffix, overwrite: false]
+  defstruct [:path, :content, :file_suffix, overwrite: false, write_timestamp: nil]
 
   alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Quickbooks.Object
@@ -12,7 +12,8 @@ defmodule Conduit.Quickbooks.Object.MigrationAction do
           path: Path.t(),
           content: String.t(),
           overwrite: boolean(),
-          file_suffix: String.t()
+          file_suffix: String.t(),
+          write_timestamp: String.t() | nil
         }
 
   @doc """
@@ -43,7 +44,7 @@ defmodule Conduit.Quickbooks.Object.MigrationAction do
       |> cast(Map.new(opts), [:overwrite, :path, :file_suffix])
       |> apply_action(:validate)
       |> case do
-        {:error, cs} -> raise ArgumentError, "invalid options"
+        {:error, _cs} -> raise ArgumentError, "invalid options"
         {:ok, opts_map} -> opts_map
       end
 
@@ -69,26 +70,72 @@ defmodule Conduit.Quickbooks.Object.MigrationAction do
   Will try to create the directory that wil store the
   migration, will raise if directory creation fails
   """
-  def create_directory!(%__MODULE__{} = ma), do: File.dir?(ma.path) || File.mkdir_p!(ma.path)
+  def create_directory(%__MODULE__{} = ma), do: File.dir?(ma.path) || File.mkdir_p(ma.path)
+
+  def create_directory_and_write(%__MODULE__{} = ma, full_file_name) do
+    with v when v in [true, :ok] <- create_directory(ma),
+         :ok <- File.write(full_file_name, ma.content) do
+      {:ok, ma}
+    else
+      _ -> {:error, ma}
+    end
+  end
 
   @doc """
   Writes the migration data to the file system.
   """
-  @spec write_migration(t()) :: {:error, File.posix()} | :ok
+  @spec write_migration(t()) :: {:error, File.posix()} | {:ok, t()}
   def write_migration(%__MODULE__{} = ma) do
-    create_directory!(ma)
-    full_file_name = Path.join(ma.path, "#{migration_timestamp()}_#{ma.file_suffix}.exs")
+    ma = put_migration_timestamp(ma)
 
-    case {File.exists?(full_file_name), ma.overwrite} do
+    case {File.exists?(full_file_name(ma)), ma.overwrite} do
       {_, true} ->
-        File.write(full_file_name, ma.content)
+        create_directory_and_write(ma, full_file_name(ma))
 
       {false, _} ->
-        File.write(full_file_name, ma.content)
+        create_directory_and_write(ma, full_file_name(ma))
 
       _ ->
-        :ok
+        {:ok, ma}
     end
+  end
+
+  @doc """
+  Removes a migation file specified in a migration action.
+  This does **not** rollback the migration, it only deletes the file.
+
+  Should be used to cleanup if there is an issue with writing migrations.
+  """
+  def remove_migration(%__MODULE__{} = ma) do
+    File.rm(full_file_name(ma))
+  end
+
+  @doc """
+  Writes the migration file given an object or object name, an 
+  endpoint and ops.  
+
+  The ops are the same as for `from_object_in_endpoint/3`
+  """
+  def write_migration(%Object{} = obj, %Endpoint{} = ep, opts) do
+    from_object_in_endpoint(obj, ep, opts)
+    |> write_migration()
+  end
+
+  def write_migration(obj, %Endpoint{} = ep, opts) when is_binary(obj) do
+    from_object_in_endpoint(obj, ep, opts)
+    |> write_migration()
+  end
+
+  @doc """
+  Puts the migration timestamp in the write timestamp field
+  """
+  def put_migration_timestamp(%__MODULE__{} = ma) do
+    Map.put(ma, :write_timestamp, migration_timestamp())
+  end
+
+  # adds timestamp prefix and correct extension
+  def full_file_name(%__MODULE__{} = ma) do
+    Path.join(ma.path, "#{ma.write_timestamp}_#{ma.file_suffix}.exs")
   end
 
   # code below copied from ecto migation mix task
