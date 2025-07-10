@@ -3,8 +3,11 @@ defmodule Conduit.Quickbooks.Endpoints do
   Functions for working with quickbooks endpoints.
   """
   import Ecto.Query
+  require Logger
+  alias Phoenix.Endpoint
   alias Conduit.Quickbooks.AccessToken
   alias Conduit.Quickbooks.Endpoints.Endpoint
+  alias Conduit.Quickbooks.Object.{MigrationAction, SchemaAction}
   alias Conduit.Repo
 
   # Allows us to easily test req.  In prod this will evaluate to nil
@@ -29,6 +32,97 @@ defmodule Conduit.Quickbooks.Endpoints do
     %Endpoint{}
     |> Endpoint.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Adds objects to existing endpoint, all existing objects will be dropped!
+  """
+  def put_objects(%Endpoint{} = ep, objects) do
+    ep
+    |> Endpoint.put_objects(objects)
+    |> Repo.update()
+  end
+
+  @doc """
+  Will create the schema for the endpoint in the Postgres DB 
+  if it does not already exist.
+
+  This must be run before you can perform any migrations for the endpoint.
+  """
+  def create_partition(%Endpoint{} = ep) do
+    Conduit.Repo.create_schema_if_absent(Endpoint.database_prefix(ep))
+  end
+
+  @doc """
+  Given an endpoint will write all migrations associated with
+  that endpoint.  By default this will not overwrite existing 
+  migrations, see options for `MigrationAction.from_object_in_endpoint/3`.
+
+  If an error occurs while writing the migration files all
+  migration files will be deleted.  This **does not** roll back
+  any migration, it is just to keep directories clean.
+  """
+  def create_migration_files(%Endpoint{} = ep, opts \\ []) do
+    results =
+      for object <- ep.objects do
+        MigrationAction.write_migration(object, ep, opts)
+      end
+
+    if Enum.any?(results, &match?({:error, _}, &1)) do
+      Logger.error("error occured while creating migration files, rolling back")
+
+      results
+      |> Enum.each(fn
+        {:ok, ma} ->
+          MigrationAction.remove_migration(ma)
+          Logger.info("removed file at: #{MigrationAction.full_file_name(ma)}")
+
+        {:error, ma} ->
+          Logger.error(
+            "error occured when creating migration file at: #{MigrationAction.full_file_name(ma)}"
+          )
+      end)
+
+      :error
+    else
+      :ok
+    end
+  end
+
+  @doc """
+  Given an endpoint will write all schema modules associated with
+  that endpoint.  By default this will not overwrite existing 
+  migrations, see options for `SchemaAction.from_object_in_endpoint/3`.
+
+  If an error occurs while writing the schema files all
+  schema files will be deleted.  This **does not** roll back
+  any migration, it is just to keep directories clean.
+  """
+  def create_schema_files(%Endpoint{} = ep, opts \\ []) do
+    results =
+      for object <- ep.objects do
+        SchemaAction.write_schema(object, ep, opts)
+      end
+
+    if Enum.any?(results, &match?({:error, _}, &1)) do
+      Logger.error("error occured while creating schema files, rolling back")
+
+      results
+      |> Enum.each(fn
+        {:ok, ma} ->
+          MigrationAction.remove_migration(ma)
+          Logger.info("removed file at: #{MigrationAction.full_file_name(ma)}")
+
+        {:error, ma} ->
+          Logger.error(
+            "error occured when creating schema file at: #{MigrationAction.full_file_name(ma)}"
+          )
+      end)
+
+      :error
+    else
+      :ok
+    end
   end
 
   @doc """
