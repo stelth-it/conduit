@@ -1,5 +1,5 @@
 <% alias Conduit.Quickbooks.Object.Field %>
-defmodule Conduit.Quickbooks.Object.<%=@prefix%>.<%=String.capitalize(@table_name)%> do 
+defmodule Conduit.Quickbooks.Object.<%=Macro.camelize(@prefix)%>.<%=String.capitalize(@table_name)%> do 
  use Ecto.Schema
  import Ecto.Changeset
 
