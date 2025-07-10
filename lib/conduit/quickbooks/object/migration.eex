@@ -2,8 +2,10 @@
 defmodule Conduit.Repo.Migrations.Add<%=String.capitalize(@table_name)%><%=Macro.camelize(@prefix)%> do
   use Ecto.Migration
 
-  create table("<%=@table_name%>", prefix: "<%=@prefix || "public"%>", primary_key: false) do
-   <%= Enum.map_join(@fields, "\n", & Field.to_migration(&1)) %>
-   timestamps()
+  def change do
+    create table("<%=@table_name%>", prefix: "<%=@prefix || "public"%>", primary_key: false) do
+    <%= Enum.map_join(@fields, "\n", & Field.to_migration(&1)) %>
+    timestamps()
+    end
   end
 end
