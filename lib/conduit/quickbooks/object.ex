@@ -43,9 +43,11 @@ defmodule Conduit.Quickbooks.Object do
   def schema(%__MODULE__{} = obj, prefix) do
     EEx.eval_file("./lib/conduit/quickbooks/object/schema.eex",
       assigns: [
+        module_name: schema_module_name(obj, prefix, :string),
         prefix: prefix,
         table_name: obj.name,
         field_atoms: internal_field_names_for_schema(obj),
+        required_field_atoms: intenral_required_field_names_for_schema(obj),
         fields: obj.fields
       ]
     )
@@ -53,6 +55,13 @@ defmodule Conduit.Quickbooks.Object do
 
   def internal_field_names_for_schema(%__MODULE__{} = obj) do
     obj.fields
+    |> Enum.map(& &1.internal_field_name)
+    |> Enum.map(&String.to_atom/1)
+  end
+
+  def intenral_required_field_names_for_schema(%__MODULE__{} = obj) do
+    obj.fields
+    |> Enum.filter(& &1.required)
     |> Enum.map(& &1.internal_field_name)
     |> Enum.map(&String.to_atom/1)
   end

@@ -1,5 +1,5 @@
 <% alias Conduit.Quickbooks.Object.Field %>
-defmodule Conduit.Quickbooks.Object.<%=Macro.camelize(@prefix)%>.<%=String.capitalize(@table_name)%> do 
+defmodule <%= @module_name %> do 
  use Ecto.Schema
  import Ecto.Changeset
 
@@ -14,6 +14,6 @@ defmodule Conduit.Quickbooks.Object.<%=Macro.camelize(@prefix)%>.<%=String.capit
  def changeset(%__MODULE__{} = input, params \\ %{}) do
   input
   |> cast(params, @required_fields)
-  |> validate_required(params, @required_fields)
+  |> validate_required(<%= inspect(@required_field_atoms) %>)
  end
 end
