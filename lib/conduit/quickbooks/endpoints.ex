@@ -4,7 +4,6 @@ defmodule Conduit.Quickbooks.Endpoints do
   """
   import Ecto.Query
   require Logger
-  alias Phoenix.Endpoint
   alias Conduit.Quickbooks.AccessToken
   alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Quickbooks.Object.{MigrationAction, SchemaAction}
