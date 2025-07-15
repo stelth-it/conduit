@@ -23,6 +23,17 @@ defmodule Conduit.Quickbooks.Object do
     }
   end
 
+  @doc """
+  Given a map represneting a JSON response
+  extracts all fields into a map.
+  """
+  @spec extract_fields(object :: t(), api_response :: map()) :: extracted :: map()
+  def extract_fields(%__MODULE__{} = object, api_response) do
+    for field <- object.fields, into: %{} do
+      Field.extract_field(field, api_response)
+    end
+  end
+
   def migration(%__MODULE__{} = obj, prefix) do
     EEx.eval_file("./lib/conduit/quickbooks/object/migration.eex",
       assigns: [table_name: obj.name, fields: obj.fields, prefix: prefix]

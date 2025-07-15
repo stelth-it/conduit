@@ -69,7 +69,7 @@ defmodule Conduit.Quickbooks.Object.Scraper do
     fields =
       easy_html
       |> field_entries()
-      |> Enum.map(&extract_field/1)
+      |> Enum.flat_map(&extract_field/1)
 
     Object.from_scrape(object_name, fields)
   end

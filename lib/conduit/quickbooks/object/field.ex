@@ -6,21 +6,23 @@ defmodule Conduit.Quickbooks.Object.Field do
   """
 
   @type t :: %__MODULE__{
-          schema_lines: list(String.t()),
-          migration_lines: list(String.t()),
-          extractor: list(map()),
+          schema_line: String.t(),
+          migration_line: String.t(),
+          extractor: map(),
           metadata: list(String.t()),
           field_name: String.t(),
-          internal_field_name: String.t()
+          internal_field_name: String.t(),
+          required: boolean()
         }
 
   embedded_schema do
-    field :schema_lines, {:array, :string}
-    field :migration_lines, {:array, :string}
-    field :extractor, {:array, :map}
+    field :schema_line, :string
+    field :migration_line, :string
+    field :extractor, :map
     field :metadata, {:array, :string}
     field :internal_field_name, :string
     field :field_name, :string
+    field :required, :boolean, default: false
   end
 
   @doc """
@@ -40,11 +42,11 @@ defmodule Conduit.Quickbooks.Object.Field do
           type_label :: String.t(),
           field_name :: String.t(),
           internal_field_name :: String.t()
-        ) :: t()
+        ) :: list(t())
   def from_scrape(type_label, field_name, additional_info \\ []) do
     internal_field_name = internal_field_name(field_name)
 
-    base_struct =
+    base_structs =
       case {type_label, enum?(type_label)} do
         {_, true} ->
           string(field_name, internal_field_name)
@@ -75,72 +77,74 @@ defmodule Conduit.Quickbooks.Object.Field do
           %__MODULE__{}
       end
 
-    struct(
-      base_struct,
-      Keyword.merge(additional_info,
-        field_name: field_name,
-        internal_field_name: internal_field_name
+    base_structs
+    |> Enum.map(
+      &struct(
+        &1,
+        Keyword.merge(additional_info,
+          field_name: field_name
+        )
       )
     )
   end
 
-  def to_migration(%__MODULE__{migration_lines: lines}) do
-    Enum.join(lines, "\n")
+  def to_migration(%__MODULE__{migration_line: line}) do
+    line
   end
 
-  def to_schema(%__MODULE__{schema_lines: lines}) do
-    Enum.join(lines, "\n")
+  def to_schema(%__MODULE__{schema_line: line}) do
+    line
   end
 
-  def extract_fields(%__MODULE__{extractor: extractors}, input_map) do
-    for {field_name, path} <- extractors, into: %{} do
-      {field_name, get_in(input_map, path)}
-    end
+  @doc """
+  Given a field and a map representing api response content
+  will extract the field from the content
+  """
+  @spec extract_field(field :: t(), input_map :: map()) ::
+          {name :: String.t(), value :: term()}
+  def extract_field(%__MODULE__{extractor: %{"name" => name, "path" => path}}, input_map) do
+    {name, get_in(input_map, path)}
   end
 
   def decimal(field_name, internal_field_name) do
-    %__MODULE__{
-      schema_lines: [
-        "field :#{internal_field_name}, :decimal"
-      ],
-      migration_lines: [
-        "add :#{internal_field_name}, :decimal"
-      ],
-      extractor: [
-        %{name: internal_field_name, path: [field_name]}
-      ]
-    }
+    [
+      %__MODULE__{
+        schema_line: "field :#{internal_field_name}, :decimal",
+        migration_line: "add :#{internal_field_name}, :decimal",
+        extractor: %{"name" => internal_field_name, "path" => [field_name]},
+        internal_field_name: internal_field_name
+      }
+    ]
   end
 
   def mod_date_time(field_name, _) do
-    %__MODULE__{
-      schema_lines: [
-        "field :qb_inserted_at, :utc_datetime",
-        "field :qb_updated_at, :utc_datetime"
-      ],
-      migration_lines: [
-        "add :qb_inserted_at, :utc_datetime, comment: \"the time the record was created in QB\"",
-        "add :qb_updated_at, :utc_datetime, comment: \"the time the record was last updated in QB\""
-      ],
-      extractor: [
-        %{name: "qb_inserted_at", path: [field_name, "CreateTime"]},
-        %{name: "qb_updated_at", path: [field_name, "LastUpdatedTime"]}
-      ]
-    }
+    [
+      %__MODULE__{
+        schema_line: "field :qb_updated_at, :utc_datetime",
+        migration_line:
+          "add :qb_updated_at, :utc_datetime, comment: \"the time the record was last updated in QB\"",
+        extractor: %{"name" => "qb_updated_at", "path" => [field_name, "LastUpdatedTime"]},
+        internal_field_name: "qb_updated_at"
+      },
+      %__MODULE__{
+        schema_line: "field :qb_inserted_at, :utc_datetime",
+        migration_line:
+          "add :qb_inserted_at, :utc_datetime, comment: \"the time the record was created in QB\"",
+        extractor: %{"name" => "qb_inserted_at", "path" => [field_name, "CreateTime"]},
+        internal_field_name: "qb_inserted_at"
+      }
+    ]
   end
 
   def boolean(field_name, internal_field_name) do
-    %__MODULE__{
-      schema_lines: [
-        "field :#{internal_field_name}, :boolean"
-      ],
-      migration_lines: [
-        "add :#{internal_field_name}, :string"
-      ],
-      extractor: [
-        %{name: internal_field_name, path: [field_name]}
-      ]
-    }
+    [
+      %__MODULE__{
+        schema_line: "field :#{internal_field_name}, :boolean",
+        migration_line: "add :#{internal_field_name}, :boolean",
+        extractor: %{"name" => internal_field_name, "path" => [field_name]},
+        internal_field_name: internal_field_name
+      }
+    ]
   end
 
   def reference(field_name, internal_field_name) do
@@ -149,54 +153,63 @@ defmodule Conduit.Quickbooks.Object.Field do
     value_name = ref_table_name <> "_value"
     name_name = ref_table_name <> "_name"
 
-    %__MODULE__{
-      schema_lines: [
-        "field :#{value_name}, :string",
-        "field :#{name_name}, :string"
-      ],
-      migration_lines: [
-        "add :#{name_name}, :string, comment: \"the human friendly #{ref_table_name} name.\"",
-        "add :#{value_name}, :string, comment: \"the id of the associated #{ref_table_name} entry\""
-      ],
-      extractor: [
-        %{name: name_name, path: [field_name, "name"]},
-        %{name: value_name, path: [field_name, "value"]}
-      ]
-    }
+    [
+      %__MODULE__{
+        schema_line: "field :#{name_name}, :string",
+        migration_line:
+          "add :#{name_name}, :string, comment: \"the human friendly #{ref_table_name} name.\"",
+        extractor: %{"name" => name_name, "path" => [field_name, "name"]},
+        internal_field_name: name_name
+      },
+      %__MODULE__{
+        schema_line: "field :#{value_name}, :string",
+        migration_line:
+          "add :#{value_name}, :string, comment: \"the id of the associated #{ref_table_name} entry\"",
+        extractor: %{"name" => value_name, "path" => [field_name, "value"]},
+        internal_field_name: value_name
+      }
+    ]
   end
 
   def string(field_name, internal_field_name) do
-    %__MODULE__{
-      schema_lines: ["field :#{internal_field_name}, :string"],
-      migration_lines: ["add :#{internal_field_name}, :string"],
-      extractor: [
-        %{name: internal_field_name, path: [field_name]}
-      ]
-    }
+    [
+      %__MODULE__{
+        schema_line: "field :#{internal_field_name}, :string",
+        migration_line: "add :#{internal_field_name}, :string",
+        extractor: %{"name" => internal_field_name, "path" => [field_name]},
+        internal_field_name: internal_field_name
+      }
+    ]
   end
 
   def id(field_name, internal_field_name) do
-    %__MODULE__{
-      schema_lines: ["field :#{internal_field_name}, :string, primary_key: true"],
-      migration_lines: ["add :#{internal_field_name}, :string, primary_key: true"],
-      extractor: [
-        %{name: internal_field_name, path: [field_name]}
-      ]
-    }
+    [
+      %__MODULE__{
+        schema_line: "field :#{internal_field_name}, :string, primary_key: true",
+        migration_line: "add :#{internal_field_name}, :string, primary_key: true",
+        extractor: %{"name" => internal_field_name, "path" => [field_name]},
+        internal_field_name: internal_field_name,
+        required: true
+      }
+    ]
   end
 
   def currencyref(field_name, internal_field_name) do
-    %__MODULE__{
-      schema_lines: ["field :currency_name, :string", "field :currency_value, :string"],
-      migration_lines: [
-        "add :currency_name, :string, comment: \"the human friendly currency name.\"",
-        "add :currency_value, :string, comment: \"the id of the currency\""
-      ],
-      extractor: [
-        %{name: "currency_name", path: [field_name, "name"]},
-        %{name: "currency_value", path: [field_name, "value"]}
-      ]
-    }
+    [
+      %__MODULE__{
+        schema_line: "field :currency_name, :string",
+        migration_line:
+          "add :currency_name, :string, comment: \"the human friendly currency name.\"",
+        extractor: %{"name" => "currency_name", "path" => [field_name, "name"]},
+        internal_field_name: "currency_name"
+      },
+      %__MODULE__{
+        schema_line: "field :currency_value, :string",
+        migration_line: "add :currency_value, :string, comment: \"the id of the currency\"",
+        extractor: %{"name" => "currency_value", "path" => [field_name, "value"]},
+        internal_field_name: "currency_value"
+      }
+    ]
   end
 
   defp internal_field_name(field_name), do: Macro.underscore(field_name)
