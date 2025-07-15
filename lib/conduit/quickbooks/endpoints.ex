@@ -44,6 +44,7 @@ defmodule Conduit.Quickbooks.Endpoints do
 
   This must be run before you can perform any migrations for the endpoint.
   """
+  @spec create_partition(endpoint :: Endpoint.t()) :: :ok
   def create_partition(%Endpoint{} = ep) do
     Conduit.Repo.create_schema_if_absent(Endpoint.database_prefix(ep))
   end
@@ -57,6 +58,7 @@ defmodule Conduit.Quickbooks.Endpoints do
   migration files will be deleted.  This **does not** roll back
   any migration, it is just to keep directories clean.
   """
+  @spec create_migration_files(endpoint :: Endpoint.t(), opts :: Keyword.t()) :: :error | :ok
   def create_migration_files(%Endpoint{} = ep, opts \\ []) do
     results =
       for object <- ep.objects do
@@ -93,6 +95,8 @@ defmodule Conduit.Quickbooks.Endpoints do
   schema files will be deleted.  This **does not** roll back
   any migration, it is just to keep directories clean.
   """
+  @spec create_schema_files(endpoint :: Endpoint.t(), opts :: Keyword.t()) ::
+          {:ok, Endpoint.t()} | :error | {:error, Ecto.Changeset.t()}
   def create_schema_files(%Endpoint{} = ep, opts \\ []) do
     results =
       for object <- ep.objects do
@@ -132,6 +136,7 @@ defmodule Conduit.Quickbooks.Endpoints do
   @doc """
   finds an endpoint by company_id and type. Type defaults to :sandbox.
   """
+  @spec get_by_company_id(company_id :: integer(), type :: :sandbox | :prod) :: Endpoint.t() | nil
   def get_by_company_id(company_id, type \\ :sandbox) do
     if type not in [:sandbox, :prod],
       do: raise(ArgumentError, "invalid type, must be either `:sandbox` or `:prod`")
