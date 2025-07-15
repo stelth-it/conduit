@@ -3,7 +3,7 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
   Represents a pending actio to create a schema file.
   """
 
-  defstruct [:path, :content, :file_name, overwrite: false]
+  defstruct [:path, :content, :file_name, :object_name, overwrite: false]
 
   alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Quickbooks.Object
@@ -13,7 +13,8 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
           path: Path.t(),
           content: String.t(),
           overwrite: boolean(),
-          file_name: String.t()
+          file_name: String.t(),
+          object_name: String.t()
         }
 
   @doc """
@@ -34,9 +35,7 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
 
   def from_object_in_endpoint(%Object{} = obj, %Endpoint{} = ep, opts) do
     default_options = %{
-      path: Endpoint.schema_path(ep),
-      overwrite: false,
-      file_name: "#{obj.name}_#{Endpoint.database_prefix(ep)}"
+      overwrite: false
     }
 
     opts_map =
@@ -49,10 +48,11 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
       end
 
     %__MODULE__{
-      path: opts_map.path,
+      path: Endpoint.schema_path(ep),
       overwrite: opts_map.overwrite,
       content: Object.schema(obj, Endpoint.database_prefix(ep)),
-      file_name: opts_map.file_name
+      file_name: "#{obj.name}_#{Endpoint.database_prefix(ep)}",
+      object_name: obj.name
     }
   end
 
@@ -125,7 +125,9 @@ defmodule Conduit.Quickbooks.Object.SchemaAction do
   end
 
   # appends extension
-  defp full_file_name(%__MODULE__{} = ma) do
+  def full_file_name(%__MODULE__{} = ma) do
     Path.join(ma.path, ma.file_name <> ".ex")
   end
+
+  def object_name(%__MODULE__{object_name: on}), do: on
 end
