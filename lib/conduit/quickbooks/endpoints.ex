@@ -8,6 +8,7 @@ defmodule Conduit.Quickbooks.Endpoints do
   alias Conduit.Quickbooks.AccessToken
   alias Conduit.Quickbooks.Endpoints.Endpoint
   alias Conduit.Quickbooks.Object.{MigrationAction, SchemaAction}
+  alias Conduit.Quickbooks.ApiRequest
   alias Conduit.Repo
 
   # Allows us to easily test req.  In prod this will evaluate to nil
@@ -180,25 +181,12 @@ defmodule Conduit.Quickbooks.Endpoints do
   endpoint.
   """
   @spec fetch_access_token(endpoint :: Endpoint.t()) ::
-          {:ok, access_token :: AccessToken.t(), endpoint :: Endpoint.t()} | {:error, term()}
+          {:ok, endpoint :: Endpoint.t()} | {:error, term()}
   def fetch_access_token(%Endpoint{} = ep) do
-    with {:ok, resp} <-
-           Req.post(ep.token_endpoint,
-             headers: %{
-               accept: "application/json",
-               content_type: "application/x-www-form-urlencoded",
-               authorization: Endpoint.authorization_header_value(ep)
-             },
-             form: %{
-               "grant_type" => "refresh_token",
-               "refresh_token" => ep.refresh_token.value
-             },
-             retry: :transient,
-             plug: @test_plug
-           ),
-         {:ok, access_token} <- AccessToken.from_response(resp),
-         {:ok, ep} <- maybe_update_refresh_token(ep, access_token) do
-      {:ok, access_token, ep}
+    with {:ok, access_token} <- ApiRequest.get_access_token(ep),
+         {:ok, ep} <-
+           maybe_update_refresh_token(ep, access_token) do
+      {:ok, %{ep | access_token: access_token}}
     end
   end
 
