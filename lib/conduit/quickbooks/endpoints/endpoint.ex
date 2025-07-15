@@ -40,6 +40,12 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
     |> unique_constraint([:company_id, :type])
   end
 
+  @doc """
+  Returns a changeset replacing existing object 
+  endtries with the objects provided in the `objects`
+  arugment
+  """
+  @spec put_objects(endpoint :: t(), object_list :: list(Object.t())) :: Changeset.t()
   def put_objects(%__MODULE__{} = ep, objects) do
     ep
     |> change()
