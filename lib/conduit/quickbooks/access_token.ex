@@ -66,5 +66,11 @@ defmodule Conduit.Quickbooks.AccessToken do
     DateTime.after?(DateTime.utc_now(), et)
   end
 
+  @doc """
+  Extracts the access token from the struct
+  """
+  @spec get_token(access_token :: t()) :: token_value :: String.t()
+  def get_token(%__MODULE__{} = at), do: at.access_token
+
   defp rounding_factor, do: 0.6
 end
