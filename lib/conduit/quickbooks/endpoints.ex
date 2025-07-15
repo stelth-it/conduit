@@ -116,7 +116,16 @@ defmodule Conduit.Quickbooks.Endpoints do
 
       :error
     else
-      :ok
+      object_changesets =
+        for {:ok, schema_action} <- results do
+          object = Endpoint.find_object(ep, SchemaAction.object_name(schema_action))
+          Ecto.Changeset.change(object, schema_path: SchemaAction.full_file_name(schema_action))
+        end
+
+      ep
+      |> Ecto.Changeset.change()
+      |> Ecto.Changeset.put_embed(:objects, object_changesets)
+      |> Repo.update()
     end
   end
 
