@@ -8,11 +8,13 @@ defmodule Conduit.Quickbooks.Object do
 
   @type t :: %__MODULE__{
           name: String.t(),
+          schema_path: String.t(),
           fields: list(Field.t())
         }
 
   embedded_schema do
     field :name, :string
+    field :schema_path, :string
     embeds_many :fields, Field
   end
 
@@ -21,6 +23,22 @@ defmodule Conduit.Quickbooks.Object do
       name: name,
       fields: fields
     }
+  end
+
+  @doc """
+  Returns the schema path if it exists, null otherwise
+  """
+  @spec get_schema_path(object :: t()) :: String.t() | nil
+  def get_schema_path(%__MODULE__{schema_path: path}) do
+    path
+  end
+
+  @doc """
+  Returns the name to be used to refer to this object in queries
+  """
+  @spec query_name(object :: t()) :: query_name :: String.t()
+  def query_name(%__MODULE__{name: name}) do
+    String.capitalize(name)
   end
 
   @doc """
@@ -50,6 +68,71 @@ defmodule Conduit.Quickbooks.Object do
         required_field_atoms: intenral_required_field_names_for_schema(obj),
         fields: obj.fields
       ]
+    )
+  end
+
+  @doc """
+  Given an object, a prefix, and an input map 
+  applies the changeset function in the corresponding
+  schema module
+  """
+  @spec apply_changeset(object :: t(), prefix :: String.t(), input_map :: map()) ::
+          Ecto.Changeset.t()
+  def apply_changeset(%__MODULE__{} = object, prefix, input_map) do
+    schema_mod = load_module!(object, prefix)
+
+    struct(schema_mod)
+    |> schema_mod.changeset(input_map)
+  end
+
+  @doc """
+  Checks if a module file is loaded.
+  If it is not, it checks if a module file
+  exists and compiles it.
+  """
+  @spec load_module!(object :: t(), prefix :: String.t()) :: module()
+  def load_module!(%__MODULE__{} = obj, prefix) do
+    case {Code.ensure_loaded(schema_module_name(obj, prefix, :atom)),
+          File.exists?(obj.schema_path)} do
+      {{:module, mod}, _} ->
+        mod
+
+      {_, true} ->
+        [{mod, _bin} | _] = Code.compile_file(obj.schema_path)
+        mod
+
+      {_, _} ->
+        raise RuntimeError, "could not find a schema module or valid schema module file!"
+    end
+  end
+
+  @doc """
+  Given an object and a prefix will return the module name for the 
+  associated schema.  The third argument determines whether an 
+  atom or a string is to be returned.
+  """
+  @spec schema_module_name(object :: t(), prefix :: String.t(), :atom | :string) ::
+          atom() | String.t()
+  def schema_module_name(%__MODULE__{} = obj, prefix, :atom) do
+    Module.concat([
+      "Conduit",
+      "Quickbooks",
+      "Object",
+      Macro.camelize(prefix),
+      String.capitalize(obj.name)
+    ])
+  end
+
+  def schema_module_name(%__MODULE__{} = obj, prefix, :string) do
+    Enum.join(
+      [
+        "Conduit",
+        "Quickbooks",
+        "Object",
+        Macro.camelize(prefix),
+        String.capitalize(obj.name)
+      ],
+      "."
     )
   end
 

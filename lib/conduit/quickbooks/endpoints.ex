@@ -6,15 +6,10 @@ defmodule Conduit.Quickbooks.Endpoints do
   require Logger
   alias Conduit.Quickbooks.AccessToken
   alias Conduit.Quickbooks.Endpoints.Endpoint
+  alias Conduit.Quickbooks.Object
   alias Conduit.Quickbooks.Object.{MigrationAction, SchemaAction}
   alias Conduit.Quickbooks.ApiRequest
   alias Conduit.Repo
-
-  # Allows us to easily test req.  In prod this will evaluate to nil
-  # and have no effect, in test it will evaluate to a tuple that will
-  # tell req to use testing stub modules that are configured within
-  # the exunit case.
-  @test_plug Application.compile_env(:conduit, :qb_testing_plug)
 
   @doc """
   Retrieves the OAuth discovery document.
@@ -138,6 +133,45 @@ defmodule Conduit.Quickbooks.Endpoints do
         where: e.type == ^type
 
     Repo.one(q)
+  end
+
+  def get_page(endpoint, object_name, opts \\ [])
+
+  def get_page(%Endpoint{} = ep, %Object{} = object, request_opts) do
+    {:ok, ep} = maybe_fetch_access_token(ep)
+
+    with {:ok, response_maps} <- ApiRequest.get_one_page(ep, object, request_opts) do
+      changesets =
+        response_maps
+        |> Enum.map(fn response_content ->
+          Object.extract_fields(object, response_content)
+        end)
+        |> Enum.map(fn input_map ->
+          Object.apply_changeset(object, Endpoint.database_prefix(ep), input_map)
+        end)
+
+      {:ok, {changesets, ep}}
+    end
+  end
+
+  def get_page(%Endpoint{} = ep, object_name, request_opts) when is_binary(object_name) do
+    if object = Endpoint.find_object(ep, object_name) do
+      get_page(ep, object, request_opts)
+    else
+      raise ArgumentError, "no object found with name #{object_name}"
+    end
+  end
+
+  @doc """
+  Will fetch a new acces token if the current one 
+  is expired, otherwise the current one is retained.
+  """
+  def maybe_fetch_access_token(%Endpoint{} = ep) do
+    if ep.access_token && not AccessToken.expired?(ep.access_token) do
+      {:ok, ep}
+    else
+      fetch_access_token(ep)
+    end
   end
 
   @doc """
