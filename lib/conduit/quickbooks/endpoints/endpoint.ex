@@ -6,6 +6,7 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Conduit.Quickbooks.Object
 
   @type t :: %__MODULE__{}
 
@@ -46,11 +47,42 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
   endtries with the objects provided in the `objects`
   arugment
   """
-  @spec put_objects(endpoint :: t(), object_list :: list(Object.t())) :: Changeset.t()
+  @spec put_objects(endpoint :: t(), object_list :: list(Object.t())) :: Ecto.Changeset.t()
   def put_objects(%__MODULE__{} = ep, objects) do
     ep
     |> change()
     |> put_embed(:objects, List.wrap(objects))
+  end
+
+  @doc """
+  Retrieves the object with the given name 
+  from the endpoint
+  """
+  @spec find_object(endpoint :: t(), object_name :: String.t()) :: Object.t() | nil
+  def find_object(%__MODULE__{} = ep, name) do
+    get_in(ep.objects, [Access.find(&(&1.name == name))])
+  end
+
+  @doc """
+  Gives the base accounting api url for the endpoint.
+  """
+  @spec accounting_api_url(endpoint :: t()) :: String.t()
+  def accounting_api_url(%__MODULE__{} = ep) do
+    Path.join([
+      base_url(ep),
+      "v3",
+      "company",
+      ep.company_id
+    ])
+  end
+
+  @doc """
+  Returns refresh token value. This token 
+  is used for getting new access tokens.
+  """
+  @spec refresh_token_value(endpoint :: t()) :: String.t()
+  def refresh_token_value(%__MODULE__{refresh_token: %{value: value}}) do
+    value
   end
 
   @doc """
@@ -60,6 +92,14 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
   @spec access_token_value(%__MODULE__{}) :: String.t()
   def access_token_value(%__MODULE__{access_token: %{access_token: value}}) do
     value
+  end
+
+  @doc """
+  Returns the token url for the endpoint
+  """
+  @spec token_url(ep :: t()) :: String.t()
+  def token_url(%__MODULE__{token_endpoint: url}) do
+    url
   end
 
   @doc """
@@ -82,7 +122,7 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
   @doc """
   Returns the directory to store migrations.
   """
-  def migration_path(%__MODULE__{} = ep) do
+  def migration_path(%__MODULE__{} = _ep) do
     # for now just default path, maybe prefix based in the future.
     "./priv/repo/migrations"
   end
@@ -106,4 +146,7 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
   def authorization_header_value(%__MODULE__{intuit_app: iapp}) do
     "Basic " <> Base.encode64(iapp.client_id <> ":" <> iapp.client_secret)
   end
+
+  defp base_url(%__MODULE__{type: :sandbox}), do: "https://sandbox-quickbooks.api.intuit.com"
+  defp base_url(%__MODULE__{type: :prod}), do: "https://quickbooks.api.intuit.com"
 end
