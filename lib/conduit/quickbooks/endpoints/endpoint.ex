@@ -14,6 +14,7 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
     field :company_id, :string
     field :token_endpoint, :string
     field :friendly_name, :string
+    field :access_token, :map, virtual: true
 
     embeds_one :intuit_app, IntuitApp, on_replace: :update do
       field :client_id, :string
@@ -50,6 +51,15 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
     ep
     |> change()
     |> put_embed(:objects, List.wrap(objects))
+  end
+
+  @doc """
+  Returns access token value. This token is used for 
+  submitting requests29H
+  """
+  @spec access_token_value(%__MODULE__{}) :: String.t()
+  def access_token_value(%__MODULE__{access_token: %{access_token: value}}) do
+    value
   end
 
   @doc """
