@@ -1,7 +1,7 @@
-conduitdev.stelthdev.it {
+conduitdev.stelth.it {
     reverse_proxy web:4000
 }
 
-meta.conduitdev.stelthdev.it {
+meta.conduitdev.stelth.it {
     reverse_proxy meta:3000
 }
