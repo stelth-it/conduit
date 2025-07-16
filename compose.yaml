@@ -16,12 +16,25 @@ services:
     profiles:
       - prod
       - dev
+  metadb:
+    image: postgres 
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_MULTIPLE_DATABASES: metabaseappdb
+    ports: 
+      - 5433:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    profiles:
+      - prod
+      - dev 
   db:
     image: pgvector/pgvector:pg17
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_MULTIPLE_DATABASES: ${PG_DB_NAME},metabaseappdb
+      POSTGRES_MULTIPLE_DATABASES: ${PG_DB_NAME}
     ports: 
       - 5433:5432
     volumes:
@@ -54,7 +67,7 @@ services:
       MB_DB_PORT: 5432
       MB_DB_USER: ${PG_USER}
       MB_DB_PASS: ${PG_PASSWORD}
-      MB_DB_HOST: db
+      MB_DB_HOST: metadb
     depends_on:
       db: 
         condition: service_started
