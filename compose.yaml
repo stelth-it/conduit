@@ -17,7 +17,7 @@ services:
       - prod
       - dev
   metadb:
-    image: postgres 
+    image: postgres:latest
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
