@@ -2,6 +2,6 @@ conduitdev.stelth.it {
     reverse_proxy web:4000
 }
 
-meta.conduitdev.stelth.it {
-    reverse_proxy meta:3000
+metabase.stelth.it {
+    reverse_proxy metabase:3000
 }
