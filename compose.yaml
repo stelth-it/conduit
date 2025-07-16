@@ -21,7 +21,7 @@ services:
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${PG_DB_NAME}
+      POSTGRES_MULTIPLE_DATABASES: ${PG_DB_NAME},metabaseappdb
     ports: 
       - 5433:5432
     volumes:
