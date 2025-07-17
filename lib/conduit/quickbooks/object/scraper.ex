@@ -78,7 +78,7 @@ defmodule Conduit.Quickbooks.Object.Scraper do
     easy_html["ul.attributes-list-group"]["li.attribute-list-item"]
     |> Enum.to_list()
     |> Enum.uniq_by(fn node ->
-      node["span.attribute-name"].nodes |> Floki.text()
+      node["span.attribute-name"].nodes |> Floki.text() |> String.downcase()
     end)
   end
 
@@ -90,12 +90,6 @@ defmodule Conduit.Quickbooks.Object.Scraper do
     easy_html_field_description
     |> field_name_span()
     |> Floki.text()
-  end
-
-  defp internal_field_name(easy_html_field_description) do
-    easy_html_field_description
-    |> field_name()
-    |> Macro.underscore()
   end
 
   defp metadata(ehtml) do
@@ -110,7 +104,6 @@ defmodule Conduit.Quickbooks.Object.Scraper do
   defp extract_field(easy_html_field_description) do
     type_label = type_label(easy_html_field_description)
     field_name = field_name(easy_html_field_description)
-    internal_field_name = internal_field_name(easy_html_field_description)
     metadata = metadata(easy_html_field_description)
 
     Field.from_scrape(
