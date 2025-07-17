@@ -29,7 +29,7 @@ defmodule Conduit.Quickbooks.ApiRequest do
           opts :: Keyword.t()
         ) ::
           {:ok, list(map())} | {:error, Exception.t()}
-  def get_one_page(%Endpoint{} = endpoint, %Object{} = object, opts) do
+  def get_one_page(%Endpoint{} = endpoint, %Object{} = object, opts \\ []) do
     with request <- one_page_request(endpoint, object, opts),
          {:ok, response} <- run_request(request),
          data <- extract_response_data(response) do
