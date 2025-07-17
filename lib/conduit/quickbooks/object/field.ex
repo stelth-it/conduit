@@ -40,52 +40,52 @@ defmodule Conduit.Quickbooks.Object.Field do
   """
   @spec from_scrape(
           type_label :: String.t(),
-          field_name :: String.t(),
-          internal_field_name :: String.t()
+          field_name :: String.t()
         ) :: list(t())
   def from_scrape(type_label, field_name, additional_info \\ []) do
-    internal_field_name = internal_field_name(field_name)
-
     base_structs =
-      case {type_label, enum?(type_label)} do
-        {_, true} ->
-          string(field_name, internal_field_name)
+      case %{
+        label: type_label,
+        enum: enum?(type_label),
+        id: id?(field_name),
+        array: array?(field_name)
+      } do
+        %{array: true} ->
+          array(strip_array(field_name), field_name |> strip_array() |> internal_field_name())
 
-        {"decimal", _} ->
-          decimal(field_name, internal_field_name)
+        %{enum: true} ->
+          string(field_name, internal_field_name(field_name))
 
-        {"string", _} ->
-          if internal_field_name == "id" do
-            id(field_name, internal_field_name)
-          else
-            string(field_name, internal_field_name)
-          end
+        %{label: "string", id: true} ->
+          id(field_name, internal_field_name(field_name))
 
-        {"currencyref", _} ->
-          currencyref(field_name, internal_field_name)
+        %{label: curr_ref} when curr_ref in ["currencyref", "currencyreftype"] ->
+          currencyref(field_name, internal_field_name(field_name))
 
-        {"referencetype", _} ->
-          reference(field_name, internal_field_name)
+        %{label: dec_type} when dec_type in ["decimal", "bigdecimal"] ->
+          decimal(field_name, internal_field_name(field_name))
 
-        {"boolean", _} ->
-          boolean(field_name, internal_field_name)
+        %{label: "string"} ->
+          string(field_name, internal_field_name(field_name))
 
-        {"modificationmetadata", _} ->
-          mod_date_time(field_name, internal_field_name)
+        %{label: "line"} ->
+          currencyref(field_name, internal_field_name(field_name))
+
+        %{label: "referencetype"} ->
+          reference(field_name, internal_field_name(field_name))
+
+        %{label: "boolean"} ->
+          boolean(field_name, internal_field_name(field_name))
+
+        %{label: "modificationmetadata"} ->
+          mod_date_time(field_name, internal_field_name(field_name))
 
         _ ->
-          %__MODULE__{}
+          []
       end
 
     base_structs
-    |> Enum.map(
-      &struct(
-        &1,
-        Keyword.merge(additional_info,
-          field_name: field_name
-        )
-      )
-    )
+    |> Enum.map(&struct(&1, additional_info))
   end
 
   def to_migration(%__MODULE__{migration_line: line}) do
@@ -106,13 +106,26 @@ defmodule Conduit.Quickbooks.Object.Field do
     {name, get_in(input_map, path)}
   end
 
+  def array(field_name, internal_field_name) do
+    [
+      %__MODULE__{
+        schema_line: "field :#{internal_field_name}, {:array, :map}",
+        migration_line: "add :#{internal_field_name}, {:array, :map}",
+        extractor: %{"name" => internal_field_name, "path" => [field_name]},
+        internal_field_name: internal_field_name,
+        field_name: field_name
+      }
+    ]
+  end
+
   def decimal(field_name, internal_field_name) do
     [
       %__MODULE__{
         schema_line: "field :#{internal_field_name}, :decimal",
         migration_line: "add :#{internal_field_name}, :decimal",
         extractor: %{"name" => internal_field_name, "path" => [field_name]},
-        internal_field_name: internal_field_name
+        internal_field_name: internal_field_name,
+        field_name: field_name
       }
     ]
   end
@@ -124,14 +137,16 @@ defmodule Conduit.Quickbooks.Object.Field do
         migration_line:
           "add :qb_updated_at, :utc_datetime, comment: \"the time the record was last updated in QB\"",
         extractor: %{"name" => "qb_updated_at", "path" => [field_name, "LastUpdatedTime"]},
-        internal_field_name: "qb_updated_at"
+        internal_field_name: "qb_updated_at",
+        field_name: field_name
       },
       %__MODULE__{
         schema_line: "field :qb_inserted_at, :utc_datetime",
         migration_line:
           "add :qb_inserted_at, :utc_datetime, comment: \"the time the record was created in QB\"",
         extractor: %{"name" => "qb_inserted_at", "path" => [field_name, "CreateTime"]},
-        internal_field_name: "qb_inserted_at"
+        internal_field_name: "qb_inserted_at",
+        field_name: field_name
       }
     ]
   end
@@ -142,7 +157,8 @@ defmodule Conduit.Quickbooks.Object.Field do
         schema_line: "field :#{internal_field_name}, :boolean",
         migration_line: "add :#{internal_field_name}, :boolean",
         extractor: %{"name" => internal_field_name, "path" => [field_name]},
-        internal_field_name: internal_field_name
+        internal_field_name: internal_field_name,
+        field_name: field_name
       }
     ]
   end
@@ -159,14 +175,16 @@ defmodule Conduit.Quickbooks.Object.Field do
         migration_line:
           "add :#{name_name}, :string, comment: \"the human friendly #{ref_table_name} name.\"",
         extractor: %{"name" => name_name, "path" => [field_name, "name"]},
-        internal_field_name: name_name
+        internal_field_name: name_name,
+        field_name: field_name
       },
       %__MODULE__{
         schema_line: "field :#{value_name}, :string",
         migration_line:
           "add :#{value_name}, :string, comment: \"the id of the associated #{ref_table_name} entry\"",
         extractor: %{"name" => value_name, "path" => [field_name, "value"]},
-        internal_field_name: value_name
+        internal_field_name: value_name,
+        field_name: field_name
       }
     ]
   end
@@ -177,7 +195,8 @@ defmodule Conduit.Quickbooks.Object.Field do
         schema_line: "field :#{internal_field_name}, :string",
         migration_line: "add :#{internal_field_name}, :string",
         extractor: %{"name" => internal_field_name, "path" => [field_name]},
-        internal_field_name: internal_field_name
+        internal_field_name: internal_field_name,
+        field_name: field_name
       }
     ]
   end
@@ -189,7 +208,8 @@ defmodule Conduit.Quickbooks.Object.Field do
         migration_line: "add :#{internal_field_name}, :string, primary_key: true",
         extractor: %{"name" => internal_field_name, "path" => [field_name]},
         internal_field_name: internal_field_name,
-        required: true
+        required: true,
+        field_name: field_name
       }
     ]
   end
@@ -201,16 +221,32 @@ defmodule Conduit.Quickbooks.Object.Field do
         migration_line:
           "add :currency_name, :string, comment: \"the human friendly currency name.\"",
         extractor: %{"name" => "currency_name", "path" => [field_name, "name"]},
-        internal_field_name: "currency_name"
+        internal_field_name: "currency_name",
+        field_name: field_name
       },
       %__MODULE__{
         schema_line: "field :currency_value, :string",
         migration_line: "add :currency_value, :string, comment: \"the id of the currency\"",
         extractor: %{"name" => "currency_value", "path" => [field_name, "value"]},
-        internal_field_name: "currency_value"
+        internal_field_name: "currency_value",
+        field_name: field_name
       }
     ]
   end
+
+  # strip the array suffix from array label
+  defp strip_array(label) do
+    String.replace(label, ~r/ \[0..n\]/, "")
+  end
+
+  # array field names have a specific suffix
+  defp array?(field_name) do
+    field_name =~ ~r/.* \[0\.\.n\]/
+  end
+
+  # returns true if the field name is an id
+  defp id?("Id"), do: true
+  defp id?(_), do: false
 
   defp internal_field_name(field_name), do: Macro.underscore(field_name)
 
