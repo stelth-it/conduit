@@ -9,12 +9,14 @@ defmodule Conduit.Quickbooks.Object do
   @type t :: %__MODULE__{
           name: String.t(),
           schema_path: String.t(),
-          fields: list(Field.t())
+          fields: list(Field.t()),
+          json_data_key: String.t()
         }
 
   embedded_schema do
     field :name, :string
     field :schema_path, :string
+    field :json_data_key, :string
     embeds_many :fields, Field
   end
 
@@ -23,6 +25,18 @@ defmodule Conduit.Quickbooks.Object do
       name: name,
       fields: fields
     }
+  end
+
+  @doc """
+  Extracts the data associated with the 
+  object from the given map representing 
+  a response from the api
+
+  nil is returned if no matching data is found
+  """
+  @spec extract_data_from_api(object :: t(), body_data :: map()) :: list(map()) | nil
+  def extract_data_from_api(%__MODULE__{} = obj, response_data) do
+    response_data["QueryResponse"][obj.json_data_key]
   end
 
   @doc """

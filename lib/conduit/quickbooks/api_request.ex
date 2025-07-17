@@ -163,7 +163,7 @@ defmodule Conduit.Quickbooks.ApiRequest do
 
   defp extract_query_response(object) do
     fn {request, response} ->
-      if data = response.body["QueryResponse"][String.capitalize(object.name)] do
+      if data = Object.extract_data_from_api(object, response.body) do
         {request, Req.Response.put_private(response, :response_data, data)}
       else
         {request, %InvalidApiResponseError{message: "no request body found"}}
