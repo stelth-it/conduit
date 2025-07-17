@@ -55,6 +55,21 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
   end
 
   @doc """
+  Adds a new object ot the endpoint if no object
+  exist with the same name.
+  """
+  @spec put_new_object(ep :: t(), object :: Object.t()) :: Ecto.Changeset.t()
+  def put_new_object(%__MODULE__{} = ep, %Object{} = obj) do
+    change = change(ep)
+
+    if find_object(ep, obj.name) do
+      add_error(change, :objects, "object with same name already exists")
+    else
+      put_embed(change, :objects, [obj | ep.objects])
+    end
+  end
+
+  @doc """
   Retrieves the object with the given name 
   from the endpoint
   """
@@ -77,8 +92,7 @@ defmodule Conduit.Quickbooks.Endpoints.Endpoint do
   end
 
   @doc """
-  Returns refresh token value. This token 
-  is used for getting new access tokens.
+  Returns refresh token value. This token is used for getting new access tokens.
   """
   @spec refresh_token_value(endpoint :: t()) :: String.t()
   def refresh_token_value(%__MODULE__{refresh_token: %{value: value}}) do

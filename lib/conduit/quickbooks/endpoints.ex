@@ -39,6 +39,17 @@ defmodule Conduit.Quickbooks.Endpoints do
   end
 
   @doc """
+  Adds the given object to the endopint if it does not already exist
+  """
+  @spec add_object(ep :: Endpoint.t(), object :: Object.t()) ::
+          {:ok, Endpoint.t()} | {:error, Changeset.t()}
+  def add_object(%Endpoint{} = ep, %Object{} = obj) do
+    ep
+    |> Endpoint.put_new_object(obj)
+    |> Repo.update()
+  end
+
+  @doc """
   Will create the schema for the endpoint in the Postgres DB 
   if it does not already exist.
 
