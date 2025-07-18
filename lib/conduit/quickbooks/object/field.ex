@@ -80,6 +80,9 @@ defmodule Conduit.Quickbooks.Object.Field do
         %{label: "modificationmetadata"} ->
           mod_date_time(field_name, internal_field_name(field_name))
 
+        %{label: "date"} ->
+          date(field_name, internal_field_name(field_name))
+
         _ ->
           []
       end
@@ -104,6 +107,18 @@ defmodule Conduit.Quickbooks.Object.Field do
           {name :: String.t(), value :: term()}
   def extract_field(%__MODULE__{extractor: %{"name" => name, "path" => path}}, input_map) do
     {name, get_in(input_map, path)}
+  end
+
+  def date(field_name, internal_field_name) do
+    [
+      %__MODULE__{
+        schema_line: "field :#{internal_field_name}, :date",
+        migration_line: "add :#{internal_field_name}, :date",
+        extractor: %{"name" => internal_field_name, "path" => [field_name]},
+        internal_field_name: internal_field_name,
+        field_name: field_name
+      }
+    ]
   end
 
   def array(field_name, internal_field_name) do
