@@ -88,7 +88,7 @@ defmodule Conduit.Quickbooks.Object.MigrationAction do
   def write_migration(%__MODULE__{} = ma) do
     ma = put_migration_timestamp(ma)
 
-    case {File.exists?(full_file_name(ma)), ma.overwrite} do
+    case {mig_file_exists?(ma), ma.overwrite} do
       {_, true} ->
         create_directory_and_write(ma, full_file_name(ma))
 
@@ -146,4 +146,10 @@ defmodule Conduit.Quickbooks.Object.MigrationAction do
 
   defp pad(i) when i < 10, do: <<?0, ?0 + i>>
   defp pad(i), do: to_string(i)
+
+  # disregards timestamp when looking for existing
+  defp mig_file_exists?(%__MODULE__{} = ma) do
+    File.ls!(ma.path)
+    |> Enum.any?(&(&1 =~ ma.file_suffix))
+  end
 end
