@@ -4,6 +4,7 @@ defmodule Conduit.Quickbooks.ApiRequest do
   quickbooks api.
   """
 
+  require Logger
   alias __MODULE__.Query
   alias Conduit.InvalidApiResponseError
   alias Conduit.Quickbooks.{Endpoints.Endpoint, Object, AccessToken}
@@ -166,6 +167,7 @@ defmodule Conduit.Quickbooks.ApiRequest do
       if data = Object.extract_data_from_api(object, response.body) do
         {request, Req.Response.put_private(response, :response_data, data)}
       else
+        Logger.error(%{error: "no request body found", response: response, request: request})
         {request, %InvalidApiResponseError{message: "no request body found"}}
       end
     end
