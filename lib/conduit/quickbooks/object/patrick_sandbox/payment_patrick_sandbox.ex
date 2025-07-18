@@ -28,8 +28,7 @@ defmodule Conduit.Quickbooks.Object.PatrickSandbox.Payment do
     :qb_inserted_at,
     :payment_ref_num,
     :tax_exemption_name,
-    :tax_exemption_value,
-    :sparse
+    :tax_exemption_value
   ]
 
   @primary_key false
