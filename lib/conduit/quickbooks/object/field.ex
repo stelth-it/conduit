@@ -65,6 +65,10 @@ defmodule Conduit.Quickbooks.Object.Field do
         %{label: dec_type} when dec_type in ["decimal", "bigdecimal"] ->
           decimal(field_name, internal_field_name(field_name))
 
+        %{label: misc_map_label}
+        when misc_map_label in ["physicaladdress", "creditcardpayment"] ->
+          misc_map(field_name, internal_field_name(field_name))
+
         %{label: "string"} ->
           string(field_name, internal_field_name(field_name))
 
@@ -79,9 +83,6 @@ defmodule Conduit.Quickbooks.Object.Field do
 
         %{label: "date"} ->
           date(field_name, internal_field_name(field_name))
-
-        %{label: "physicaladdress"} ->
-          phyaddress(field_name, internal_field_name(field_name))
 
         _ ->
           []
@@ -109,7 +110,7 @@ defmodule Conduit.Quickbooks.Object.Field do
     {name, get_in(input_map, path)}
   end
 
-  def phyaddress(field_name, internal_field_name) do
+  def misc_map(field_name, internal_field_name) do
     [
       %__MODULE__{
         schema_line: "field :#{internal_field_name}, :map",
