@@ -68,9 +68,6 @@ defmodule Conduit.Quickbooks.Object.Field do
         %{label: "string"} ->
           string(field_name, internal_field_name(field_name))
 
-        %{label: "line"} ->
-          currencyref(field_name, internal_field_name(field_name))
-
         %{label: "referencetype"} ->
           reference(field_name, internal_field_name(field_name))
 
@@ -82,6 +79,9 @@ defmodule Conduit.Quickbooks.Object.Field do
 
         %{label: "date"} ->
           date(field_name, internal_field_name(field_name))
+
+        %{label: "physicaladdress"} ->
+          phyaddress(field_name, internal_field_name(field_name))
 
         _ ->
           []
@@ -107,6 +107,18 @@ defmodule Conduit.Quickbooks.Object.Field do
           {name :: String.t(), value :: term()}
   def extract_field(%__MODULE__{extractor: %{"name" => name, "path" => path}}, input_map) do
     {name, get_in(input_map, path)}
+  end
+
+  def phyaddress(field_name, internal_field_name) do
+    [
+      %__MODULE__{
+        schema_line: "field :#{internal_field_name}, :map",
+        migration_line: "add :#{internal_field_name}, :map",
+        extractor: %{"name" => internal_field_name, "path" => [field_name]},
+        internal_field_name: internal_field_name,
+        field_name: field_name
+      }
+    ]
   end
 
   def date(field_name, internal_field_name) do
