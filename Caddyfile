@@ -1,7 +1,3 @@
-conduitdev.stelth.it {
-    reverse_proxy web:4000
-}
-
 metabase.stelth.it {
     reverse_proxy metabase:3000
 }
