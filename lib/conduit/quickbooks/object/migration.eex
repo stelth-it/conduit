@@ -1,6 +1,8 @@
 <% alias Conduit.Quickbooks.Object.Field %>
 defmodule Conduit.Repo.Migrations.Add<%=String.capitalize(@table_name)%><%=Macro.camelize(@prefix)%> do
   use Ecto.Migration
+  
+  Conduit.Repo.create_schema_if_absent("<%= @prefix %>")
 
   def change do
     create table("<%=@table_name%>", prefix: "<%=@prefix || "public"%>", primary_key: false) do
