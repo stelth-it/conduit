@@ -6,6 +6,7 @@ defmodule Conduit.Quickbooks.Object.Scraper do
   We are using Wallaby to pilot chrome to pull 
   the data.
   """
+  alias Conduit.Quickbooks
   alias Conduit.Quickbooks.Object
   alias Conduit.Quickbooks.Object.Field
 
@@ -37,8 +38,30 @@ defmodule Conduit.Quickbooks.Object.Scraper do
     wallaby_session
     |> Wallaby.Browser.visit(Path.join(base_url(), table_name))
     |> wait_for_load("##{table_name}")
+    |> then(fn s ->
+      :timer.sleep(500)
+      s
+    end)
     |> then(fn s -> {Wallaby.Browser.page_source(s), s} end)
     |> then(fn {p, s} -> {EasyHTML.parse!(p) |> extract_object(table_name), s} end)
+  end
+
+  @doc """
+  Scrapes an object definition from the Quickbooks
+  API documentation. 
+
+  Will cleanup wallaby session after each scrape.
+  """
+  @spec scrape_object(object_name :: String.t()) :: Object.t()
+  def scrape_object(object_name) do
+    {:ok, s} = Wallaby.start_session()
+
+    try do
+      {o, _} = get_object(s, object_name)
+      o
+    after
+      Wallaby.end_session(s)
+    end
   end
 
   defp wait_for_load(wallaby_session, css_selection_string) do
