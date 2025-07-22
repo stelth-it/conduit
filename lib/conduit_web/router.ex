@@ -18,6 +18,8 @@ defmodule ConduitWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/import", ImportLive
+    live "/pull", PullDataLive
   end
 
   # Other scopes may use custom stacks.
