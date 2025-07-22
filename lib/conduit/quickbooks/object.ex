@@ -20,6 +20,7 @@ defmodule Conduit.Quickbooks.Object do
     embeds_many :fields, Field
   end
 
+  @spec from_scrape(name :: String.t(), fields: list(Field.t())) :: t()
   def from_scrape(name, fields) do
     %__MODULE__{
       name: name,
