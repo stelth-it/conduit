@@ -3,7 +3,13 @@ defmodule <%= @module_name %> do
  use Ecto.Schema
  import Ecto.Changeset
 
- @required_fields <%= inspect(@field_atoms) %>
+ @required_fields <%= 
+ "["
+ <>
+ Enum.map_join(@field_atoms,",\n" ,fn atom -> ":" <> Atom.to_string(atom) end) 
+ <>
+ "]"
+ %>
 
  @primary_key false
  schema "<%=@table_name%>" do
