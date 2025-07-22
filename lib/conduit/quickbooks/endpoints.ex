@@ -12,6 +12,24 @@ defmodule Conduit.Quickbooks.Endpoints do
   alias Conduit.Repo
 
   @doc """
+  Lists all quickbook endpoints
+  """
+  @spec list() :: list(Endpoint.t())
+  def list do
+    Repo.all(Endpoint)
+  end
+
+  @doc """
+  Finds endpoint with the given friendly name.
+  Return nil if no matching endpoint is found.
+  """
+  @spec by_friendly_name(friendly_name :: String.t()) :: Endpoint.t() | nil
+  def by_friendly_name(friendly_name) do
+    query = from e in Endpoint, where: e.friendly_name == ^friendly_name
+    Repo.one(query)
+  end
+
+  @doc """
   Retrieves the OAuth discovery document.
   """
   def retrieve_discovery do
@@ -74,6 +92,7 @@ defmodule Conduit.Quickbooks.Endpoints do
     results =
       for object <- ep.objects do
         MigrationAction.write_migration(object, ep, opts)
+        :timer.sleep(1000)
       end
 
     if Enum.any?(results, &match?({:error, _}, &1)) do
@@ -160,9 +179,13 @@ defmodule Conduit.Quickbooks.Endpoints do
     Repo.one(q)
   end
 
-  def get_page(endpoint, object_name, opts \\ [])
+  @doc """
+  Gets a page of results from the quickbooks
+  API and persists them to the database.
+  """
+  def fetch_page(endpoint, object_name, opts \\ [])
 
-  def get_page(%Endpoint{} = ep, %Object{} = object, request_opts) do
+  def fetch_page(%Endpoint{} = ep, %Object{} = object, request_opts) do
     {:ok, ep} = maybe_fetch_access_token(ep)
 
     with {:ok, response_maps} <- ApiRequest.get_one_page(ep, object, request_opts) do
@@ -175,13 +198,18 @@ defmodule Conduit.Quickbooks.Endpoints do
           Object.apply_changeset(object, Endpoint.database_prefix(ep), input_map)
         end)
 
-      {:ok, {changesets, ep}}
+      insert_results =
+        for cs <- changesets do
+          Repo.insert(cs, prefix: Endpoint.database_prefix(ep))
+        end
+
+      {:ok, {insert_results, ep}}
     end
   end
 
-  def get_page(%Endpoint{} = ep, object_name, request_opts) when is_binary(object_name) do
+  def fetch_page(%Endpoint{} = ep, object_name, request_opts) when is_binary(object_name) do
     if object = Endpoint.find_object(ep, object_name) do
-      get_page(ep, object, request_opts)
+      fetch_page(ep, object, request_opts)
     else
       raise ArgumentError, "no object found with name #{object_name}"
     end
