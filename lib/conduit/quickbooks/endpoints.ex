@@ -92,6 +92,7 @@ defmodule Conduit.Quickbooks.Endpoints do
     results =
       for object <- ep.objects do
         MigrationAction.write_migration(object, ep, opts)
+        # we have to wait so we don't have conflicting timestamps
         :timer.sleep(1000)
       end
 
@@ -200,7 +201,13 @@ defmodule Conduit.Quickbooks.Endpoints do
 
       insert_results =
         for cs <- changesets do
-          Repo.insert(cs, prefix: Endpoint.database_prefix(ep))
+          Logger.info("inserting changeset of #{cs.data.__struct__} into db")
+
+          Repo.insert(cs,
+            prefix: Endpoint.database_prefix(ep),
+            conflict_target: :id,
+            on_conflict: {:replace_all_except, [:id]}
+          )
         end
 
       {:ok, {insert_results, ep}}
