@@ -10,14 +10,14 @@ defmodule ConduitWeb.ImportLive do
         type="select"
         name="endpoint_friendly_name"
         value=""
-        options={Enum.map(@endpoints, & &1.friendly_name)}
+        options={options_with_selected(@endpoints, @endpoint_friendly_name)}
       />
       <.button>
         Select
       </.button>
     </.form>
-    <div :if={@endpoint_friendy_name}>
-      <h2>Selected Endpoint: {@endpoint_friendy_name}</h2>
+    <div :if={@endpoint_friendly_name}>
+      <h2>Selected Endpoint: {@endpoint_friendly_name}</h2>
       <.button phx-click="create_schemas_and_migrations">
         Create Schemas and Migrations
       </.button>
@@ -56,18 +56,27 @@ defmodule ConduitWeb.ImportLive do
     """
   end
 
-  def mount(params, _session, socket) do
-    endpoint_type = Map.get(params, "endpoint_type", "quickbooks")
-
+  def mount(_params, _session, socket) do
     socket
-    |> assign(:endpoint_type, endpoint_type)
-    |> assign(:endpoints, fetch_endpoint_records(endpoint_type))
-    |> assign(endpoint_friendy_name: nil, object: nil, add_status: nil)
+    |> assign(object: nil, add_status: nil)
     |> then(&{:ok, &1})
   end
 
+  def handle_params(params, _uri, socket) do
+    endpoint_type = Map.get(params, "endpoint_type", "quickbooks")
+    endpoint_friendly_name = Map.get(params, "endpoint_friendly_name")
+
+    {:noreply,
+     assign(socket,
+       endpoint_type: endpoint_type,
+       endpoints: fetch_endpoint_records(endpoint_type),
+       endpoint_friendly_name: endpoint_friendly_name,
+       params: params
+     )}
+  end
+
   def handle_event("create_schemas_and_migrations", _unsigned_params, socket) do
-    ep = Endpoints.by_friendly_name(socket.assigns.endpoint_friendy_name)
+    ep = Endpoints.by_friendly_name(socket.assigns.endpoint_friendly_name)
     Endpoints.create_schema_files(ep)
     Endpoints.create_migration_files(ep)
 
@@ -84,7 +93,7 @@ defmodule ConduitWeb.ImportLive do
 
     object = %{object | json_data_key: params["json_data_key"]}
 
-    ep = Endpoints.by_friendly_name(socket.assigns.endpoint_friendy_name)
+    ep = Endpoints.by_friendly_name(socket.assigns.endpoint_friendly_name)
 
     add_status =
       case Endpoints.add_object(ep, object) do
@@ -105,12 +114,25 @@ defmodule ConduitWeb.ImportLive do
 
   def handle_event(
         "endpoint_selected",
-        %{"endpoint_friendly_name" => endpoint_friendy_name},
+        %{"endpoint_friendly_name" => endpoint_friendly_name},
         socket
       ) do
     socket
-    |> assign(endpoint_friendy_name: endpoint_friendy_name)
+    |> push_patch(
+      to:
+        ~p"/import?#{Map.merge(socket.assigns.params, %{"endpoint_friendly_name" => endpoint_friendly_name})}"
+    )
     |> then(&{:noreply, &1})
+  end
+
+  defp options_with_selected(objects, selected_fname) do
+    for %{friendly_name: fname} <- objects do
+      [
+        key: fname,
+        value: fname,
+        selected: fname == selected_fname
+      ]
+    end
   end
 
   defp fetch_endpoint_records("quickbooks") do
