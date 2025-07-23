@@ -1,6 +1,7 @@
 defmodule ConduitWeb.PullDataLive do
   use ConduitWeb, :live_view
   alias Conduit.Quickbooks.Endpoints
+  require Logger
 
   def render(assigns) do
     ~H"""
@@ -14,6 +15,7 @@ defmodule ConduitWeb.PullDataLive do
       <p>selected {@selected_friendly_name}</p>
     </div>
     <div :if={@object_names}>
+      <.button phx-click="import_all">Import All</.button>
       <div class="flex flex-col gap-4">
         <div :for={name <- @object_names}>
           <div class="flex flex-row gap-2">
@@ -25,7 +27,47 @@ defmodule ConduitWeb.PullDataLive do
         </div>
       </div>
     </div>
+    <div :if={@import_statuses && @import_statuses.ok?}>
+      <.table
+        id="import_statuses"
+        rows={
+          @import_statuses.result
+          |> Enum.sort(fn
+            %{status: "failed"}, %{status: "success"} -> true
+            _, _ -> false
+          end)
+        }
+      >
+        <:col :let={status} label="object_name">{status.object_name}</:col>
+        <:col :let={status} label="status">
+          <span :if={status.status == "success"} class="text-green-500">success</span>
+          <span :if={status.status == "failed"} class="text-red-500">failed</span>
+        </:col>
+      </.table>
+    </div>
     """
+  end
+
+  def handle_event("import_all", _, socket) do
+    ep = Endpoints.by_friendly_name(socket.assigns.selected_friendly_name)
+    object_names = socket.assigns.object_names
+
+    {:noreply,
+     assign_async(socket, [:import_statuses], fn ->
+       import_statuses =
+         for object_name <- object_names,
+             page_status = Endpoints.fetch_page(ep, object_name) do
+           case page_status do
+             {:ok, _} ->
+               %{object_name: object_name, status: "success"}
+
+             {:error, _} ->
+               %{object_name: object_name, status: "failed"}
+           end
+         end
+
+       {:ok, %{import_statuses: import_statuses}}
+     end)}
   end
 
   def handle_event("pull_page_clicked", %{"object-name" => object_name}, socket) do
@@ -53,7 +95,7 @@ defmodule ConduitWeb.PullDataLive do
   end
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, import_statuses: nil)}
   end
 
   def handle_params(unsigned_params, _uri, socket) do
