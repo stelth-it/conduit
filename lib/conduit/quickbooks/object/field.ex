@@ -56,7 +56,7 @@ defmodule Conduit.Quickbooks.Object.Field do
         %{enum: true} ->
           string(field_name, internal_field_name(field_name))
 
-        %{label: "string", id: true} ->
+        %{label: label, id: true} when label in ["string", "idtype"] ->
           id(field_name, internal_field_name(field_name))
 
         %{label: curr_ref} when curr_ref in ["currencyref", "currencyreftype"] ->
