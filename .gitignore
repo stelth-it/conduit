@@ -40,3 +40,4 @@ npm-debug.log
 
 #ignore QAD reports
 priv/qad_data
+.obsidian/ 
