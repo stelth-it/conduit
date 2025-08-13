@@ -284,6 +284,25 @@ defmodule Conduit.Quickbooks.Endpoints do
   end
 
   @doc """
+  Drops all records for the given `object` associated with the 
+  given `endpoint`
+  """
+  def drop_records(%Endpoint{} = ep, object_name) when is_binary(object_name) do
+    prefix = Endpoint.database_prefix(ep)
+
+    object =
+      if obj = Endpoint.find_object(ep, object_name),
+        do: obj,
+        else: raise(ArgumentError, "no object with the name #{object_name} exists in endpoint")
+
+    module = Object.load_module!(object, prefix)
+
+    for record <- Repo.all(module, prefix: prefix) do
+      Repo.delete(record, prefix: prefix)
+    end
+  end
+
+  @doc """
   If the refresh token in the endpoint is different then the 
   provided access token the endpoint will be updated.
   """

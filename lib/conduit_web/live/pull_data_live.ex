@@ -23,6 +23,9 @@ defmodule ConduitWeb.PullDataLive do
             <.button phx-click="pull_page_clicked" phx-value-object-name={name}>
               pull page
             </.button>
+            <.button phx-click="drop_records_clicked" phx-value-object-name={name}>
+              drop records
+            </.button>
           </div>
         </div>
       </div>
@@ -68,6 +71,19 @@ defmodule ConduitWeb.PullDataLive do
 
        {:ok, %{import_statuses: import_statuses}}
      end)}
+  end
+
+  def handle_event("drop_records_clicked", %{"object-name" => object_name}, socket) do
+    ep = Endpoints.by_friendly_name(socket.assigns.selected_friendly_name)
+
+    Endpoints.drop_records(ep, object_name)
+
+    {:noreply,
+     put_flash(
+       socket,
+       :info,
+       "Dropped all records for object #{object_name} in #{ep.friendly_name}"
+     )}
   end
 
   def handle_event("pull_page_clicked", %{"object-name" => object_name}, socket) do
