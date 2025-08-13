@@ -70,7 +70,7 @@ defmodule Conduit.MixProject do
       {:sweet_xml, "~> 0.7.5"},
       {:cloak_ecto, "~> 1.3"},
       {:typed_ecto_schema, "~> 0.4.1"},
-      {:igniter, "~> 0.5", only: [:dev, :test]},
+      {:igniter, "~> 0.6", only: [:dev, :test]},
       {:nimble_csv, "~> 1.1"},
       {:pgvector, "~> 0.3.0"},
       {:langchain, "0.3.1"},
