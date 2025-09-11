@@ -8,7 +8,12 @@ defmodule ConduitWeb.PullDataLive do
     <p>Manage Ecto Page</p>
     <p>Endpoint type: {@endpoint_type}</p>
     <.form for={%{}} phx-submit="endpoint_selected">
-      <.input type="select" name="endpoint_friendly_name" value="" options={@endpoint_friendly_names} />
+      <.input
+        type="select"
+        name="endpoint_friendly_name"
+        value={@selected_friendly_name}
+        options={@endpoint_friendly_names}
+      />
       <.button>Select</.button>
     </.form>
     <div :if={@selected_friendly_name}>
