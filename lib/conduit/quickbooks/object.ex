@@ -31,13 +31,19 @@ defmodule Conduit.Quickbooks.Object do
   @doc """
   Extracts the data associated with the 
   object from the given map representing 
-  a response from the api
+  a response from the api.
 
-  nil is returned if no matching data is found
+  nil is returned if the re is a query response but it is not in the expected format.
+
+  an empty list is returned if not data is contained in the response.
   """
-  @spec extract_data_from_api(object :: t(), body_data :: map()) :: list(map()) | nil
-  def extract_data_from_api(%__MODULE__{} = obj, response_data) do
-    response_data["QueryResponse"][obj.json_data_key]
+  @spec extract_data_from_api(object :: t(), body_data :: map()) :: list(map()) | [] | nil
+  def extract_data_from_api(%__MODULE__{} = _obj, %{"QueryResponse" => %{}}) do
+    []
+  end
+
+  def extract_data_from_api(%__MODULE__{} = obj, %{"QueryResponse" => qr}) do
+    Map.get(qr, obj.json_data_key)
   end
 
   @doc """

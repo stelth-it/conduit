@@ -96,8 +96,22 @@ defmodule ConduitWeb.PullDataLive do
 
     socket =
       case Endpoints.fetch_page(ep, object_name) do
-        {:ok, _} ->
-          put_flash(socket, :info, "Successful pull for object #{object_name}")
+        {:ok, {results, _ep}} ->
+          record_count = Enum.count(results)
+
+          if record_count > 0 do
+            put_flash(
+              socket,
+              :info,
+              "Successful pull for object #{object_name}, #{Enum.count(results)} records fetched."
+            )
+          else
+            put_flash(
+              socket,
+              :warn,
+              "API request was successful, but no records were returned."
+            )
+          end
 
         {:error, _} ->
           put_flash(socket, :error, "Failed to pull for object #{object_name}, check the logs")
