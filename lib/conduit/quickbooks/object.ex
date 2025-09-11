@@ -38,7 +38,7 @@ defmodule Conduit.Quickbooks.Object do
   an empty list is returned if not data is contained in the response.
   """
   @spec extract_data_from_api(object :: t(), body_data :: map()) :: list(map()) | [] | nil
-  def extract_data_from_api(%__MODULE__{} = _obj, %{"QueryResponse" => %{}}) do
+  def extract_data_from_api(%__MODULE__{} = _obj, %{"QueryResponse" => qr}) when qr == %{} do
     []
   end
 

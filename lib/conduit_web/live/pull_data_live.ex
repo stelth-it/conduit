@@ -108,7 +108,7 @@ defmodule ConduitWeb.PullDataLive do
           else
             put_flash(
               socket,
-              :warn,
+              :info,
               "API request was successful, but no records were returned."
             )
           end
